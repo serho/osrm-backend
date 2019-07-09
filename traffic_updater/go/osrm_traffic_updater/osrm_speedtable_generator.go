@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/golang/snappy"
 )
 
 // todo:
@@ -42,16 +43,21 @@ func load(mappingPath string, source chan<- string) {
 	}
 	fmt.Printf("Open idsmapping file of %s succeed.\n", mappingPath)
 
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(snappy.NewReader(f))
 	for scanner.Scan() {
 		source <- (scanner.Text())
 	}
 }
 
+
+// data format
+// wayid1, n1, (n2 - n1), (n3 - n2)...
+// (wayid2 - wayid1), (n10 - n1), (n11 - n10), (n12 - n11) ...
 func convert(source <-chan string, sink chan<- string, wayid2speed map[uint64]int) {
 	var err error
 	defer close(sink)
 
+	var preWayid, preNodeid int64
 	for str := range source {
 		elements := strings.Split(str, ",")
 		if len(elements) < 3 {
@@ -59,24 +65,34 @@ func convert(source <-chan string, sink chan<- string, wayid2speed map[uint64]in
 			continue
 		}
 
-		var wayid uint64
-		if wayid, err = strconv.ParseUint(elements[0], 10, 64); err != nil {
+		var deltaWayid, wayid int64
+		if deltaWayid, err = strconv.ParseInt(elements[0], 10, 64); err != nil {
 			fmt.Printf("#Error during decoding wayid, row = %v\n", elements)
 			continue
 		}
+		wayid = preWayid + deltaWayid
+		preWayid = wayid
 
-		if speed, ok := wayid2speed[wayid]; ok {
+		var firstNodeId int64
+		if speed, ok := wayid2speed[(uint64)(wayid)]; ok {
 			var nodes []string = elements[1:]
 			for i := 0; (i + 1) < len(nodes); i++ {
-				var n1, n2 uint64
-				if n1, err = strconv.ParseUint(nodes[i], 10, 64); err != nil {
+				var deltaN1, deltaN2 int64
+				if deltaN1, err = strconv.ParseInt(nodes[i], 10, 64); err != nil {
 					fmt.Printf("#Error during decoding nodeid, row = %v\n", elements)
 					continue
 				}
-				if n2, err = strconv.ParseUint(nodes[i+1], 10, 64); err != nil {
+				n1 := preNodeid + deltaN1
+				preNodeid = n1
+				if i == 0 {
+					firstNodeId = n1
+				}
+
+				if deltaN2, err = strconv.ParseInt(nodes[i+1], 10, 64); err != nil {
 					fmt.Printf("#Error during decoding nodeid, row = %v\n", elements)
 					continue
 				}
+				n2 := preNodeid + deltaN2
 
 				var s string
 				if speed >= 0 {
@@ -88,6 +104,7 @@ func convert(source <-chan string, sink chan<- string, wayid2speed map[uint64]in
 				sink <- s
 			}
 		}
+		preNodeid = firstNodeId
 	}
 }
 

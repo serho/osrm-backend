@@ -15,7 +15,7 @@ import (
 func TestGenerateSpeedTable(t *testing.T) {
 	wayid2speed := make(map[uint64]int)
 	loadMockTraffic("./testdata/mock-traffic.csv", wayid2speed)
-	generateSpeedTable(wayid2speed, "./testdata/id-mapping.csv", "./testdata/target.csv")
+	generateSpeedTable(wayid2speed, "./testdata/id-mapping-delta.csv.snappy", "./testdata/target.csv")
 
 	b1, err1 := ioutil.ReadFile("./testdata/target.csv")
 	if err1 != nil {
