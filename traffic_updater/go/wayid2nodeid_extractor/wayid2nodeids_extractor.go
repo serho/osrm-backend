@@ -56,6 +56,7 @@ func wayid2nodeids(infile io.Reader, outfile io.Writer) {
 	defer loader.Flush()
 
 	var wc, nc uint32
+	var preWayid, preNodeid int64
 	for {
 		if v, err := extractor.Decode(); err == io.EOF {
 			break
@@ -65,24 +66,32 @@ func wayid2nodeids(infile io.Reader, outfile io.Writer) {
 			switch v := v.(type) {
 			case *osmpbf.Node:
 			case *osmpbf.Way:
-				wayid := strconv.FormatUint((uint64)(v.ID), 10)
-				if !isNavigableWay(wayid) {
+				wayidstr := strconv.FormatUint((uint64)(v.ID), 10)
+				if !isNavigableWay(wayidstr) {
 					continue
 				}
-				wayid = trimNavigableWaySuffix(wayid)
+				wayidstr = trimNavigableWaySuffix(wayidstr)
+				wayid, err := strconv.ParseInt(wayidstr, 10, 64)
+				if err != nil {
+					fmt.Printf("Incorrect wayid generated internally.")
+				}
 
 				// Transform
-				str := convertWayObj2IdMappingString(v, wayid)
 				//str := convertWayObj2MockSpeed(v, wayid)
+				str := generateIdMappingString(v.NodeIDs,
+					wayid,
+					preNodeid,
+					preWayid)
 
-				_, err := loader.WriteString(str)
+				_, err = loader.WriteString(str)
 				if err != nil {
 					log.Fatal(err)
 					return
 				}
-
 				wc++
 				nc += (uint32)(len(v.NodeIDs))
+				preNodeid, preWayid = v.NodeIDs[0], wayid
+
 			case *osmpbf.Relation:
 			default:
 				log.Fatalf("unknown type %T\n", v)
@@ -96,9 +105,9 @@ func wayid2nodeids(infile io.Reader, outfile io.Writer) {
 // This optimization is for telenav internal pbf only
 // User need manully set flags.istelenavpbf = true to enable this
 // Telenav PBF add "100" for all navigable ways
-func isNavigableWay(wayid string) bool {
+func isNavigableWay(wayidstr string) bool {
 	if flags.istelenavpbf {
-		if strings.HasSuffix(wayid, telenavNavigableWaySuffix) {
+		if strings.HasSuffix(wayidstr, telenavNavigableWaySuffix) {
 			return true
 		} else {
 			return false
@@ -110,23 +119,40 @@ func isNavigableWay(wayid string) bool {
 
 // Remove "100" suffix for telenav ways, other components such as telenav traffic
 // already remove it
-func trimNavigableWaySuffix(wayid string) string {
+func trimNavigableWaySuffix(wayidstr string) string {
 	if flags.istelenavpbf {
-		return strings.TrimSuffix(wayid, telenavNavigableWaySuffix)
+		return strings.TrimSuffix(wayidstr, telenavNavigableWaySuffix)
 	}
-	return wayid
+	return wayidstr
 }
 
-func convertWayObj2IdMappingString(v *osmpbf.Way, wayid string) string {
+func convertWayObj2IdMappingString(v *osmpbf.Way, wayid int64) string {
 	// format: wayid,nodeid1,nodeid2, ...
-	return wayid + "," +
+	return strconv.FormatInt(wayid, 10) + "," +
 		strings.Trim(strings.Join(strings.Fields(fmt.Sprint(v.NodeIDs)), ","), "[]") +
 		"\n"
 }
 
-func convertWayObj2MockSpeed(v *osmpbf.Way, wayid string) string {
+func generateIdMappingString(nodeids []int64, wayid int64,
+	preNodeID int64, preWayID int64) string {
+	var str string
+	str += strconv.FormatInt((wayid-preWayID), 10) + ","
+
+	for i, n := range nodeids {
+		str += strconv.FormatInt((n - preNodeID), 10)
+		if i < (len(nodeids) - 1) {
+			str += ","
+		}
+		preNodeID = n
+	}
+	str += "\n"
+
+	return str
+}
+
+func convertWayObj2MockSpeed(v *osmpbf.Way, wayid int64) string {
 	// format: wayid,random speed
-	return wayid + "," +
+	return strconv.FormatInt(wayid, 10) + "," +
 		strconv.Itoa(rand.Intn(100)) +
 		"\n"
 }
