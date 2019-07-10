@@ -103,8 +103,15 @@ func convert(source <-chan string, sink chan<- string, wayid2speed map[uint64]in
 
 				sink <- s
 			}
+			preNodeid = firstNodeId
+		} else {
+			var delta int64
+			if delta, err = strconv.ParseInt(elements[1], 10, 64); err != nil {
+				fmt.Printf("#Error during decoding nodeid, row = %v\n", elements)
+				continue
+			}
+			preNodeid = preNodeid + delta
 		}
-		preNodeid = firstNodeId
 	}
 }
 
