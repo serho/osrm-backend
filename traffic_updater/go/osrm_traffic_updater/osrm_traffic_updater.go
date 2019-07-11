@@ -1,13 +1,9 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
-	"strconv"
-
 	"github.com/Telenav/osrm-backend/traffic_updater/go/gen-go/proxy"
-	"github.com/apache/thrift/lib/go/thrift"
 )
 
 var flags struct {
@@ -26,58 +22,48 @@ func init() {
 	flag.BoolVar(&flags.highPrecision, "d", false, "use high precision speeds, i.e. decimal")
 }
 
-func flows2map(flows []*proxy.Flow, m map[uint64]int) {
-	for _, flow := range flows {
-		wayid := (uint64)(flow.WayId)
-		m[wayid] = int(flow.Speed)
-	}
-}
 
 func main() {
 	flag.Parse()
 
-	var transport thrift.TTransport
-	var err error
+	isFlowDoneChan := make(chan bool)
+	var flows []*proxy.Flow
+	go getTrafficFlow(flags.ip, flags.port, flows, isFlowDoneChan)
 
-	// make socket
-	targetServer := flags.ip + ":" + strconv.Itoa(flags.port)
-	fmt.Println("connect traffic proxy " + targetServer)
-	transport, err = thrift.NewTSocket(targetServer)
-	if err != nil {
-		fmt.Println("Error opening socket:", err)
-		return
+	isLoadTableDoneChan := make(chan bool)
+	wayid2Nodes := make(map[uint64][]int64)
+	generateSpeedTable(flags.mappingFile, wayid2Nodes, isLoadTableDoneChan)
+	//generateSpeedTable(wayid2speed, flags.mappingFile, flags.csvFile)
+
+	var isFlowDone, isLoadTableDone bool
+	controlChan := make(chan string, 2)
+	for {
+		select {
+			case f := <- isFlowDoneChan :
+				if !f {
+					fmt.Printf("[ERROR] Communication with traffic server failed.\n")
+					break
+				} else {
+					controlChan <- "flowIsDone"
+				}
+			case t := <- isLoadTableDoneChan :
+				if !t {
+					fmt.Printf("[ERROR] Load way to node mapping table failed.\n")
+					break
+				} else {
+					controlChan <- "TableIsDone"
+				}
+			case r := <- controlChan : 
+				switch r {
+				case "flowIsDone":
+					isFlowDone = true
+				case "TableIsDone":
+					isLoadTableDone = true
+				}
+				if isFlowDone && isLoadTableDone {
+					dumpSpeedTable4OSRM(flows, wayid2Nodes, flags.csvFile)
+				}
+		}
 	}
 
-	// Buffering
-	transport, err = thrift.NewTFramedTransportFactoryMaxLength(thrift.NewTTransportFactory(), 1024*1024*1024).GetTransport(transport)
-	if err != nil {
-		fmt.Println("Error get transport:", err)
-		return
-	}
-	defer transport.Close()
-	if err := transport.Open(); err != nil {
-		fmt.Println("Error opening transport:", err)
-		return
-	}
-
-	// protocol encoder&decoder
-	protocol := thrift.NewTCompactProtocolFactory().GetProtocol(transport)
-
-	// create proxy client
-	client := proxy.NewProxyServiceClient(thrift.NewTStandardClient(protocol, protocol))
-
-	// get flows
-	fmt.Println("getting flows")
-	var defaultCtx = context.Background()
-	flows, err := client.GetAllFlows(defaultCtx)
-	if err != nil {
-		fmt.Println("get flows failed:", err)
-		return
-	}
-	fmt.Printf("got flows count: %d\n", len(flows))
-
-	wayid2speed := make(map[uint64]int)
-	flows2map(flows, wayid2speed)
-
-	generateSpeedTable(wayid2speed, flags.mappingFile, flags.csvFile)
 }
