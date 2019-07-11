@@ -26,27 +26,34 @@ func init() {
 func main() {
 	flag.Parse()
 
-	isFlowDoneChan := make(chan bool)
+	isFlowDoneChan := make(chan bool, 1)
 	var flows []*proxy.Flow
 	go getTrafficFlow(flags.ip, flags.port, flows, isFlowDoneChan)
 
-	isLoadTableDoneChan := make(chan bool)
+	isLoadTableDoneChan := make(chan bool, 1)
 	wayid2Nodes := make(map[uint64][]int64)
-	generateSpeedTable(flags.mappingFile, wayid2Nodes, isLoadTableDoneChan)
-	//generateSpeedTable(wayid2speed, flags.mappingFile, flags.csvFile)
+	go loadWay2NodeidsTable(flags.mappingFile, wayid2Nodes, isLoadTableDoneChan)
 
+	isFlowDone, isLoadTableDone := wait4AllPreconditions(isFlowDoneChan, isLoadTableDoneChan)
+	if isFlowDone && isLoadTableDone {
+		dumpSpeedTable4Customize(flows, wayid2Nodes, flags.csvFile)
+	}
+}
+
+func wait4AllPreconditions(flowChan <-chan bool, tableChan <-chan bool) (bool, bool) {
 	var isFlowDone, isLoadTableDone bool
 	controlChan := make(chan string, 2)
+	defer close(controlChan)
 	for {
 		select {
-			case f := <- isFlowDoneChan :
+			case f := <- flowChan :
 				if !f {
 					fmt.Printf("[ERROR] Communication with traffic server failed.\n")
 					break
 				} else {
 					controlChan <- "flowIsDone"
 				}
-			case t := <- isLoadTableDoneChan :
+			case t := <- tableChan :
 				if !t {
 					fmt.Printf("[ERROR] Load way to node mapping table failed.\n")
 					break
@@ -61,9 +68,11 @@ func main() {
 					isLoadTableDone = true
 				}
 				if isFlowDone && isLoadTableDone {
-					dumpSpeedTable4OSRM(flows, wayid2Nodes, flags.csvFile)
+					break
 				}
 		}
 	}
-
+	return isFlowDone, isLoadTableDone
 }
+
+

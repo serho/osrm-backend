@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/Telenav/osrm-backend/traffic_updater/go/gen-go/proxy"
 	"github.com/apache/thrift/lib/go/thrift"
@@ -12,6 +13,8 @@ import (
 func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	var transport thrift.TTransport
 	var err error
+
+	startTime := time.Now()
 
 	// make socket
 	targetServer := ip + ":" + strconv.Itoa(port)
@@ -54,5 +57,9 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	}
 	fmt.Printf("got flows count: %d\n", len(flows))
 	c <- true
+
+	endTime := time.Now()
+	fmt.Printf("Processing time for get traffic flow takes %f seconds\n", endTime.Sub(startTime).Seconds())
+
 	return 
 }

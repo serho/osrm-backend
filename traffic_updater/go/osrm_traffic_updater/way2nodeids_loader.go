@@ -11,19 +11,15 @@ import (
 	"github.com/golang/snappy"
 )
 
-// todo:
-//       Write data into more compressed format(parquet)
-func generateSpeedTable(way2nodeidsPath string, way2nodeids map[uint64][]int64, c chan <- bool) {
+func loadWay2NodeidsTable(filepath string, way2nodeids map[uint64][]int64, c chan <- bool) {
 	startTime := time.Now()
 
-	// format is: wayid, nodeid, nodeid, nodeid...
 	source := make(chan string)
-
-	go load(way2nodeidsPath, source)
-	go convert(source, way2nodeids, c)
+	go load(filepath, source)
+	convert(source, way2nodeids, c)
 
 	endTime := time.Now()
-	fmt.Printf("Processing time for generate speed table takes %f seconds\n", endTime.Sub(startTime).Seconds())
+	fmt.Printf("Processing time for loadWay2NodeidsTable takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
 func load(mappingPath string, source chan<- string) {
@@ -45,7 +41,7 @@ func load(mappingPath string, source chan<- string) {
 } 
 
 
-// data format
+// input data format
 // wayid1, n1, (n2 - n1), (n3 - n2)...
 // (wayid2 - wayid1), (n10 - n1), (n11 - n10), (n12 - n11) ...
 func convert(source <-chan string, way2nodeids map[uint64][]int64, c chan<- bool) {
