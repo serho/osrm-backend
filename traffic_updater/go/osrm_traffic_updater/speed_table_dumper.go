@@ -7,12 +7,14 @@ import (
 	"bufio"
 	"sync"
 	"time"
+	"strings"
+	"strconv"
 )
 
 var tasksWg sync.WaitGroup
 var dumpFinishedWg sync.WaitGroup
 
-func dumpSpeedTable4Customize(wayid2speed map[uint64]int, sources [TASKNUM]chan way2Nodes, outputPath string) {
+func dumpSpeedTable4Customize(wayid2speed map[uint64]int, sources [TASKNUM]chan string, outputPath string) {
 	startTime := time.Now()
 
 	if len(wayid2speed) == 0 {
@@ -28,7 +30,7 @@ func dumpSpeedTable4Customize(wayid2speed map[uint64]int, sources [TASKNUM]chan 
 	fmt.Printf("Processing time for dumpSpeedTable4Customize takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
-func startMatchTasks(wayid2speed map[uint64]int, sources [TASKNUM]chan way2Nodes, sink chan<- string) {
+func startMatchTasks(wayid2speed map[uint64]int, sources [TASKNUM]chan string, sink chan<- string) {
 	tasksWg.Add(TASKNUM)
 	for i := 0; i < TASKNUM; i++ {
 		go task(wayid2speed, sources[i], sink)
@@ -46,11 +48,33 @@ func wait4AllTasksFinished(sink chan string) {
 	dumpFinishedWg.Wait()
 }
 
-func task(wayid2speed map[uint64]int, source <-chan way2Nodes, sink chan<- string) {
-	for elem := range source {
-		if speed, ok:= wayid2speed[elem.w]; ok {
-			for n := 0; (n + 1) < len(elem.nodes); n++ {
-				sink <- generateSingleRecord(elem.nodes[n], elem.nodes[n+1], speed)
+func task(wayid2speed map[uint64]int, source <-chan string, sink chan<- string) {
+	var err error
+	for str := range source {
+		elements := strings.Split(str, ",")
+		if len(elements) < 3 {
+			continue
+		}
+
+		var wayid uint64
+		if wayid, err = strconv.ParseUint(elements[0], 10, 64); err != nil {
+			fmt.Printf("#Error during decoding wayid, row = %v\n", elements)
+			continue
+		}
+
+		if speed, ok:= wayid2speed[wayid]; ok {
+			var nodes []string = elements[1:]
+			for i := 0; (i + 1) < len(nodes); i++ {
+				var n1, n2 uint64
+				if n1, err = strconv.ParseUint(nodes[i], 10, 64); err != nil {
+					fmt.Printf("#Error during decoding nodeid, row = %v\n", elements)
+					continue
+				}
+				if n2, err = strconv.ParseUint(nodes[i+1], 10, 64); err != nil {
+					fmt.Printf("#Error during decoding nodeid, row = %v\n", elements)
+					continue
+				}
+				sink <- generateSingleRecord(n1, n2, speed)
 			}
 		}
 	}
@@ -61,7 +85,7 @@ func task(wayid2speed map[uint64]int, source <-chan way2Nodes, sink chan<- strin
 // if speed >= 0, means traffic for forward, generate: from, to, speed
 // if speed < 0, means traffic for backward, generate: to, from, abs(speed)
 // To be confirm: When speed = 0, do we need to ban both directions?
-func generateSingleRecord(from, to int64, speed int) (string){
+func generateSingleRecord(from, to uint64, speed int) (string){
 	if (speed >= 0) {
 		return fmt.Sprintf("%d,%d,%d\n", from, to, speed)
 	} else {

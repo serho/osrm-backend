@@ -36,9 +36,9 @@ func main() {
 	wayid2speed := make(map[uint64]int)
 	go getTrafficFlow(flags.ip, flags.port, wayid2speed, isFlowDoneChan)
 
-	var sources [TASKNUM]chan way2Nodes
+	var sources [TASKNUM]chan string
 	for i := range sources {
-		sources[i] = make(chan way2Nodes, CACHEDOBJECTS)
+		sources[i] = make(chan string, CACHEDOBJECTS)
 	}
 	go loadWay2NodeidsTable(flags.mappingFile, sources)
 
