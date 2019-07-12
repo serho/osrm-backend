@@ -11,7 +11,7 @@ import (
 	"github.com/Telenav/osrm-backend/traffic_updater/go/gen-go/proxy"
 )
 
-const taskNum = 2
+const taskNum = 16
 var dumpFinishedWg sync.WaitGroup
 var tasksWg sync.WaitGroup
 

@@ -22,13 +22,14 @@ func init() {
 	flag.BoolVar(&flags.highPrecision, "d", false, "use high precision speeds, i.e. decimal")
 }
 
-
 func main() {
 	flag.Parse()
 
 	isFlowDoneChan := make(chan bool, 1)
 	var flows []*proxy.Flow
-	go getTrafficFlow(flags.ip, flags.port, flows, isFlowDoneChan)
+	go func() {
+		flows = getTrafficFlow(flags.ip, flags.port, flows, isFlowDoneChan)
+	}()
 
 	isLoadTableDoneChan := make(chan bool, 1)
 	wayid2Nodes := make(map[uint64][]int64)
@@ -44,19 +45,20 @@ func wait4AllPreconditions(flowChan <-chan bool, tableChan <-chan bool) (bool, b
 	var isFlowDone, isLoadTableDone bool
 	controlChan := make(chan string, 2)
 	defer close(controlChan)
+	loop:
 	for {
 		select {
 			case f := <- flowChan :
 				if !f {
 					fmt.Printf("[ERROR] Communication with traffic server failed.\n")
-					break
+					break loop
 				} else {
 					controlChan <- "flowIsDone"
 				}
 			case t := <- tableChan :
 				if !t {
 					fmt.Printf("[ERROR] Load way to node mapping table failed.\n")
-					break
+					break loop
 				} else {
 					controlChan <- "TableIsDone"
 				}
@@ -68,7 +70,7 @@ func wait4AllPreconditions(flowChan <-chan bool, tableChan <-chan bool) (bool, b
 					isLoadTableDone = true
 				}
 				if isFlowDone && isLoadTableDone {
-					break
+					break loop
 				}
 		}
 	}

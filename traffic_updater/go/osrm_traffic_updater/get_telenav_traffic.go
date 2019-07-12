@@ -10,7 +10,7 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
-func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
+func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) ([]*proxy.Flow) {
 	var transport thrift.TTransport
 	var err error
 
@@ -23,7 +23,7 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	if err != nil {
 		fmt.Println("Error opening socket:", err)
 		c <- false
-		return
+		return nil
 	}
 
 	// Buffering
@@ -31,13 +31,13 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	if err != nil {
 		fmt.Println("Error get transport:", err)
 		c <- false
-		return
+		return nil
 	}
 	defer transport.Close()
 	if err := transport.Open(); err != nil {
 		fmt.Println("Error opening transport:", err)
 		c <- false
-		return
+		return nil
 	}
 
 	// protocol encoder&decoder
@@ -53,7 +53,7 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	if err != nil {
 		fmt.Println("get flows failed:", err)
 		c <- false
-		return
+		return nil
 	}
 	fmt.Printf("got flows count: %d\n", len(flows))
 	c <- true
@@ -61,5 +61,5 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) {
 	endTime := time.Now()
 	fmt.Printf("Processing time for get traffic flow takes %f seconds\n", endTime.Sub(startTime).Seconds())
 
-	return 
+	return flows
 }
