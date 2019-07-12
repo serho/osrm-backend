@@ -11,19 +11,19 @@ import (
 	"github.com/golang/snappy"
 )
 
-func loadWay2NodeidsTable(filepath string, way2nodeids map[uint64][]int64, c chan <- bool) {
+func loadWay2NodeidsTable(filepath string, sources [TASKNUM]chan way2Nodes) {
 	startTime := time.Now()
 
-	source := make(chan string)
-	go load(filepath, source)
-	convert(source, way2nodeids, c)
+	data := make(chan string)
+	go load(filepath, data)
+	convert(data, sources)
 
 	endTime := time.Now()
 	fmt.Printf("Processing time for loadWay2NodeidsTable takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
-func load(mappingPath string, source chan<- string) {
-	defer close(source)
+func load(mappingPath string, data chan<- string) {
+	defer close(data)
 
 	f, err := os.Open(mappingPath)
 	defer f.Close()
@@ -36,7 +36,7 @@ func load(mappingPath string, source chan<- string) {
 
 	scanner := bufio.NewScanner(snappy.NewReader(f))
 	for scanner.Scan() {
-		source <- (scanner.Text())
+		data <- (scanner.Text())
 	}
 } 
 
@@ -44,11 +44,16 @@ func load(mappingPath string, source chan<- string) {
 // input data format
 // wayid1, n1, (n2 - n1), (n3 - n2)...
 // (wayid2 - wayid1), (n10 - n1), (n11 - n10), (n12 - n11) ...
-func convert(source <-chan string, way2nodeids map[uint64][]int64, c chan<- bool) {
-	var err error
+func convert(data <-chan string, sources [TASKNUM]chan way2Nodes) {
+	for i := range sources {
+		defer close(sources[i])
+	}
 
+	var err error
 	var preWayid, preNodeid int64
-	for str := range source {
+	var count int
+	for str := range data {
+		//fmt.Printf("+++ in Covert, load data %s \n", str)
 		elements := strings.Split(str, ",")
 		if len(elements) < 3 {
 			fmt.Printf("Invalid string %s in wayid2nodeids mapping file.\n", str)
@@ -64,6 +69,7 @@ func convert(source <-chan string, way2nodeids map[uint64][]int64, c chan<- bool
 		preWayid = wayid
 
 		var nodes []string = elements[1:]
+		var nodeids = make([]int64, len(nodes))
 		var firstNodeId int64
 		for i := 0; i < len(nodes); i++ {
 			var delta int64
@@ -76,13 +82,18 @@ func convert(source <-chan string, way2nodeids map[uint64][]int64, c chan<- bool
 			if i == 0 {
 				firstNodeId = n
 			}
-
-			way2nodeids[(uint64)(wayid)] = append(way2nodeids[(uint64)(wayid)], n)
+			nodeids[i] = n
+			//way2nodeids[(uint64)(wayid)] = append(way2nodeids[(uint64)(wayid)], n)
 		}
 		preNodeid = firstNodeId
-	}
 
-	c <- true
+		// put result in channel
+		currIndex := count % TASKNUM
+		count++
+		//fmt.Printf("before push to source chan\n")
+		sources[currIndex] <- way2Nodes{(uint64)(wayid), nodeids}
+		//fmt.Printf("after push to source chan\n")
+	}
 }
 
 

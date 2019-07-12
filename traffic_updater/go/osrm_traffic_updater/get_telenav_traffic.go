@@ -10,7 +10,7 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
-func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) ([]*proxy.Flow) {
+func getTrafficFlow(ip string, port int, m map[uint64]int, c chan<- bool) {
 	var transport thrift.TTransport
 	var err error
 
@@ -23,7 +23,7 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) ([]
 	if err != nil {
 		fmt.Println("Error opening socket:", err)
 		c <- false
-		return nil
+		return
 	}
 
 	// Buffering
@@ -31,13 +31,13 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) ([]
 	if err != nil {
 		fmt.Println("Error get transport:", err)
 		c <- false
-		return nil
+		return
 	}
 	defer transport.Close()
 	if err := transport.Open(); err != nil {
 		fmt.Println("Error opening transport:", err)
 		c <- false
-		return nil
+		return
 	}
 
 	// protocol encoder&decoder
@@ -49,17 +49,29 @@ func getTrafficFlow(ip string, port int, flows []*proxy.Flow, c chan<- bool) ([]
 	// get flows
 	fmt.Println("getting flows")
 	var defaultCtx = context.Background()
+	var flows []*proxy.Flow
 	flows, err = client.GetAllFlows(defaultCtx)
 	if err != nil {
 		fmt.Println("get flows failed:", err)
 		c <- false
-		return nil
+		return
 	}
 	fmt.Printf("got flows count: %d\n", len(flows))
-	c <- true
 
 	endTime := time.Now()
-	fmt.Printf("Processing time for get traffic flow takes %f seconds\n", endTime.Sub(startTime).Seconds())
+	fmt.Printf("Processing time for getting traffic flow takes %f seconds\n", endTime.Sub(startTime).Seconds())
 
-	return flows
+	flows2map(flows, m)
+	endTime2 := time.Now()
+	fmt.Printf("Processing time for building traffic map takes %f seconds\n", endTime2.Sub(endTime).Seconds())
+
+	c <- true
+	return
+}
+
+func flows2map(flows []*proxy.Flow, m map[uint64]int) {
+	for _, flow := range flows {
+		wayid := (uint64)(flow.WayId)
+		m[wayid] = int(flow.Speed)
+	}
 }

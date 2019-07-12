@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/Telenav/osrm-backend/traffic_updater/go/gen-go/proxy"
 )
 
 var flags struct {
@@ -22,29 +21,35 @@ func init() {
 	flag.BoolVar(&flags.highPrecision, "d", false, "use high precision speeds, i.e. decimal")
 }
 
+const TASKNUM = 2
+const CACHEDOBJECTS = 10000
+
+type way2Nodes struct {
+	w     uint64
+	nodes[] int64 
+}
+
 func main() {
 	flag.Parse()
 
 	isFlowDoneChan := make(chan bool, 1)
-	var flows []*proxy.Flow
-	go func() {
-		flows = getTrafficFlow(flags.ip, flags.port, flows, isFlowDoneChan)
-	}()
+	wayid2speed := make(map[uint64]int)
+	go getTrafficFlow(flags.ip, flags.port, wayid2speed, isFlowDoneChan)
 
-	isLoadTableDoneChan := make(chan bool, 1)
-	wayid2Nodes := make(map[uint64][]int64)
-	go loadWay2NodeidsTable(flags.mappingFile, wayid2Nodes, isLoadTableDoneChan)
+	var sources [TASKNUM]chan way2Nodes
+	for i := range sources {
+		sources[i] = make(chan way2Nodes, CACHEDOBJECTS)
+	}
+	go loadWay2NodeidsTable(flags.mappingFile, sources)
 
-	isFlowDone, isLoadTableDone := wait4AllPreconditions(isFlowDoneChan, isLoadTableDoneChan)
-	if isFlowDone && isLoadTableDone {
-		dumpSpeedTable4Customize(flows, wayid2Nodes, flags.csvFile)
+	isFlowDone := wait4AllPreConditions(isFlowDoneChan)
+	if isFlowDone {
+		dumpSpeedTable4Customize(wayid2speed, sources, flags.csvFile)
 	}
 }
 
-func wait4AllPreconditions(flowChan <-chan bool, tableChan <-chan bool) (bool, bool) {
-	var isFlowDone, isLoadTableDone bool
-	controlChan := make(chan string, 2)
-	defer close(controlChan)
+func wait4AllPreConditions(flowChan <-chan bool) (bool) {
+	var isFlowDone bool
 	loop:
 	for {
 		select {
@@ -53,28 +58,12 @@ func wait4AllPreconditions(flowChan <-chan bool, tableChan <-chan bool) (bool, b
 					fmt.Printf("[ERROR] Communication with traffic server failed.\n")
 					break loop
 				} else {
-					controlChan <- "flowIsDone"
-				}
-			case t := <- tableChan :
-				if !t {
-					fmt.Printf("[ERROR] Load way to node mapping table failed.\n")
-					break loop
-				} else {
-					controlChan <- "TableIsDone"
-				}
-			case r := <- controlChan : 
-				switch r {
-				case "flowIsDone":
 					isFlowDone = true
-				case "TableIsDone":
-					isLoadTableDone = true
-				}
-				if isFlowDone && isLoadTableDone {
 					break loop
 				}
 		}
 	}
-	return isFlowDone, isLoadTableDone
+	return isFlowDone
 }
 
 

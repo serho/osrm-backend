@@ -15,23 +15,23 @@ import (
 	"github.com/Telenav/osrm-backend/traffic_updater/go/gen-go/proxy"
 )
 
-func TestSpeedTableDumper(t *testing.T) {
-	way2nodeids := make(map[uint64][]int64)
-	generateMockWay2nodeids2(way2nodeids)
+func TestSpeedTableDumper1(t *testing.T) {
+	// load result into sources
+	var sources [TASKNUM]chan way2Nodes
+	for i := range sources {
+		sources[i] = make(chan way2Nodes, 10000)
+	}
+	go loadWay2NodeidsTable("./testdata/id-mapping-delta.csv.snappy", sources)
 
+	// construct mock traffic
 	var flows []*proxy.Flow
 	flows = loadMockTraffic("./testdata/mock-traffic.csv", flows)
+	wayid2speed := make(map[uint64]int)
+	flows2map(flows, wayid2speed)
 
-	dumpSpeedTable4Customize(flows, way2nodeids, "./testdata/target.csv")
+	dumpSpeedTable4Customize(wayid2speed, sources, "./testdata/target.csv")
 
 	compareFileContentUnstable("./testdata/target.csv", "./testdata/expect.csv", t)
-}
-
-func generateMockWay2nodeids2(way2nodeids map[uint64][]int64) {
-	way2nodeids[24418325] = []int64{84760891102, 19496208102}
-	way2nodeids[24418332] = []int64{84762609102,244183320001101,84762607102}
-	way2nodeids[24418343] = []int64{84760849102,84760850102}
-	way2nodeids[24418344] = []int64{84760846102,84760858102}
 }
 
 func loadMockTraffic(trafficPath string, flows []*proxy.Flow) []*proxy.Flow {
@@ -151,6 +151,5 @@ func compareFileContentUnstable(f1, f2 string, t *testing.T) {
 	if !eq {
 		t.Error("TestLoadWay2Nodeids failed to generate correct map\n")
 	}
-
 }
 
