@@ -21,13 +21,8 @@ func init() {
 	flag.BoolVar(&flags.highPrecision, "d", false, "use high precision speeds, i.e. decimal")
 }
 
-const TASKNUM = 2
-const CACHEDOBJECTS = 10000
-
-type way2Nodes struct {
-	w     uint64
-	nodes[] int64 
-}
+const TASKNUM = 128
+const CACHEDOBJECTS = 1000000
 
 func main() {
 	flag.Parse()
@@ -42,13 +37,13 @@ func main() {
 	}
 	go loadWay2NodeidsTable(flags.mappingFile, sources)
 
-	isFlowDone := wait4AllPreConditions(isFlowDoneChan)
+	isFlowDone := wait4PreConditions(isFlowDoneChan)
 	if isFlowDone {
 		dumpSpeedTable4Customize(wayid2speed, sources, flags.csvFile)
 	}
 }
 
-func wait4AllPreConditions(flowChan <-chan bool) (bool) {
+func wait4PreConditions(flowChan <-chan bool) (bool) {
 	var isFlowDone bool
 	loop:
 	for {
@@ -65,5 +60,3 @@ func wait4AllPreConditions(flowChan <-chan bool) (bool) {
 	}
 	return isFlowDone
 }
-
-

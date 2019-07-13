@@ -17,11 +17,11 @@ import (
 
 func TestSpeedTableDumper1(t *testing.T) {
 	// load result into sources
-	var sources [TASKNUM]chan way2Nodes
+	var sources [TASKNUM]chan string
 	for i := range sources {
-		sources[i] = make(chan way2Nodes, 10000)
+		sources[i] = make(chan string, 10000)
 	}
-	go loadWay2NodeidsTable("./testdata/id-mapping-delta.csv.snappy", sources)
+	go loadWay2NodeidsTable("./testdata/id-mapping.csv.snappy", sources)
 
 	// construct mock traffic
 	var flows []*proxy.Flow

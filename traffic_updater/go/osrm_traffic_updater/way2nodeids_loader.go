@@ -47,16 +47,11 @@ func convert(data <-chan string, sources [TASKNUM]chan string) {
 		defer close(sources[i])
 	}
 
-	var err error
-	var preWayid, preNodeid int64
 	var count int
 	for str := range data {
-		// put result in channel
-		currIndex := count % TASKNUM
+		chanIndex := count % TASKNUM
 		count++
-		//fmt.Printf("before push to source chan\n")
-		sources[currIndex] <- str
-		//fmt.Printf("after push to source chan\n")
+		sources[chanIndex] <- str
 	}
 }
 

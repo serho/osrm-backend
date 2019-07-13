@@ -22,7 +22,7 @@ func dumpSpeedTable4Customize(wayid2speed map[uint64]int, sources [TASKNUM]chan 
 	}
 
 	sink := make(chan string)
-	startMatchTasks(wayid2speed, sources, sink)
+	startTasks(wayid2speed, sources, sink)
 	startDump(outputPath, sink)
 	wait4AllTasksFinished(sink)
 
@@ -30,7 +30,7 @@ func dumpSpeedTable4Customize(wayid2speed map[uint64]int, sources [TASKNUM]chan 
 	fmt.Printf("Processing time for dumpSpeedTable4Customize takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
-func startMatchTasks(wayid2speed map[uint64]int, sources [TASKNUM]chan string, sink chan<- string) {
+func startTasks(wayid2speed map[uint64]int, sources [TASKNUM]chan string, sink chan<- string) {
 	tasksWg.Add(TASKNUM)
 	for i := 0; i < TASKNUM; i++ {
 		go task(wayid2speed, sources[i], sink)
