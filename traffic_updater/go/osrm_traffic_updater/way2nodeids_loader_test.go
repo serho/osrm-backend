@@ -36,17 +36,12 @@ func TestLoadWay2Nodeids(t *testing.T) {
 		}
 		wg.Done()
 	}()
-
 	close(allWay2NodesChan)
 	wg.Wait()
-
-	fmt.Printf("=== %v\n", way2nodeids)
 
 	// test map result
 	way2nodeidsExpect := make(map[string]bool)
 	generateMockWay2nodeids(way2nodeidsExpect)
-
-	fmt.Printf("--- %v\n", way2nodeidsExpect)
 
 	eq := reflect.DeepEqual(way2nodeids, way2nodeidsExpect)
 	if !eq {
