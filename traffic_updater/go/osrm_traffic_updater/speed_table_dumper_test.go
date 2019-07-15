@@ -34,6 +34,20 @@ func TestSpeedTableDumper1(t *testing.T) {
 	compareFileContentUnstable("./testdata/target.csv", "./testdata/expect.csv", t)
 }
 
+func TestGenerateSingleRecord1(t *testing.T) {
+	str := generateSingleRecord(12345, 54321, 33)
+	if strings.Compare(str, "12345,54321,33\n") != 0 {
+		t.Error("Test GenerateSingleRecord failed.\n")
+	}
+}
+
+func TestGenerateSingleRecord2(t *testing.T) {
+	str := generateSingleRecord(12345, 54321, -33)
+	if strings.Compare(str, "54321,12345,33\n") != 0 {
+		t.Error("Test GenerateSingleRecord failed.\n")
+	}
+}
+
 func loadMockTraffic(trafficPath string, flows []*proxy.Flow) []*proxy.Flow {
 	// load mock traffic file
 	mockfile, err := os.Open(trafficPath)
