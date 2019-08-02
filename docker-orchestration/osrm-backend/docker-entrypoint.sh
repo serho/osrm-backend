@@ -21,7 +21,7 @@ if [ "$1" = 'routed_startup' ]; then
   ${BUILD_PATH}/osrm_traffic_updater -c ${TRAFFIC_PROXY_IP} -d=false -m ${WAYID2NODEIDS_MAPPING_FILE_COMPRESSED} -f ${TRAFFIC_FILE}
   ls -lh
   ${BUILD_PATH}/osrm-customize ${MAPDATA_NAME_WITH_SUFFIX}.osrm  --segment-speed-file ${TRAFFIC_FILE} ${OSRM_EXTRA_COMMAND}
-  ${BUILD_PATH}/osrm-routed ${MAPDATA_NAME_WITH_SUFFIX}.osrm ${OSRM_ROUTED_STARTUP_COMMAND} &
+  ${BUILD_PATH}/osrm-routed ${MAPDATA_NAME_WITH_SUFFIX}.osrm  --mmap ${OSRM_ROUTED_STARTUP_COMMAND} &
   child=$!
   wait "$child"
 
