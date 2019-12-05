@@ -69,6 +69,7 @@ isRestricted(const NodeID from,
              const NodeID to,
              const restriction_map_type &restriction_map)
 {
+    std::cout << "++++ isRestricted(from, via, to) = " << from << "," << via << "," << to << std::endl;
     const auto range = restriction_map.Restrictions(from, via);
 
     // check if a given node_restriction is targeting node
