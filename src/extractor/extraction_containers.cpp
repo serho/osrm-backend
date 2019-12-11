@@ -277,7 +277,7 @@ void ExtractionContainers::PrepareEdges(ScriptingEnvironment &scripting_environm
         {
             if (edge_iterator->result.osm_source_id < node_iterator->node_id)
             {
-                util::Log(logDEBUG) << "Found invalid node reference "
+                util::Log(logDEBUG) << "Found invalid node reference1 "
                                     << edge_iterator->result.source;
                 edge_iterator->result.source = SPECIAL_NODEID;
                 ++edge_iterator;
@@ -314,7 +314,7 @@ void ExtractionContainers::PrepareEdges(ScriptingEnvironment &scripting_environm
         // Remove all remaining edges. They are invalid because there are no corresponding nodes for
         // them. This happens when using osmosis with bbox or polygon to extract smaller areas.
         auto markSourcesInvalid = [](InternalExtractorEdge &edge) {
-            util::Log(logDEBUG) << "Found invalid node reference " << edge.result.source;
+            util::Log(logDEBUG) << "Found invalid node reference2 " << edge.result.source;
             edge.result.source = SPECIAL_NODEID;
             edge.result.osm_source_id = SPECIAL_OSM_NODEID;
         };
@@ -357,7 +357,7 @@ void ExtractionContainers::PrepareEdges(ScriptingEnvironment &scripting_environm
 
             if (edge_iterator->result.osm_target_id < node_iterator->node_id)
             {
-                util::Log(logDEBUG) << "Found invalid node reference "
+                util::Log(logDEBUG) << "Found invalid node reference3 "
                                     << static_cast<uint64_t>(edge_iterator->result.osm_target_id);
                 edge_iterator->result.target = SPECIAL_NODEID;
                 ++edge_iterator;
@@ -421,7 +421,7 @@ void ExtractionContainers::PrepareEdges(ScriptingEnvironment &scripting_environm
         // Remove all remaining edges. They are invalid because there are no corresponding nodes for
         // them. This happens when using osmosis with bbox or polygon to extract smaller areas.
         auto markTargetsInvalid = [](InternalExtractorEdge &edge) {
-            util::Log(logDEBUG) << "Found invalid node reference " << edge.result.target;
+            util::Log(logDEBUG) << "Found invalid node reference4 " << edge.result.target;
             edge.result.target = SPECIAL_NODEID;
         };
         std::for_each(edge_iterator, all_edges_list_end_, markTargetsInvalid);
@@ -1001,14 +1001,22 @@ void ExtractionContainers::PrepareRestrictions()
             // graph.
             if (via_node == MAX_OSM_NODEID || segment.first_segment_source_id == via_node)
             {
+                std::cout<< "Come into first_if" << "(segment.first_segment_source_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
+                                                  << segment.first_segment_source_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
                 if (segment.first_segment_source_id == via_segment.first_segment_source_id)
                 {
+                    std::cout << "+++ condition 1" << std::endl;
+                    std::cout<< "(segment.first_segment_target_id, segment.first_segment_source_id, via_segment.first_segment_target_id)"
+                    << segment.first_segment_target_id << "," <<  segment.first_segment_source_id << "," <<  via_segment.first_segment_target_id << std::endl;
                     return NodeRestriction{to_internal(segment.first_segment_target_id),
                                            to_internal(segment.first_segment_source_id),
                                            to_internal(via_segment.first_segment_target_id)};
                 }
                 else if (segment.first_segment_source_id == via_segment.last_segment_target_id)
                 {
+                    std::cout << "+++ condition 2" << std::endl;
+                    std::cout<< "(segment.first_segment_target_id, segment.first_segment_source_id, via_segment.last_segment_source_id)"
+                    << segment.first_segment_target_id << "," <<  segment.first_segment_source_id << "," <<  via_segment.last_segment_source_id<< std::endl;
                     return NodeRestriction{to_internal(segment.first_segment_target_id),
                                            to_internal(segment.first_segment_source_id),
                                            to_internal(via_segment.last_segment_source_id)};
@@ -1018,14 +1026,23 @@ void ExtractionContainers::PrepareRestrictions()
             // connected at the end of the segment
             if (via_node == MAX_OSM_NODEID || segment.last_segment_target_id == via_node)
             {
+                std::cout<< "Come into second_if" << "(segment.last_segment_target_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
+                << segment.last_segment_target_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
+                
                 if (segment.last_segment_target_id == via_segment.first_segment_source_id)
                 {
+                    std::cout << "+++ condition 3" << std::endl;
+                    std::cout<< "(segment.last_segment_source_id, segment.last_segment_target_id, via_segment.first_segment_target_id)"
+                    << segment.last_segment_source_id << "," <<  segment.last_segment_target_id << "," <<  via_segment.first_segment_target_id<< std::endl;
                     return NodeRestriction{to_internal(segment.last_segment_source_id),
                                            to_internal(segment.last_segment_target_id),
                                            to_internal(via_segment.first_segment_target_id)};
                 }
                 else if (segment.last_segment_target_id == via_segment.last_segment_target_id)
                 {
+                    std::cout << "+++ condition 4" << std::endl;
+                    std::cout<< "(segment.last_segment_source_id, segment.last_segment_target_id, via_segment.last_segment_source_id)"
+                    << segment.last_segment_source_id << "," <<  segment.last_segment_target_id << "," <<  via_segment.last_segment_source_id<< std::endl;
                     return NodeRestriction{to_internal(segment.last_segment_source_id),
                                            to_internal(segment.last_segment_target_id),
                                            to_internal(via_segment.last_segment_source_id)};
@@ -1043,6 +1060,7 @@ void ExtractionContainers::PrepareRestrictions()
     auto const get_node_restriction_from_OSM_ids = [&](
         auto const from_id, auto const to_id, const OSMNodeID via_node) {
         auto const from_segment_itr = referenced_ways.find(from_id);
+        std::cout << "+++ from_segment_itr->second.way_id is " << from_segment_itr->second.way_id << std::endl;
         if (from_segment_itr->second.way_id != from_id)
         {
             util::Log(logDEBUG) << "Restriction references invalid way: " << from_id;
@@ -1050,6 +1068,7 @@ void ExtractionContainers::PrepareRestrictions()
         }
 
         auto const to_segment_itr = referenced_ways.find(to_id);
+        std::cout << "+++ to_segment_itr->second.way_id is " << to_segment_itr->second.way_id << std::endl;
         if (to_segment_itr->second.way_id != to_id)
         {
             util::Log(logDEBUG) << "Restriction references invalid way: " << to_id;
@@ -1066,7 +1085,11 @@ void ExtractionContainers::PrepareRestrictions()
     const auto transform = [&](const auto &external_type, auto &internal_type) {
         if (external_type.Type() == RestrictionType::WAY_RESTRICTION)
         {
+            std::cout << "$$$ enter WAY_RESTRICTION" << std::endl;
             auto const &external = external_type.AsWayRestriction();
+
+            std::cout << "+++ (external.from, external.to, external.via)" 
+                      << external.from << "," << external.to << "," << external.via << std::endl;
             // check if we were able to resolve all the involved ways
             auto const from_restriction =
                 get_node_restriction_from_OSM_ids(external.from, external.via, MAX_OSM_NODEID);
@@ -1086,10 +1109,13 @@ void ExtractionContainers::PrepareRestrictions()
         }
         else
         {
+            std::cout << "$$$ enter NODE_RESTRICTION" << std::endl;
             BOOST_ASSERT(external_type.Type() == RestrictionType::NODE_RESTRICTION);
             auto const &external = external_type.AsNodeRestriction();
             auto const via_node = to_internal(external.via);
 
+            std::cout << "+++ (external.from, external.to, external.via)" 
+                      << external.from << "," << external.to << "," << external.via << std::endl;
             // check if we were able to resolve all the involved ways
             auto restriction =
                 get_node_restriction_from_OSM_ids(external.from, external.to, external.via);
