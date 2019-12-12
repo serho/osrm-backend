@@ -27,6 +27,7 @@ struct InputNodeRestriction
 {
     OSMWayID from;
     OSMNodeID via;
+    OSMNodeID dummy;
     OSMWayID to;
 };
 
@@ -41,6 +42,7 @@ struct InputWayRestriction
 {
     OSMWayID from;
     OSMWayID via;
+    OSMWayID via_dummy;
     OSMWayID to;
 };
 

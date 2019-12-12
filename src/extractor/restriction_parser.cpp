@@ -130,6 +130,7 @@ RestrictionParser::TryParse(const osmium::Relation &relation) const
     constexpr auto INVALID_OSM_ID = std::numeric_limits<std::uint64_t>::max();
     auto from = INVALID_OSM_ID;
     auto via = INVALID_OSM_ID;
+    auto via_end_of_list = INVALID_OSM_ID;
     auto to = INVALID_OSM_ID;
     bool is_node_restriction = true;
 
@@ -170,7 +171,14 @@ RestrictionParser::TryParse(const osmium::Relation &relation) const
             }
             else if (0 == strcmp("via", role))
             {
-                via = static_cast<std::uint64_t>(member.ref());
+                if (via == INVALID_OSM_ID)
+                {
+                    // the first via only be assigned value for one time
+                    via = static_cast<std::uint64_t>(member.ref());
+                }
+                // If there is only one via way, via_end_of_list is the same as via
+                // If there are a group of via way, via_end_of_list record the last way id in list
+                via_end_of_list = static_cast<std::uint64_t>(member.ref());
                 is_node_restriction = false;
             }
             break;
@@ -211,17 +219,18 @@ RestrictionParser::TryParse(const osmium::Relation &relation) const
         }
     }
 
+    // @todo, may need to consider via_end_of_list
     if (from != INVALID_OSM_ID && via != INVALID_OSM_ID && to != INVALID_OSM_ID)
     {
         if (is_node_restriction)
         {
             // template struct requires bracket for ID initialisation :(
-            restriction_container.node_or_way = InputNodeRestriction{{from}, {via}, {to}};
+            restriction_container.node_or_way = InputNodeRestriction{{from}, {via}, {via}, {to}};
         }
         else
         {
             // template struct requires bracket for ID initialisation :(
-            restriction_container.node_or_way = InputWayRestriction{{from}, {via}, {to}};
+            restriction_container.node_or_way = InputWayRestriction{{from}, {via}, {via_end_of_list}, {to}};
         }
         return restriction_container;
     }

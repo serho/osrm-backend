@@ -944,6 +944,7 @@ void ExtractionContainers::PrepareRestrictions()
                 referenced_ways[way.from] = dummy_segment;
                 referenced_ways[way.to] = dummy_segment;
                 referenced_ways[way.via] = dummy_segment;
+                referenced_ways[way.via_dummy] = dummy_segment;
             }
             else
             {
@@ -1088,13 +1089,13 @@ void ExtractionContainers::PrepareRestrictions()
             std::cout << "$$$ enter WAY_RESTRICTION" << std::endl;
             auto const &external = external_type.AsWayRestriction();
 
-            std::cout << "+++ (external.from, external.to, external.via)" 
-                      << external.from << "," << external.to << "," << external.via << std::endl;
+            std::cout << "+++ (external.from, external.to, external.via, external.via_dummy)" 
+                      << external.from << "," << external.to << "," << external.via <<","<< external.via_dummy << std::endl;
             // check if we were able to resolve all the involved ways
             auto const from_restriction =
                 get_node_restriction_from_OSM_ids(external.from, external.via, MAX_OSM_NODEID);
             auto const to_restriction =
-                get_node_restriction_from_OSM_ids(external.via, external.to, MAX_OSM_NODEID);
+                get_node_restriction_from_OSM_ids(external.via_dummy, external.to, MAX_OSM_NODEID);
 
             // failed to translate either of the involved nodes?
             if (!from_restriction.Valid() || !to_restriction.Valid())
