@@ -214,8 +214,8 @@ int Extractor::run(ScriptingEnvironment &scripting_environment)
 {
     util::LogPolicy::GetInstance().Unmute();
 
-    const unsigned recommended_num_threads = tbb::task_scheduler_init::default_num_threads();
-    const auto number_of_threads = std::min(recommended_num_threads, config.requested_num_threads);
+    //unsigned recommended_num_threads = 1;//tbb::task_scheduler_init::default_num_threads();
+    auto number_of_threads = 1;//std::min(recommended_num_threads, config.requested_num_threads);
     tbb::task_scheduler_init init(number_of_threads ? number_of_threads
                                                     : tbb::task_scheduler_init::automatic);
     BOOST_ASSERT(init.is_active());

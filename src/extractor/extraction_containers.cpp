@@ -96,6 +96,11 @@ template <typename Iter>
 inline NodeID mapExternalToInternalNodeID(Iter first, Iter last, const OSMNodeID value)
 {
     const auto it = std::lower_bound(first, last, value);
+    if (!(it == last || value < *it))
+    {
+        std::cout << "NodeIdMapping" << static_cast<NodeID>(std::distance(first, it)) << "-" << value << std::endl;
+    }
+
     return (it == last || value < *it) ? SPECIAL_NODEID
                                        : static_cast<NodeID>(std::distance(first, it));
 }
@@ -552,6 +557,16 @@ void ExtractionContainers::WriteEdges(storage::tar::FileWriter &writer) const
                 continue;
             }
 
+            // writing data for edges
+            // 
+            std::cout << "+++ WriteEdges:" << normal_edges.size() << "," 
+                                           << edge.result.osm_source_id << ","
+                                           << edge.result.osm_target_id << ","
+                                           << edge.result.flags.forward << ","
+                                           << edge.result.flags.backward << std::endl;
+
+                                        
+ 
             // IMPORTANT: here, we're using slicing to only write the data from the base
             // class of NodeBasedEdgeWithOSM
             normal_edges.push_back(edge.result);
@@ -1002,13 +1017,15 @@ void ExtractionContainers::PrepareRestrictions()
             // graph.
             if (via_node == MAX_OSM_NODEID || segment.first_segment_source_id == via_node)
             {
-                std::cout<< "Come into first_if" << "(segment.first_segment_source_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
-                                                  << segment.first_segment_source_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
+                // std::cout<< "Come into first_if" << "(segment.first_segment_source_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
+                //                                   << segment.first_segment_source_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
                 if (segment.first_segment_source_id == via_segment.first_segment_source_id)
                 {
                     std::cout << "+++ condition 1" << std::endl;
                     std::cout<< "(segment.first_segment_target_id, segment.first_segment_source_id, via_segment.first_segment_target_id)"
                     << segment.first_segment_target_id << "," <<  segment.first_segment_source_id << "," <<  via_segment.first_segment_target_id << std::endl;
+                    std::cout
+                    << to_internal(segment.first_segment_target_id) << "," <<  to_internal(segment.first_segment_source_id) << "," <<  to_internal(via_segment.first_segment_target_id) << std::endl;
                     return NodeRestriction{to_internal(segment.first_segment_target_id),
                                            to_internal(segment.first_segment_source_id),
                                            to_internal(via_segment.first_segment_target_id)};
@@ -1018,6 +1035,9 @@ void ExtractionContainers::PrepareRestrictions()
                     std::cout << "+++ condition 2" << std::endl;
                     std::cout<< "(segment.first_segment_target_id, segment.first_segment_source_id, via_segment.last_segment_source_id)"
                     << segment.first_segment_target_id << "," <<  segment.first_segment_source_id << "," <<  via_segment.last_segment_source_id<< std::endl;
+                    
+                    std::cout
+                    << to_internal(segment.first_segment_target_id) << "," <<  to_internal(segment.first_segment_source_id) << "," <<  to_internal(via_segment.last_segment_source_id) << std::endl;
                     return NodeRestriction{to_internal(segment.first_segment_target_id),
                                            to_internal(segment.first_segment_source_id),
                                            to_internal(via_segment.last_segment_source_id)};
@@ -1027,14 +1047,17 @@ void ExtractionContainers::PrepareRestrictions()
             // connected at the end of the segment
             if (via_node == MAX_OSM_NODEID || segment.last_segment_target_id == via_node)
             {
-                std::cout<< "Come into second_if" << "(segment.last_segment_target_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
-                << segment.last_segment_target_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
+                // std::cout<< "Come into second_if" << "(segment.last_segment_target_id, via_segment.first_segment_source_id, via_segment.last_segment_target_id)"
+                // << segment.last_segment_target_id << "," <<  via_segment.first_segment_source_id << "," <<  via_segment.last_segment_target_id << std::endl;
                 
                 if (segment.last_segment_target_id == via_segment.first_segment_source_id)
                 {
                     std::cout << "+++ condition 3" << std::endl;
                     std::cout<< "(segment.last_segment_source_id, segment.last_segment_target_id, via_segment.first_segment_target_id)"
                     << segment.last_segment_source_id << "," <<  segment.last_segment_target_id << "," <<  via_segment.first_segment_target_id<< std::endl;
+                    std::cout
+                    << to_internal(segment.last_segment_source_id) << "," <<  to_internal(segment.last_segment_target_id) << "," <<  to_internal(via_segment.first_segment_target_id) << std::endl;
+
                     return NodeRestriction{to_internal(segment.last_segment_source_id),
                                            to_internal(segment.last_segment_target_id),
                                            to_internal(via_segment.first_segment_target_id)};
@@ -1044,6 +1067,9 @@ void ExtractionContainers::PrepareRestrictions()
                     std::cout << "+++ condition 4" << std::endl;
                     std::cout<< "(segment.last_segment_source_id, segment.last_segment_target_id, via_segment.last_segment_source_id)"
                     << segment.last_segment_source_id << "," <<  segment.last_segment_target_id << "," <<  via_segment.last_segment_source_id<< std::endl;
+                    std::cout
+                    << to_internal(segment.last_segment_source_id) << "," <<  to_internal(segment.last_segment_target_id) << "," <<  to_internal(via_segment.last_segment_source_id) << std::endl;
+
                     return NodeRestriction{to_internal(segment.last_segment_source_id),
                                            to_internal(segment.last_segment_target_id),
                                            to_internal(via_segment.last_segment_source_id)};

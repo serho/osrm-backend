@@ -710,6 +710,7 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                      intersection_node < end;
                      ++intersection_node)
                 {
+                    std::cout << "intersection_node = " << intersection_node << "," << m_coordinates[intersection_node].lat << "," << m_coordinates[intersection_node].lon << std::endl;
                     // We capture the thread-local work in these objects, then flush them in a
                     // controlled manner at the end of the parallel range
                     const auto &incoming_edges =
@@ -748,8 +749,11 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                     // an outgoing edge. Therefore, we have to search all connected edges for edges
                     // entering `b`
 
+                    std::cout << "$$$ GenerateEdgeExpandedEdges intersection" << std::endl;
                     for (const auto &incoming_edge : incoming_edges)
                     {
+                        std::cout << "incoming_edge - (nodeid, edgeid) " << incoming_edge.node << "," << incoming_edge.edge
+                        << "," << m_coordinates[incoming_edge.node].lat << "," << m_coordinates[incoming_edge.node].lon << std::endl;
                         ++node_based_edge_counter;
 
                         const auto intersection_view =
@@ -769,6 +773,9 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
 
                         for (const auto &outgoing_edge : outgoing_edges)
                         {
+                            std::cout << "outgoing_edge - (nodeid, edgeid, x, y) " << outgoing_edge.node << "," << outgoing_edge.edge 
+                                      << "," << m_coordinates[outgoing_edge.node].lat << "," << m_coordinates[outgoing_edge.node].lon << std::endl;                       
+
                             auto is_turn_allowed =
                                 intersection::isTurnAllowed(m_node_based_graph,
                                                             m_edge_based_node_container,
@@ -778,6 +785,7 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                                                             turn_lanes_data,
                                                             incoming_edge,
                                                             outgoing_edge);
+                            std::cout << "isTurnAllowed = " << is_turn_allowed << std::endl;
                             buffer->checksum.process_bit(is_turn_allowed);
 
                             if (!is_turn_allowed)
@@ -955,12 +963,17 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                                         NodeID(m_number_of_edge_based_nodes -
                                                way_restriction_map.NumberOfDuplicatedNodes() +
                                                duplicated_node_id);
+                                    std::cout << "from_id = " << from_id << std::endl;
 
                                     auto const node_at_end_of_turn =
                                         m_node_based_graph.GetTarget(outgoing_edge.edge);
 
+                                    std::cout << "node_at_end_of_turn = " << node_at_end_of_turn << std::endl;
+
                                     const auto is_way_restricted = way_restriction_map.IsRestricted(
                                         duplicated_node_id, node_at_end_of_turn);
+
+                                    std::cout << "is_way_restricted = " << is_way_restricted << std::endl;
 
                                     if (is_way_restricted)
                                     {

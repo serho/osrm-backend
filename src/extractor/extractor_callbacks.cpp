@@ -429,6 +429,12 @@ void ExtractorCallbacks::ProcessWay(const osmium::Way &input_way, const Extracti
                      parsed_way.highway_turn_classification,
                      parsed_way.access_turn_classification}};
 
+                std::cout << "(edgeid, wayid, from, to)"<< external_memory.all_edges_list.size() << ","
+                          << input_way.id() << ","
+                          << OSMNodeID{static_cast<std::uint64_t>(first_node.ref())} << ","
+                          << OSMNodeID{static_cast<std::uint64_t>(last_node.ref())} << ","
+                          << std::endl;
+
                 external_memory.all_edges_list.push_back(InternalExtractorEdge(
                     std::move(edge), forward_weight_data, forward_duration_data, {}));
             });
@@ -464,6 +470,13 @@ void ExtractorCallbacks::ProcessWay(const osmium::Way &input_way, const Extracti
                      road_classification,
                      parsed_way.highway_turn_classification,
                      parsed_way.access_turn_classification}};
+                
+
+                std::cout << "(edgeid, wayid, from, to)"<< external_memory.all_edges_list.size() << ","
+                          << input_way.id() << ","
+                          << OSMNodeID{static_cast<std::uint64_t>(first_node.ref())} << ","
+                          << OSMNodeID{static_cast<std::uint64_t>(last_node.ref())} << ","
+                          << std::endl;
 
                 external_memory.all_edges_list.push_back(InternalExtractorEdge(
                     std::move(edge), backward_weight_data, backward_duration_data, {}));
