@@ -68,6 +68,8 @@ template <typename OutputEdgeT, typename InputEdgeT, typename FunctorT>
 std::vector<OutputEdgeT> directedEdgesFromCompressed(const std::vector<InputEdgeT> &input_edge_list,
                                                      FunctorT copy_data)
 {
+    std::cout << "$$$ directedEdgesFromCompressed" << std::endl;
+
     std::vector<OutputEdgeT> output_edge_list;
 
     OutputEdgeT edge;
@@ -84,12 +86,16 @@ std::vector<OutputEdgeT> directedEdgesFromCompressed(const std::vector<InputEdge
 
         copy_data(edge, input_edge);
 
+        std::cout << "directedEdgesFromCompressed-edgeid-source-target" << output_edge_list.size() << "," 
+                  << edge.source << "," << edge.target << "," << (bool)edge.data.reversed << std::endl;
         output_edge_list.push_back(edge);
+        
 
         if (!input_edge.flags.is_split)
         {
             std::swap(edge.source, edge.target);
             edge.data.reversed = !input_edge.flags.backward;
+            std::cout << "directedEdgesFromCompressed-reversedata"<< ":" << edge.data.reversed << std::endl;
             output_edge_list.push_back(edge);
         }
     }

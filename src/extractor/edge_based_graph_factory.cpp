@@ -396,6 +396,11 @@ EdgeBasedGraphFactory::GenerateEdgeExpandedNodes(const WayRestrictionMap &way_re
             // merge edges together into one EdgeBasedNode
             BOOST_ASSERT(node_u != SPECIAL_NODEID);
             BOOST_ASSERT(node_v != SPECIAL_NODEID);
+            std::cout << node_u << ","
+                      << node_v << ","
+                      << eid << ","
+                      << edge_based_node_id << ","
+                      << nbe_to_ebn_mapping[eid] << std::endl;
 
             // find node in the edge based graph, we only require one id:
             const EdgeData &edge_data = m_node_based_graph.GetEdgeData(eid);
@@ -924,6 +929,13 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                             }
 
                             { // scope to forget edge_with_data after
+                                std::cout<< "+++ generate normal edge" << target_id <<","
+                                         << incoming_edge.node << ","
+                                         << incoming_edge.edge << ","
+                                         << outgoing_edge.node << ","
+                                         << outgoing_edge.edge << ","
+                                         << nbe_to_ebn_mapping[incoming_edge.edge] 
+                                         << std::endl;
                                 const auto edge_with_data_and_condition =
                                     generate_edge(nbe_to_ebn_mapping[incoming_edge.edge],
                                                   target_id,
@@ -959,6 +971,8 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                                 // here when turning off a via-way
                                 for (auto duplicated_node_id : duplicated_nodes)
                                 {
+                                    std::cout << "duplicated_node_id = " << duplicated_node_id << std::endl;
+
                                     const auto from_id =
                                         NodeID(m_number_of_edge_based_nodes -
                                                way_restriction_map.NumberOfDuplicatedNodes() +
@@ -995,6 +1009,12 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                                                           road_legs_on_the_right,
                                                           road_legs_on_the_left,
                                                           edge_geometries);
+                                        std::cout << "Delayed data" << from_id << "," 
+                                                  << nbe_to_ebn_mapping[outgoing_edge.edge] << ","
+                                                  << incoming_edge.node << ","
+                                                  << incoming_edge.edge << ","
+                                                  << outgoing_edge.node << ","
+                                                  << outgoing_edge.edge << std::endl;
 
                                         buffer->delayed_data.push_back(
                                             edge_with_data_and_condition.first);
@@ -1029,6 +1049,14 @@ void EdgeBasedGraphFactory::GenerateEdgeExpandedEdges(
                                                           road_legs_on_the_right,
                                                           road_legs_on_the_left,
                                                           edge_geometries);
+                                        std::cout << "turning_off_via_way && !is_way_restricted"
+                                                  << from_id << ","
+                                                  << nbe_to_ebn_mapping[outgoing_edge.edge] << ","
+                                                  << incoming_edge.node << ","
+                                                  << incoming_edge.edge << ","
+                                                  << outgoing_edge.node << ","
+                                                  << outgoing_edge.edge
+                                                  << std::endl;
 
                                         buffer->delayed_data.push_back(
                                             edge_with_data_and_condition.first);

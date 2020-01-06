@@ -562,8 +562,11 @@ void ExtractionContainers::WriteEdges(storage::tar::FileWriter &writer) const
             std::cout << "+++ WriteEdges:" << normal_edges.size() << "," 
                                            << edge.result.osm_source_id << ","
                                            << edge.result.osm_target_id << ","
-                                           << edge.result.flags.forward << ","
-                                           << edge.result.flags.backward << std::endl;
+                                           << edge.result.source << ","
+                                           << edge.result.target << ","
+                                           << (bool)edge.result.flags.forward << ","
+                                           << (bool)edge.result.flags.backward << ","
+                                           << (bool)edge.result.flags.is_split << std::endl;
 
                                         
  

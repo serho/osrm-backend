@@ -98,6 +98,7 @@ template <typename EdgeDataT> class DynamicGraph
      */
     template <class ContainerT> DynamicGraph(const NodeIterator nodes, const ContainerT &graph)
     {
+        std::cout <<  "$$$ Generate dynamicgraph:" << std::endl;
         // we need to cast here because DeallocatingVector does not have a valid const iterator
         BOOST_ASSERT(std::is_sorted(const_cast<ContainerT &>(graph).begin(),
                                     const_cast<ContainerT &>(graph).end()));
@@ -117,6 +118,7 @@ template <typename EdgeDataT> class DynamicGraph
             node_array[node].first_edge = position;
             node_array[node].edges = edge - last_edge;
             position += node_array[node].edges;
+            std::cout << "(node-startedge-count)" << node << "," << node_array[node].first_edge << ","<< node_array[node].edges << std::endl;
         }
         edge_list.reserve(static_cast<std::size_t>(edge_list.size() * 1.1));
         edge_list.resize(position);
@@ -130,6 +132,7 @@ template <typename EdgeDataT> class DynamicGraph
                 BOOST_ASSERT(edge_list[i].target < number_of_nodes);
                 edge_list[i].data = graph[edge].data;
                 ++edge;
+                std::cout<<"(nodeid-edgeid-target-)"<< node << ","<<i<< ","<<edge_list[i].target<<std::endl;
             }
         }
 

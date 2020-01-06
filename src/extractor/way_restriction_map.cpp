@@ -107,16 +107,28 @@ WayRestrictionMap::WayRestrictionMap(
     if (!restriction_data.empty())
         duplicated_node_groups.push_back(0);
 
+    std::cout << "$$$ When generating WayRestrictionMap" << std::endl;
+
     auto const add_offset_on_new_groups = [&](auto const &lhs, auto const &rhs) {
         BOOST_ASSERT(rhs == restriction_data[offset]);
         BOOST_ASSERT(lhs.Type() == RestrictionType::WAY_RESTRICTION);
         BOOST_ASSERT(rhs.Type() == RestrictionType::WAY_RESTRICTION);
+
+        auto& lhsway = lhs.AsWayRestriction();
+        auto& rhsway = rhs.AsWayRestriction();
+        // std::tie(way.in_restriction.via, way.out_restriction.via, way.in_restriction.from);
+        std::cout << lhsway.in_restriction.from << "," << lhsway.in_restriction.via << "," << lhsway.in_restriction.to << "," << lhsway.out_restriction.from << "," << lhsway.out_restriction.via << "," << lhsway.out_restriction.to << std::endl;
+        std::cout << rhsway.in_restriction.from << "," << rhsway.in_restriction.via << "," << rhsway.in_restriction.to << "," << rhsway.out_restriction.from << "," << rhsway.out_restriction.via << "," << rhsway.out_restriction.to << std::endl;
         // add a new lower bound for rhs
         if (asDuplicatedNode(lhs) != asDuplicatedNode(rhs))
+        {
             duplicated_node_groups.push_back(offset);
+            std::cout << "Duplicate group added. \n";
+        }
         ++offset;
     };
     util::for_each_pair(restriction_data.begin(), restriction_data.end(), add_offset_on_new_groups);
+
     duplicated_node_groups.push_back(restriction_data.size());
 }
 
