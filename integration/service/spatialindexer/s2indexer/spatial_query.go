@@ -14,7 +14,7 @@ const s2EarthRadiusInMeters = 6371010.0
 func queryNearByS2Cells(point spatialindexer.Location, radiusInMeters float64) []s2.CellID {
 	regionCover := &s2.RegionCoverer{
 		MinLevel: minS2Level,
-		MaxLevel: 20,
+		MaxLevel: maxS2Level,
 		MaxCells: maxCellCount}
 	center := s2.PointFromLatLng(s2.LatLngFromDegrees(point.Latitude, point.Longitude))
 	radius := (s1.Angle)(radiusInMeters / s2EarthRadiusInMeters)
