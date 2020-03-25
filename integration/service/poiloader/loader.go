@@ -7,7 +7,7 @@ import (
 	"github.com/golang/glog"
 )
 
-// LoadPOI accepts json file recorded with poi data and returns deserialized result
+// LoadData accepts json file with points data and returns deserialized result
 func LoadData(filePath string) ([]Element, error) {
 	var elements []Element
 
