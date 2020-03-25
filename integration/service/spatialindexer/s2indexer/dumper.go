@@ -142,5 +142,6 @@ func removeAllDumpFiles(folderPath string) error {
 	} else {
 		glog.Warningf("There is no %s file in folder %s\n", pointID2LocationFileName, folderPath)
 	}
+
 	return nil
 }

@@ -14,16 +14,16 @@ const minS2Level = 9
 // Level = 20 means average area size is 77.32km2
 const maxS2Level = 20
 
-func build(pois []spatialindexer.PointInfo, minLevel, maxLevel int) map[s2.CellID][]spatialindexer.PointID {
+func build(points []spatialindexer.PointInfo, minLevel, maxLevel int) map[s2.CellID][]spatialindexer.PointID {
 	pointID2CellIDs := make(map[spatialindexer.PointID][]s2.CellID)
 	cellID2PointIDs := make(map[s2.CellID][]spatialindexer.PointID)
 
-	for _, p := range pois {
+	for _, p := range points {
 		leafCellID := s2.CellFromLatLng(s2.LatLngFromDegrees(p.Location.Latitude, p.Location.Longitude)).ID()
 
 		var cellIDs []s2.CellID
 		// For level = 30, its parent equal to current
-		// So no need append leafCellID outside of for loop if maxLevel = 30
+		// So no need append leafCellID into cellIDs outside of for loop
 		for i := leafCellID.Level(); i > minLevel; i-- {
 			if i > maxLevel {
 				continue

@@ -8,7 +8,7 @@ import (
 	"github.com/golang/geo/s2"
 )
 
-// online tool for google s2: http://s2map.com/#order=latlng&mode=polygon&s2=false&points=
+// online tool for google s2: http://s2.sidewalklabs.com/regioncoverer/
 func TestBuild(t *testing.T) {
 	cases := []struct {
 		points []spatialindexer.PointInfo
