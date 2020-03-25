@@ -2,6 +2,7 @@ package s2indexer
 
 import (
 	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/Telenav/osrm-backend/integration/service/spatialindexer"
@@ -253,6 +254,14 @@ func TestBuild(t *testing.T) {
 
 	for i, c := range cases {
 		actual := build(c.points, 6, 30)
+
+		// sort slice to directly use DeepEqual,  Build()'s result no need to guarantee the sequence
+		for k := range actual {
+			sort.Slice(actual[k], func(i, j int) bool {
+				return actual[k][i] < actual[k][j]
+			})
+		}
+
 		if !reflect.DeepEqual(actual, c.expect) {
 			t.Errorf("parse case %d \n%v, expect\n %v \n but got %v", i, c, c.expect, actual)
 		}
