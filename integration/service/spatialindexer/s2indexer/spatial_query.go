@@ -20,12 +20,15 @@ func queryNearByS2Cells(point spatialindexer.Location, radiusInMeters float64) [
 	radius := (s1.Angle)(radiusInMeters / s2EarthRadiusInMeters)
 	region := s2.Region(s2.CapFromCenterAngle(center, radius))
 	cellUnion := regionCover.Covering(region)
+
 	return ([]s2.CellID)(cellUnion)
 }
 
-func queryNearByPoints(indexer *s2Indexer, point spatialindexer.Location, radius float64) []spatialindexer.PointInfo {
+func queryNearByPoints(indexer *S2Indexer, point spatialindexer.Location, radius float64) []spatialindexer.PointInfo {
 	var result []spatialindexer.PointInfo
+
 	cellIDs := queryNearByS2Cells(point, radius)
+
 	for _, cellID := range cellIDs {
 		pointIDs, hasCellID := indexer.getPointIDsByS2CellID(cellID)
 		if !hasCellID {
@@ -35,7 +38,7 @@ func queryNearByPoints(indexer *s2Indexer, point spatialindexer.Location, radius
 		for _, pointID := range pointIDs {
 			location, hasPointID := indexer.getPointLocationByPointID(pointID)
 			if !hasPointID {
-				glog.Errorf("In queryNearByPoints, use incorrect pointID %v to query s2Indexer\n", pointID)
+				glog.Errorf("In queryNearByPoints, use incorrect pointID %v to query S2Indexer\n", pointID)
 				continue
 			}
 
@@ -52,10 +55,12 @@ func queryNearByPoints(indexer *s2Indexer, point spatialindexer.Location, radius
 func generateDebugInfo4CellIDs(cellIDs []s2.CellID) {
 	glog.Info("=================================\n")
 	glog.Info("generateDebugInfo4CellIDs\n")
+
 	for _, cellID := range cellIDs {
 		glog.Infof("CellID value = %d(uint64), string = %v, token = %s, level = %d\n",
 			(uint64)(cellID), cellID, cellID.ToToken(), cellID.Level())
 	}
+
 	glog.Info("=================================\n")
 }
 
@@ -71,5 +76,6 @@ func generateDebugURL(cellIDs []s2.CellID) string {
 	for _, cellID := range cellIDs {
 		url += cellID.ToToken() + ","
 	}
+
 	return url
 }

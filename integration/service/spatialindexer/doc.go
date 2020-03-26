@@ -9,7 +9,7 @@
 // }
 //
 //
-// Sample Scenario 2: Dump s2Indexer's content to folder
+// Sample Scenario 2: Dump S2Indexer's content to folder
 // indexer.Dump(folderPath)
 //
 //

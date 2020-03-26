@@ -28,9 +28,11 @@ func build(points []spatialindexer.PointInfo, minLevel, maxLevel int) map[s2.Cel
 			if i > maxLevel {
 				continue
 			}
+
 			parentCellID := leafCellID.Parent(i)
 			cellIDs = append(cellIDs, parentCellID)
 		}
+
 		pointID2CellIDs[p.ID] = cellIDs
 	}
 
@@ -40,6 +42,7 @@ func build(points []spatialindexer.PointInfo, minLevel, maxLevel int) map[s2.Cel
 				var pointIDs []spatialindexer.PointID
 				cellID2PointIDs[cellID] = pointIDs
 			}
+
 			cellID2PointIDs[cellID] = append(cellID2PointIDs[cellID], pointID)
 		}
 	}

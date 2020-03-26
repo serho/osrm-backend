@@ -1,5 +1,6 @@
 package poiloader
 
+// Element represent information loaded for point record
 type Element struct {
 	ID                int64             `json:"id"`
 	VendorCode        VendorCode        `json:"vendor_code"`
@@ -32,24 +33,28 @@ type Element struct {
 	Amenity           Amenity           `json:"amenity"`
 }
 
+// Amenity is defined by OSM format: https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dcharging_station
 type Amenity string
 
 const (
 	ChargingStation Amenity = "charging_station"
 )
 
+// Country records IOS code
 type Country string
 
 const (
 	Usa Country = "USA"
 )
 
+// SpaceID is used to define a code for political defined administrative area
 type SpaceID string
 
 const (
 	UsaCA SpaceID = "USA_CA"
 )
 
+// VendorCode defines data source provider
 type VendorCode string
 
 const (
@@ -58,6 +63,7 @@ const (
 	Nolp VendorCode = "NOLP"
 )
 
+// CategoryIDGather records aggregate data for certain type of point
 type CategoryIDGather struct {
 	Integer *int64
 	String  *string

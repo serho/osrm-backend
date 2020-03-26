@@ -10,7 +10,7 @@ import (
 )
 
 func TestSpatialIndexQuery1(t *testing.T) {
-	fakeIndexer1 := s2Indexer{
+	fakeIndexer1 := S2Indexer{
 		cellID2PointIDs: map[s2.CellID][]spatialindexer.PointID{
 			9263834064756932608: {1, 2}, // 4/0010133
 			9263851656942977024: {1, 2}, // 4/00101332

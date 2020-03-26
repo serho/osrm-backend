@@ -26,7 +26,7 @@ type PointID int64
 // Finder answers special query
 type Finder interface {
 
-	// FindNearByIDs returns a group of points near to given center location
+	// FindNearByPointIDs returns a group of points near to given center location
 	FindNearByPointIDs(center Location, radius float64, limitCount int) []PointInfo
 }
 

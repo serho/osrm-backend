@@ -10,8 +10,8 @@ import (
 )
 
 func TestDumper(t *testing.T) {
-	cases := []s2Indexer{
-		s2Indexer{
+	cases := []S2Indexer{
+		S2Indexer{
 			cellID2PointIDs: map[s2.CellID][]spatialindexer.PointID{
 				9263834064756932608: {1, 2, 3}, // 4/0010133
 				9263851656942977024: {1},       // 4/00101332
