@@ -31,15 +31,15 @@ func (indexer *S2Indexer) Build(filePath string) *S2Indexer {
 		pointInfo := spatialindexer.PointInfo{
 			ID: elementID2PointID(record.ID),
 			Location: spatialindexer.Location{
-				Latitude:  record.Lat,
-				Longitude: record.Lon,
+				Lat: record.Lat,
+				Lon: record.Lon,
 			},
 		}
 		pointInfos = append(pointInfos, pointInfo)
 
 		indexer.pointID2Location[elementID2PointID(record.ID)] = spatialindexer.Location{
-			Latitude:  record.Lat,
-			Longitude: record.Lon,
+			Lat: record.Lat,
+			Lon: record.Lon,
 		}
 	}
 

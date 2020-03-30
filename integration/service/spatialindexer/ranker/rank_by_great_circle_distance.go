@@ -20,7 +20,7 @@ func rankPointsByGreatCircleDistanceToCenter(center spatialindexer.Location, nea
 					ID:       p.ID,
 					Location: p.Location,
 				},
-				Distance: geo.Haversin(center.Longitude, center.Latitude, p.Location.Longitude, p.Location.Latitude),
+				Distance: geo.Haversin(center.Lon, center.Lat, p.Location.Lon, p.Location.Lat),
 			}
 		}
 	}()

@@ -5,8 +5,8 @@ import "math"
 // Location for poi point
 // @todo: will be replaced by the one in map
 type Location struct {
-	Latitude  float64
-	Longitude float64
+	Lat float64
+	Lon float64
 }
 
 // PointInfo records point related information such as ID and location
