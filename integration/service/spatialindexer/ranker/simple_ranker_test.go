@@ -84,6 +84,13 @@ func TestRankerInterfaceViaSimpleRanker(t *testing.T) {
 				printRankedPointInfoArray(c.expect),
 				printRankedPointInfoArray(actual))
 		}
+
+		actual = ranker.RankPointIDsByGreatCircleDistance(c.center, c.nearByIDs)
+		if !reflect.DeepEqual(actual, c.expect) {
+			t.Errorf("During test SimpleRanker's RankPointIDsByGreatCircleDistance, \n expect \n%s \nwhile actual is\n %s\n",
+				printRankedPointInfoArray(c.expect),
+				printRankedPointInfoArray(actual))
+		}
 	}
 
 }

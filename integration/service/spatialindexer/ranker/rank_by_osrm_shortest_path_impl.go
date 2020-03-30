@@ -5,7 +5,9 @@ import (
 	"sync"
 
 	"github.com/Telenav/osrm-backend/integration/oasis/osrmconnector"
+	"github.com/Telenav/osrm-backend/integration/pkg/api"
 	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route/options"
 	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table"
 	"github.com/Telenav/osrm-backend/integration/service/spatialindexer"
 	"github.com/golang/glog"
@@ -93,20 +95,22 @@ func generateTableRequest(center spatialindexer.Location, nearByIDs []*spatialin
 	}
 
 	req := table.NewRequest()
-	req.Coordinates = append(ConvertLocation2Coordinates(center),
-		ConvertPointInfos2Coordinates(nearByIDs, startIndex, endIndex)...)
+	req.Coordinates = append(convertLocation2Coordinates(center),
+		convertPointInfos2Coordinates(nearByIDs, startIndex, endIndex)...)
 
 	req.Sources = append(req.Sources, strconv.Itoa(0))
 	pointsCount4Sources := 1
-	for i := startIndex; i < endIndex; i++ {
-		str := strconv.Itoa(endIndex - startIndex + pointsCount4Sources)
+	for i := startIndex; i <= endIndex; i++ {
+		str := strconv.Itoa(i + pointsCount4Sources)
 		req.Destinations = append(req.Destinations, str)
 	}
+
+	req.Annotations = options.AnnotationsValueDistance + api.Comma + options.AnnotationsValueDuration
 
 	return req
 }
 
-func ConvertLocation2Coordinates(location spatialindexer.Location) coordinate.Coordinates {
+func convertLocation2Coordinates(location spatialindexer.Location) coordinate.Coordinates {
 	result := make(coordinate.Coordinates, 0, 1)
 	result = append(result, coordinate.Coordinate{
 		Lat: location.Lat,
@@ -115,7 +119,7 @@ func ConvertLocation2Coordinates(location spatialindexer.Location) coordinate.Co
 	return result
 }
 
-func ConvertPointInfos2Coordinates(nearByIDs []*spatialindexer.PointInfo, startIndex, endIndex int) coordinate.Coordinates {
+func convertPointInfos2Coordinates(nearByIDs []*spatialindexer.PointInfo, startIndex, endIndex int) coordinate.Coordinates {
 	result := make(coordinate.Coordinates, 0, endIndex-startIndex+1)
 	for i := startIndex; i <= endIndex; i++ {
 		result = append(result, coordinate.Coordinate{
