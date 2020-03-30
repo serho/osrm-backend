@@ -1,8 +1,8 @@
 package ranker
 
 import (
+	"github.com/Telenav/osrm-backend/integration/oasis/osrmconnector"
 	"github.com/Telenav/osrm-backend/integration/service/spatialindexer"
-	"github.com/Telenav/osrm-backend2/integration/oasis/osrmconnector"
 )
 
 const (
