@@ -13,10 +13,10 @@ const (
 func CreateRanker(rankerType string, oc *osrmconnector.OSRMConnector) spatialindexer.Ranker {
 	switch rankerType {
 	case SimpleRanker:
-		return nil
+		return newSimpleRanker()
 	case OSRMBasedRanker:
-		return nil
+		return newOsrmRanker(oc)
 	default:
-		return nil
+		return newSimpleRanker()
 	}
 }

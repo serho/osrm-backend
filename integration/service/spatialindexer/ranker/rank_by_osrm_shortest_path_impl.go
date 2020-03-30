@@ -42,7 +42,7 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, nearByIDs []*s
 			rankedPoints, err := calcShortestPathDistance(center, nearByIDs, oc, startIndex, endIndex)
 
 			if err != nil {
-				// @todo: add retry logic
+				// @todo: add retry logic when failed
 			} else {
 				for _, item := range rankedPoints {
 					pointWithDistanceC <- item
@@ -55,6 +55,8 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, nearByIDs []*s
 	}
 
 	wg.Wait()
+	close(pointWithDistanceC)
+
 	rankAgent := newRankAgent(len(nearByIDs))
 	return rankAgent.RankByDistance(pointWithDistanceC)
 
@@ -66,7 +68,7 @@ func calcShortestPathDistance(center spatialindexer.Location, nearByIDs []*spati
 	resp := <-respC
 
 	if resp.Err != nil {
-		glog.Error("Failed to generate table response for \n %s with \n err =%v \n", req.RequestURI, resp.Err)
+		glog.Errorf("Failed to generate table response for \n %s with \n err =%v \n", req.RequestURI(), resp.Err)
 		return nil, resp.Err
 	}
 
@@ -86,7 +88,7 @@ func calcShortestPathDistance(center spatialindexer.Location, nearByIDs []*spati
 // generateTableRequest generates table requests from center to [startIndex, endIndex] of nearByIDs
 func generateTableRequest(center spatialindexer.Location, nearByIDs []*spatialindexer.PointInfo, startIndex, endIndex int) *table.Request {
 	if startIndex < 0 || startIndex > endIndex || endIndex >= len(nearByIDs) {
-		glog.Fatal("startIndex should be smaller equal to endIndex and both of them should in the range of len(nearByIDs), while (startIndex, endIndex, len(nearByIDs)) = (%d, %d, %d)",
+		glog.Fatalf("startIndex should be smaller equal to endIndex and both of them should in the range of len(nearByIDs), while (startIndex, endIndex, len(nearByIDs)) = (%d, %d, %d)",
 			startIndex, endIndex, len(nearByIDs))
 	}
 

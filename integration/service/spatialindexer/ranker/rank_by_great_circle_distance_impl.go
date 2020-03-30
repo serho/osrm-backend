@@ -14,13 +14,16 @@ func rankPointsByGreatCircleDistanceToCenter(center spatialindexer.Location, nea
 
 	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(nearByIDs))
 	go func() {
+		defer close(pointWithDistanceC)
+
 		for _, p := range nearByIDs {
 			pointWithDistanceC <- &spatialindexer.RankedPointInfo{
 				PointInfo: spatialindexer.PointInfo{
 					ID:       p.ID,
 					Location: p.Location,
 				},
-				Distance: geo.Haversin(center.Lon, center.Lat, p.Location.Lon, p.Location.Lat),
+				// geo.Haversin's unit is kilometer, convert to meter
+				Distance: geo.Haversin(center.Lon, center.Lat, p.Location.Lon, p.Location.Lat) * 1000,
 			}
 		}
 	}()
