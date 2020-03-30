@@ -1,5 +1,7 @@
 package spatialindexer
 
+import "math"
+
 // Location for poi point
 // @todo: will be replaced by the one in map
 type Location struct {
@@ -23,6 +25,9 @@ type RankedPointInfo struct {
 // Only the data used for pre-processing contains valid PointID
 type PointID int64
 
+// UnlimitedCount indicate all spatial search result will be returned
+const UnlimitedCount = math.MaxInt32
+
 // Finder answers special query
 type Finder interface {
 
@@ -34,8 +39,15 @@ type Finder interface {
 type Ranker interface {
 
 	// RankPointIDsByGreatCircleDistance ranks a group of points based on great circle distance to given location
-	RankPointIDsByGreatCircleDistance(center Location, nearByIDs []PointInfo) []RankedPointInfo
+	RankPointIDsByGreatCircleDistance(center Location, nearByIDs []*PointInfo) []*RankedPointInfo
 
 	// RankPointIDsByShortestDistance ranks a group of points based on shortest path distance to given location
-	RankPointIDsByShortestDistance(center Location, nearByIDs []PointInfo) []RankedPointInfo
+	RankPointIDsByShortestDistance(center Location, nearByIDs []*PointInfo) []*RankedPointInfo
+}
+
+// PointsIterator provides iterateability for PointInfo
+type PointsIterator interface {
+
+	// IteratePoints returns channel for PointInfo
+	IteratePoints() <-chan PointInfo
 }
