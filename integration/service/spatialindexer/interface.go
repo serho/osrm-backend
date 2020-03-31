@@ -25,7 +25,7 @@ type RankedPointInfo struct {
 // Only the data used for pre-processing contains valid PointID
 type PointID int64
 
-// UnlimitedCount indicate all spatial search result will be returned
+// UnlimitedCount means all spatial search result will be returned
 const UnlimitedCount = math.MaxInt32
 
 // Finder answers special query
