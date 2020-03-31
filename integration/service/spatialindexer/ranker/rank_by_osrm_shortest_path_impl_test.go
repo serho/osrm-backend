@@ -340,20 +340,20 @@ func TestRankPointsByOSRMShortestPathWithDifferentPointThreshold(t *testing.T) {
 			s := len(req.Sources)
 			d := len(req.Destinations)
 			if s == 1 && d == 6 {
-				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To6TableResponse)
-				w.Write(tableResponseBytesOrig2Location1)
+				var tableResponseBytes, _ = json.Marshal(mock1To6TableResponse)
+				w.Write(tableResponseBytes)
 			} else if s == 1 && d == 3 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"1", "2", "3"}) {
-				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To3TableResponsePart1)
-				w.Write(tableResponseBytesOrig2Location1)
+				var tableResponseBytes, _ = json.Marshal(mock1To3TableResponsePart1)
+				w.Write(tableResponseBytes)
 			} else if s == 1 && d == 3 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"4", "5", "6"}) {
-				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To3TableResponsePart2)
-				w.Write(tableResponseBytesOrig2Location1)
+				var tableResponseBytes, _ = json.Marshal(mock1To3TableResponsePart2)
+				w.Write(tableResponseBytes)
 			} else if s == 1 && d == 4 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"1", "2", "3", "4"}) {
-				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To4TableResponsePart1)
-				w.Write(tableResponseBytesOrig2Location1)
+				var tableResponseBytes, _ = json.Marshal(mock1To4TableResponsePart1)
+				w.Write(tableResponseBytes)
 			} else if s == 1 && d == 2 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"5", "6"}) {
-				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To4TableResponsePart2)
-				w.Write(tableResponseBytesOrig2Location1)
+				var tableResponseBytes, _ = json.Marshal(mock1To4TableResponsePart2)
+				w.Write(tableResponseBytes)
 			}
 			return
 		}
