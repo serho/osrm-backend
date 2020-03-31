@@ -13,9 +13,10 @@ import (
 	"github.com/golang/glog"
 )
 
-// pointsThresholdPerRequest defines point count separator for each single table request.
-// During pre-processing, its possible to have situation to calculate distance between thousnads of points.
-// The situation here is 1-to-N table request, use pointsLimit4SingleTableRequest to limit N
+// pointsThresholdPerRequest limits max point count for each single table request.
+// During pre-processing, its possible to calculate distance between thousands of points, which will
+// cause too big request and might reach potential limitation of different parts.
+// The scenario here is 1-to-N table request, use pointsLimit4SingleTableRequest to limit N
 const pointsThresholdPerRequest = 1000
 
 func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spatialindexer.PointInfo,
@@ -27,8 +28,8 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spa
 
 	var wg sync.WaitGroup
 	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(targets))
-	startIndex := 0
-	endIndex := 0
+	startIndex := 0 // startIndex is a valid index of targets
+	endIndex := 0   // endIndex is valid index of targets
 	for {
 		if startIndex >= len(targets) {
 			break

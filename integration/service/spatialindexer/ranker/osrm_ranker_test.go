@@ -13,99 +13,6 @@ import (
 	"github.com/Telenav/osrm-backend/integration/service/spatialindexer"
 )
 
-var mockFloatArray1To6 []float64 = []float64{1.1, 2.2, 3.3, 4.4, 5.5, 6.6}
-
-var mock1To6TableResponse table.Response = table.Response{
-	Durations: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-			&mockFloatArray1To6[3],
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-	Distances: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-			&mockFloatArray1To6[3],
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-}
-
-var mock1To3TableResponsePart1 table.Response = table.Response{
-	Durations: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-		},
-	},
-	Distances: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-		},
-	},
-}
-
-var mock1To3TableResponsePart2 table.Response = table.Response{
-	Durations: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[3],
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-	Distances: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[3],
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-}
-
-var mock1To4TableResponsePart1 table.Response = table.Response{
-	Durations: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-			&mockFloatArray1To6[3],
-		},
-	},
-	Distances: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[0],
-			&mockFloatArray1To6[1],
-			&mockFloatArray1To6[2],
-			&mockFloatArray1To6[3],
-		},
-	},
-}
-
-var mock1To4TableResponsePart2 table.Response = table.Response{
-	Durations: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-	Distances: [][]*float64{
-		[]*float64{
-			&mockFloatArray1To6[4],
-			&mockFloatArray1To6[5],
-		},
-	},
-}
-
 func TestRankerInterfaceViaOSRMRanker(t *testing.T) {
 	cases := []struct {
 		center  spatialindexer.Location
@@ -259,4 +166,97 @@ func TestRankerInterfaceViaOSRMRanker(t *testing.T) {
 				printRankedPointInfoArray(actual))
 		}
 	}
+}
+
+var mockFloatArray1To6 []float64 = []float64{1.1, 2.2, 3.3, 4.4, 5.5, 6.6}
+
+var mock1To6TableResponse table.Response = table.Response{
+	Durations: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+			&mockFloatArray1To6[3],
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
+	Distances: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+			&mockFloatArray1To6[3],
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
+}
+
+var mock1To3TableResponsePart1 table.Response = table.Response{
+	Durations: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+		},
+	},
+	Distances: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+		},
+	},
+}
+
+var mock1To3TableResponsePart2 table.Response = table.Response{
+	Durations: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[3],
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
+	Distances: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[3],
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
+}
+
+var mock1To4TableResponsePart1 table.Response = table.Response{
+	Durations: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+			&mockFloatArray1To6[3],
+		},
+	},
+	Distances: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[0],
+			&mockFloatArray1To6[1],
+			&mockFloatArray1To6[2],
+			&mockFloatArray1To6[3],
+		},
+	},
+}
+
+var mock1To4TableResponsePart2 table.Response = table.Response{
+	Durations: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
+	Distances: [][]*float64{
+		[]*float64{
+			&mockFloatArray1To6[4],
+			&mockFloatArray1To6[5],
+		},
+	},
 }

@@ -200,7 +200,14 @@ func TestGenerateTableRequest(t *testing.T) {
 
 }
 
-func TestRankPointsByOSRMShortestPathWithDifferentPointThresholdPerTableRequest(t *testing.T) {
+// TestRankPointsByOSRMShortestPathWithDifferentPointThreshold tries with different threshold and assert for same response
+// In this case, target array contains 6 points {1, 2, 3, 4, 5, 6}
+// when pointThreshold = pointsThresholdPerRequest(MaxInt32), all of them will be put in the same request
+// when pointThreshold = 3, will divide points into two request, {1, 2, 3}, {4, 5, 6}
+//                          but the result will be merged and sorted, so is the same with single request
+// when pointThreshold = 4, will divide points into two request, {1, 2, 3, 4}, {5, 6}
+//                          but the result will be merged and sorted, so is the same with single request
+func TestRankPointsByOSRMShortestPathWithDifferentPointThreshold(t *testing.T) {
 	cases := []struct {
 		center  spatialindexer.Location
 		targets []*spatialindexer.PointInfo
