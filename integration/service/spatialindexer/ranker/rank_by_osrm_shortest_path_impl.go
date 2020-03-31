@@ -13,35 +13,34 @@ import (
 	"github.com/golang/glog"
 )
 
-// pointsLimit4SingleTableRequest defines point count limitation for each single table request.
+// pointsThresholdPerRequest defines point count seperator for each single table request.
 // During pre-processing, its possible to have situation to calculate distance between thousnads of points.
 // The situation here is 1-to-N table request, use pointsLimit4SingleTableRequest to limit N
-const pointsLimit4SingleTableRequest = 1000
+const pointsThresholdPerRequest = 1000
 
-func rankPointsByOSRMShortestPath(center spatialindexer.Location, nearByIDs []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector) []*spatialindexer.RankedPointInfo {
-	if len(nearByIDs) == 0 {
+func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, pointsThreshold int) []*spatialindexer.RankedPointInfo {
+	if len(targets) == 0 {
 		glog.Warning("When try to rankPointsByGreatCircleDistanceToCenter, input array is empty\n")
 		return nil
 	}
 
 	var wg sync.WaitGroup
-	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(nearByIDs))
+	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(targets))
 	startIndex := 0
 	endIndex := 0
 	for {
-		if startIndex >= len(nearByIDs) {
+		if startIndex >= len(targets) {
 			break
 		}
-		endIndex = startIndex + pointsLimit4SingleTableRequest
-		if endIndex >= len(nearByIDs) {
-			endIndex = len(nearByIDs) - 1
+
+		endIndex = startIndex + pointsThreshold - 1
+		if endIndex >= len(targets) {
+			endIndex = len(targets) - 1
 		}
 
-		go func(wg *sync.WaitGroup) {
-			wg.Add(1)
-			defer wg.Done()
-
-			rankedPoints, err := calcShortestPathDistance(center, nearByIDs, oc, startIndex, endIndex)
+		wg.Add(1)
+		go func(wg *sync.WaitGroup, startIndex, endIndex int) {
+			rankedPoints, err := calcShortestPathDistance(center, targets, oc, startIndex, endIndex)
 
 			if err != nil {
 				// @todo: add retry logic when failed
@@ -51,7 +50,8 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, nearByIDs []*s
 				}
 			}
 
-		}(&wg)
+			wg.Done()
+		}(&wg, startIndex, endIndex)
 
 		startIndex = endIndex + 1
 	}
@@ -59,13 +59,13 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, nearByIDs []*s
 	wg.Wait()
 	close(pointWithDistanceC)
 
-	rankAgent := newRankAgent(len(nearByIDs))
+	rankAgent := newRankAgent(len(targets))
 	return rankAgent.RankByDistance(pointWithDistanceC)
 
 }
 
-func calcShortestPathDistance(center spatialindexer.Location, nearByIDs []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, startIndex, endIndex int) ([]*spatialindexer.RankedPointInfo, error) {
-	req := generateTableRequest(center, nearByIDs, startIndex, endIndex)
+func calcShortestPathDistance(center spatialindexer.Location, targets []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, startIndex, endIndex int) ([]*spatialindexer.RankedPointInfo, error) {
+	req := generateTableRequest(center, targets, startIndex, endIndex)
 	respC := oc.Request4Table(req)
 	resp := <-respC
 
@@ -73,13 +73,14 @@ func calcShortestPathDistance(center spatialindexer.Location, nearByIDs []*spati
 		glog.Errorf("Failed to generate table response for \n %s with \n err =%v \n", req.RequestURI(), resp.Err)
 		return nil, resp.Err
 	}
+	glog.Infof("Inside ranker, get table response for request %s\n", req.RequestURI())
 
 	result := make([]*spatialindexer.RankedPointInfo, 0, endIndex-startIndex+1)
 	for i := 0; i < endIndex-startIndex+1; i++ {
 		result = append(result, &spatialindexer.RankedPointInfo{
 			PointInfo: spatialindexer.PointInfo{
-				ID:       nearByIDs[startIndex+i].ID,
-				Location: nearByIDs[startIndex+i].Location,
+				ID:       targets[startIndex+i].ID,
+				Location: targets[startIndex+i].Location,
 			},
 			Distance: *resp.Resp.Distances[0][i],
 		})
@@ -87,16 +88,16 @@ func calcShortestPathDistance(center spatialindexer.Location, nearByIDs []*spati
 	return result, nil
 }
 
-// generateTableRequest generates table requests from center to [startIndex, endIndex] of nearByIDs
-func generateTableRequest(center spatialindexer.Location, nearByIDs []*spatialindexer.PointInfo, startIndex, endIndex int) *table.Request {
-	if startIndex < 0 || startIndex > endIndex || endIndex >= len(nearByIDs) {
-		glog.Fatalf("startIndex should be smaller equal to endIndex and both of them should in the range of len(nearByIDs), while (startIndex, endIndex, len(nearByIDs)) = (%d, %d, %d)",
-			startIndex, endIndex, len(nearByIDs))
+// generateTableRequest generates table requests from center to [startIndex, endIndex] of targets
+func generateTableRequest(center spatialindexer.Location, targets []*spatialindexer.PointInfo, startIndex, endIndex int) *table.Request {
+	if startIndex < 0 || startIndex > endIndex || endIndex >= len(targets) {
+		glog.Fatalf("startIndex should be smaller equal to endIndex, and both of them should in the range of len(targets), while (startIndex, endIndex, len(targets)) = (%d, %d, %d)",
+			startIndex, endIndex, len(targets))
 	}
 
 	req := table.NewRequest()
 	req.Coordinates = append(convertLocation2Coordinates(center),
-		convertPointInfos2Coordinates(nearByIDs, startIndex, endIndex)...)
+		convertPointInfos2Coordinates(targets, startIndex, endIndex)...)
 
 	req.Sources = append(req.Sources, strconv.Itoa(0))
 	pointsCount4Sources := 1
@@ -119,12 +120,12 @@ func convertLocation2Coordinates(location spatialindexer.Location) coordinate.Co
 	return result
 }
 
-func convertPointInfos2Coordinates(nearByIDs []*spatialindexer.PointInfo, startIndex, endIndex int) coordinate.Coordinates {
+func convertPointInfos2Coordinates(targets []*spatialindexer.PointInfo, startIndex, endIndex int) coordinate.Coordinates {
 	result := make(coordinate.Coordinates, 0, endIndex-startIndex+1)
 	for i := startIndex; i <= endIndex; i++ {
 		result = append(result, coordinate.Coordinate{
-			Lat: nearByIDs[i].Location.Lat,
-			Lon: nearByIDs[i].Location.Lon,
+			Lat: targets[i].Location.Lat,
+			Lon: targets[i].Location.Lon,
 		})
 	}
 	return result

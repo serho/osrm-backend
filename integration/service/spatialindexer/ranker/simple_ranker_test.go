@@ -9,16 +9,16 @@ import (
 
 func TestRankerInterfaceViaSimpleRanker(t *testing.T) {
 	cases := []struct {
-		center    spatialindexer.Location
-		nearByIDs []*spatialindexer.PointInfo
-		expect    []*spatialindexer.RankedPointInfo
+		center  spatialindexer.Location
+		targets []*spatialindexer.PointInfo
+		expect  []*spatialindexer.RankedPointInfo
 	}{
 		{
 			center: spatialindexer.Location{
 				Lat: 37.398973,
 				Lon: -121.976633,
 			},
-			nearByIDs: []*spatialindexer.PointInfo{
+			targets: []*spatialindexer.PointInfo{
 				&spatialindexer.PointInfo{
 					ID: 1,
 					Location: spatialindexer.Location{
@@ -78,14 +78,14 @@ func TestRankerInterfaceViaSimpleRanker(t *testing.T) {
 
 	ranker := CreateRanker(SimpleRanker, nil)
 	for _, c := range cases {
-		actual := ranker.RankPointIDsByGreatCircleDistance(c.center, c.nearByIDs)
+		actual := ranker.RankPointIDsByGreatCircleDistance(c.center, c.targets)
 		if !reflect.DeepEqual(actual, c.expect) {
 			t.Errorf("During test SimpleRanker's RankPointIDsByGreatCircleDistance, \n expect \n%s \nwhile actual is\n %s\n",
 				printRankedPointInfoArray(c.expect),
 				printRankedPointInfoArray(actual))
 		}
 
-		actual = ranker.RankPointIDsByGreatCircleDistance(c.center, c.nearByIDs)
+		actual = ranker.RankPointIDsByShortestDistance(c.center, c.targets)
 		if !reflect.DeepEqual(actual, c.expect) {
 			t.Errorf("During test SimpleRanker's RankPointIDsByGreatCircleDistance, \n expect \n%s \nwhile actual is\n %s\n",
 				printRankedPointInfoArray(c.expect),

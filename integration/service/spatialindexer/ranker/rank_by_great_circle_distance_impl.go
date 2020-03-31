@@ -6,17 +6,17 @@ import (
 	"github.com/golang/glog"
 )
 
-func rankPointsByGreatCircleDistanceToCenter(center spatialindexer.Location, nearByIDs []*spatialindexer.PointInfo) []*spatialindexer.RankedPointInfo {
-	if len(nearByIDs) == 0 {
+func rankPointsByGreatCircleDistanceToCenter(center spatialindexer.Location, targets []*spatialindexer.PointInfo) []*spatialindexer.RankedPointInfo {
+	if len(targets) == 0 {
 		glog.Warning("When try to rankPointsByGreatCircleDistanceToCenter, input array is empty\n")
 		return nil
 	}
 
-	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(nearByIDs))
+	pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(targets))
 	go func() {
 		defer close(pointWithDistanceC)
 
-		for _, p := range nearByIDs {
+		for _, p := range targets {
 			pointWithDistanceC <- &spatialindexer.RankedPointInfo{
 				PointInfo: spatialindexer.PointInfo{
 					ID:       p.ID,
@@ -28,6 +28,6 @@ func rankPointsByGreatCircleDistanceToCenter(center spatialindexer.Location, nea
 		}
 	}()
 
-	rankAgent := newRankAgent(len(nearByIDs))
+	rankAgent := newRankAgent(len(targets))
 	return rankAgent.RankByDistance(pointWithDistanceC)
 }

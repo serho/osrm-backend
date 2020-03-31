@@ -19,11 +19,6 @@ func NewPlaceConnectivityMap(filePath string) *PlaceConnectivityMap {
 		return nil
 	}
 
-	// return &PlaceConnectivityMap{
-	// 	finder:   indexer,
-	// 	ranker:   indexer,
-	// 	iterator: indexer,
-	// }
 	return nil
 }
 

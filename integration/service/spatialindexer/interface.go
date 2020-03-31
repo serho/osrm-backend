@@ -39,10 +39,10 @@ type Finder interface {
 type Ranker interface {
 
 	// RankPointIDsByGreatCircleDistance ranks a group of points based on great circle distance to given location
-	RankPointIDsByGreatCircleDistance(center Location, nearByIDs []*PointInfo) []*RankedPointInfo
+	RankPointIDsByGreatCircleDistance(center Location, targets []*PointInfo) []*RankedPointInfo
 
 	// RankPointIDsByShortestDistance ranks a group of points based on shortest path distance to given location
-	RankPointIDsByShortestDistance(center Location, nearByIDs []*PointInfo) []*RankedPointInfo
+	RankPointIDsByShortestDistance(center Location, targets []*PointInfo) []*RankedPointInfo
 }
 
 // PointsIterator provides iterateability for PointInfo

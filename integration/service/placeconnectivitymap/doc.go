@@ -2,6 +2,7 @@
 package placeconnectivitymap provides connectivity information for place graphs.
 
 For example, given following graph
+
   -   -   -   - 4
 |   |   |   |   |
   - 2 -   -   -

@@ -1,9 +1,14 @@
 package ranker
 
 import (
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"reflect"
+	"strings"
 	"testing"
 
+	"github.com/Telenav/osrm-backend/integration/oasis/osrmconnector"
 	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
 	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/genericoptions"
 	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table"
@@ -13,18 +18,18 @@ import (
 func TestGenerateTableRequest(t *testing.T) {
 	cases := []struct {
 		center     spatialindexer.Location
-		nearByIDs  []*spatialindexer.PointInfo
+		targets    []*spatialindexer.PointInfo
 		startIndex int
 		endIndex   int
 		expect     *table.Request
 	}{
-		// case 1: test 0 -> {1, 2, 3, 4, 5}
+		// case 1: test center -> {1, 2, 3, 4, 5}
 		{
 			center: spatialindexer.Location{
 				Lat: 0,
 				Lon: 0,
 			},
-			nearByIDs: []*spatialindexer.PointInfo{
+			targets: []*spatialindexer.PointInfo{
 				&spatialindexer.PointInfo{
 					ID: 1,
 					Location: spatialindexer.Location{
@@ -106,13 +111,13 @@ func TestGenerateTableRequest(t *testing.T) {
 				Annotations: "distance,duration",
 			},
 		},
-		// case 2: test 0 -> {2, 3, 4}
+		// case 2: test center -> {2, 3, 4}
 		{
 			center: spatialindexer.Location{
 				Lat: 0,
 				Lon: 0,
 			},
-			nearByIDs: []*spatialindexer.PointInfo{
+			targets: []*spatialindexer.PointInfo{
 				&spatialindexer.PointInfo{
 					ID: 1,
 					Location: spatialindexer.Location{
@@ -187,10 +192,190 @@ func TestGenerateTableRequest(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := generateTableRequest(c.center, c.nearByIDs, c.startIndex, c.endIndex)
+		actual := generateTableRequest(c.center, c.targets, c.startIndex, c.endIndex)
 		if !reflect.DeepEqual(actual, c.expect) {
 			t.Errorf("During TestGenerateTableRequest, expect table request is \n%+v\n but actual is \n%+v\n", c.expect, actual)
 		}
 	}
 
+}
+
+func TestRankPointsByOSRMShortestPathWithDifferentPointThresholdPerTableRequest(t *testing.T) {
+	cases := []struct {
+		center  spatialindexer.Location
+		targets []*spatialindexer.PointInfo
+		expect  []*spatialindexer.RankedPointInfo
+	}{
+		{
+			center: spatialindexer.Location{
+				Lat: 0,
+				Lon: 0,
+			},
+			targets: []*spatialindexer.PointInfo{
+				&spatialindexer.PointInfo{
+					ID: 1,
+					Location: spatialindexer.Location{
+						Lat: 1.1,
+						Lon: 1.1,
+					},
+				},
+				&spatialindexer.PointInfo{
+					ID: 2,
+					Location: spatialindexer.Location{
+						Lat: 2.2,
+						Lon: 2.2,
+					},
+				},
+				&spatialindexer.PointInfo{
+					ID: 3,
+					Location: spatialindexer.Location{
+						Lat: 3.3,
+						Lon: 3.3,
+					},
+				},
+				&spatialindexer.PointInfo{
+					ID: 4,
+					Location: spatialindexer.Location{
+						Lat: 4.4,
+						Lon: 4.4,
+					},
+				},
+				&spatialindexer.PointInfo{
+					ID: 5,
+					Location: spatialindexer.Location{
+						Lat: 5.5,
+						Lon: 5.5,
+					},
+				},
+				&spatialindexer.PointInfo{
+					ID: 6,
+					Location: spatialindexer.Location{
+						Lat: 6.6,
+						Lon: 6.6,
+					},
+				},
+			},
+			expect: []*spatialindexer.RankedPointInfo{
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 1,
+						Location: spatialindexer.Location{
+							Lat: 1.1,
+							Lon: 1.1,
+						},
+					},
+					Distance: 1.1,
+				},
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 2,
+						Location: spatialindexer.Location{
+							Lat: 2.2,
+							Lon: 2.2,
+						},
+					},
+					Distance: 2.2,
+				},
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 3,
+						Location: spatialindexer.Location{
+							Lat: 3.3,
+							Lon: 3.3,
+						},
+					},
+					Distance: 3.3,
+				},
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 4,
+						Location: spatialindexer.Location{
+							Lat: 4.4,
+							Lon: 4.4,
+						},
+					},
+					Distance: 4.4,
+				},
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 5,
+						Location: spatialindexer.Location{
+							Lat: 5.5,
+							Lon: 5.5,
+						},
+					},
+					Distance: 5.5,
+				},
+				&spatialindexer.RankedPointInfo{
+					PointInfo: spatialindexer.PointInfo{
+						ID: 6,
+						Location: spatialindexer.Location{
+							Lat: 6.6,
+							Lon: 6.6,
+						},
+					},
+					Distance: 6.6,
+				},
+			},
+		},
+	}
+
+	// fake OSRM server
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+
+		if r.Method != "GET" {
+			t.Errorf("Expected 'GET' request, got '%s'", r.Method)
+		}
+
+		if strings.HasPrefix(r.URL.EscapedPath(), "/table/v1/driving/") {
+			req, _ := table.ParseRequestURL(r.URL)
+			s := len(req.Sources)
+			d := len(req.Destinations)
+			if s == 1 && d == 6 {
+				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To6TableResponse)
+				w.Write(tableResponseBytesOrig2Location1)
+			} else if s == 1 && d == 3 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"1", "2", "3"}) {
+				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To3TableResponsePart1)
+				w.Write(tableResponseBytesOrig2Location1)
+			} else if s == 1 && d == 3 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"4", "5", "6"}) {
+				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To3TableResponsePart2)
+				w.Write(tableResponseBytesOrig2Location1)
+			} else if s == 1 && d == 4 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"1", "2", "3", "4"}) {
+				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To4TableResponsePart1)
+				w.Write(tableResponseBytesOrig2Location1)
+			} else if s == 1 && d == 2 && reflect.DeepEqual(req.Destinations, genericoptions.Elements{"5", "6"}) {
+				var tableResponseBytesOrig2Location1, _ = json.Marshal(mock1To4TableResponsePart2)
+				w.Write(tableResponseBytesOrig2Location1)
+			}
+			return
+		}
+
+	}))
+	defer ts.Close()
+
+	oc := osrmconnector.NewOSRMConnector(ts.URL)
+
+	for _, c := range cases {
+		actual := rankPointsByOSRMShortestPath(c.center, c.targets, oc, 999)
+		if !reflect.DeepEqual(actual, c.expect) {
+			t.Errorf("During TestRankerInterfaceViaOSRMRanker, expect \n%s \nwhile actual result is \n%s\n",
+				printRankedPointInfoArray(c.expect),
+				printRankedPointInfoArray(actual))
+		}
+
+		actual = rankPointsByOSRMShortestPath(c.center, c.targets, oc, 3)
+		if !reflect.DeepEqual(actual, c.expect) {
+			t.Errorf("During TestRankerInterfaceViaOSRMRanker, expect \n%s \nwhile actual result is \n%s\n",
+				printRankedPointInfoArray(c.expect),
+				printRankedPointInfoArray(actual))
+		}
+
+		actual = rankPointsByOSRMShortestPath(c.center, c.targets, oc, 4)
+		if !reflect.DeepEqual(actual, c.expect) {
+			t.Errorf("During TestRankerInterfaceViaOSRMRanker, expect \n%s \nwhile actual result is \n%s\n",
+				printRankedPointInfoArray(c.expect),
+				printRankedPointInfoArray(actual))
+		}
+	}
 }
