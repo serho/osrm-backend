@@ -77,6 +77,7 @@ func TestRankerInterfaceViaSimpleRanker(t *testing.T) {
 	}
 
 	ranker := CreateRanker(SimpleRanker, nil)
+
 	for _, c := range cases {
 		actual := ranker.RankPointIDsByGreatCircleDistance(c.center, c.targets)
 		if !reflect.DeepEqual(actual, c.expect) {

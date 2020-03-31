@@ -13,12 +13,13 @@ import (
 	"github.com/golang/glog"
 )
 
-// pointsThresholdPerRequest defines point count seperator for each single table request.
+// pointsThresholdPerRequest defines point count separator for each single table request.
 // During pre-processing, its possible to have situation to calculate distance between thousnads of points.
 // The situation here is 1-to-N table request, use pointsLimit4SingleTableRequest to limit N
 const pointsThresholdPerRequest = 1000
 
-func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, pointsThreshold int) []*spatialindexer.RankedPointInfo {
+func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spatialindexer.PointInfo,
+	oc *osrmconnector.OSRMConnector, pointsThreshold int) []*spatialindexer.RankedPointInfo {
 	if len(targets) == 0 {
 		glog.Warning("When try to rankPointsByGreatCircleDistanceToCenter, input array is empty\n")
 		return nil
@@ -40,10 +41,12 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spa
 
 		wg.Add(1)
 		go func(wg *sync.WaitGroup, startIndex, endIndex int) {
-			rankedPoints, err := calcShortestPathDistance(center, targets, oc, startIndex, endIndex)
+			rankedPoints, err := calcCenter2TargetsDistanceViaShortestPath(center, targets, oc, startIndex, endIndex)
 
 			if err != nil {
-				// @todo: add retry logic when failed
+				glog.Errorf("Failed to calculate shortest path for range [%d, %d] for center = %+v, targets = %+v\n",
+					startIndex, endIndex, center, targets)
+				// @todo: add retry logic when failed or may be put retry logic in connector
 			} else {
 				for _, item := range rankedPoints {
 					pointWithDistanceC <- item
@@ -64,7 +67,7 @@ func rankPointsByOSRMShortestPath(center spatialindexer.Location, targets []*spa
 
 }
 
-func calcShortestPathDistance(center spatialindexer.Location, targets []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, startIndex, endIndex int) ([]*spatialindexer.RankedPointInfo, error) {
+func calcCenter2TargetsDistanceViaShortestPath(center spatialindexer.Location, targets []*spatialindexer.PointInfo, oc *osrmconnector.OSRMConnector, startIndex, endIndex int) ([]*spatialindexer.RankedPointInfo, error) {
 	req := generateTableRequest(center, targets, startIndex, endIndex)
 	respC := oc.Request4Table(req)
 	resp := <-respC

@@ -357,7 +357,7 @@ func TestRankPointsByOSRMShortestPathWithDifferentPointThresholdPerTableRequest(
 	oc := osrmconnector.NewOSRMConnector(ts.URL)
 
 	for _, c := range cases {
-		actual := rankPointsByOSRMShortestPath(c.center, c.targets, oc, 999)
+		actual := rankPointsByOSRMShortestPath(c.center, c.targets, oc, pointsThresholdPerRequest)
 		if !reflect.DeepEqual(actual, c.expect) {
 			t.Errorf("During TestRankerInterfaceViaOSRMRanker, expect \n%s \nwhile actual result is \n%s\n",
 				printRankedPointInfoArray(c.expect),

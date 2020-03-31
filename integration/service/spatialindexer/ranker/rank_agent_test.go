@@ -105,8 +105,8 @@ func TestRankAgent(t *testing.T) {
 	for _, c := range cases {
 		var wg sync.WaitGroup
 		pointWithDistanceC := make(chan *spatialindexer.RankedPointInfo, len(c.input))
+		wg.Add(1)
 		go func(wg *sync.WaitGroup) {
-			wg.Add(1)
 			defer wg.Done()
 
 			for _, item := range c.input {

@@ -6,6 +6,7 @@ import (
 	"github.com/Telenav/osrm-backend/integration/service/spatialindexer"
 )
 
+// rankAgent accepts items to be ranked then returns ranking result
 type rankAgent struct {
 	rankedPoints []*spatialindexer.RankedPointInfo
 }
