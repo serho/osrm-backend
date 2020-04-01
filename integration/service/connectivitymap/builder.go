@@ -151,7 +151,7 @@ type placeIDWithNearByPlaceIDs struct {
 }
 
 func (builder *connectivityMapBuilder) buildViaSingleGoroutine() ID2NearByIDsMap {
-	glog.Warning("This function is only used for compare result of worker::build().\n")
+	glog.Warning("This function is only used for compare result of worker::build() in unittest.\n")
 	internalResult := make(chan placeIDWithNearByPlaceIDs, 10000)
 	m := make(ID2NearByIDsMap)
 
