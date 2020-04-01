@@ -78,6 +78,7 @@ type MockFinder struct {
 }
 
 // FindNearByPointIDs returns mock result
+// It returns 10 places defined in mockPlaceInfo1
 func (finder *MockFinder) FindNearByPointIDs(center Location, radius float64, limitCount int) []*PointInfo {
 	return mockPlaceInfo1
 }
@@ -105,7 +106,8 @@ func (iterator *MockPointsIterator) IteratePoints() <-chan PointInfo {
 type MockOneHundredPointsIterator struct {
 }
 
-// IteratePoints() iterate places with mock data
+// IteratePoints() iterate places with mock data.
+// It returns {ID:1000, fixed location}, {ID:1001, fixed location}, ... {ID:1099, fixed location}
 func (iterator *MockOneHundredPointsIterator) IteratePoints() <-chan PointInfo {
 	pointInfoC := make(chan PointInfo, 100)
 
