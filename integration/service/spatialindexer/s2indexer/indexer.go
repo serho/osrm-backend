@@ -80,7 +80,7 @@ func (indexer *S2Indexer) IteratePoints() <-chan spatialindexer.PointInfo {
 	return pointsC
 }
 
-func (indexer *S2Indexer) FindNearByPointIDs(center spatialindexer.Location, radius float64, limitCount int) []spatialindexer.PointInfo {
+func (indexer *S2Indexer) FindNearByPointIDs(center spatialindexer.Location, radius float64, limitCount int) []*spatialindexer.PointInfo {
 	if !indexer.isInit() {
 		glog.Warning("S2Indexer is empty, try to Build() with correct input file first.\n")
 		return nil
