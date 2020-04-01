@@ -8,7 +8,7 @@ import (
 	"github.com/golang/glog"
 )
 
-func TestDumper(t *testing.T) {
+func TestDumpGivenObjectThenLoadAndThenCompareWithOriginalObject(t *testing.T) {
 	cases := []ConnectivityMap{
 		ConnectivityMap{
 			id2nearByIDs:       fakeID2NearByIDsMap1,
@@ -36,7 +36,7 @@ func TestDumper(t *testing.T) {
 			t.Errorf("During running serializeConnectivityMap for case %v, met error %v", c, err)
 		}
 
-		actual := NewPlaceConnectivityMap(0.0)
+		actual := NewConnectivityMap(0.0)
 		if err := deSerializeConnectivityMap(actual, path); err != nil {
 			t.Errorf("During running deSerializeConnectivityMap for case %v, met error %v", c, err)
 		}

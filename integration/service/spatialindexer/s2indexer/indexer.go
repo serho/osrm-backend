@@ -80,14 +80,9 @@ func (indexer *S2Indexer) IteratePoints() <-chan spatialindexer.PointInfo {
 	return pointsC
 }
 
-<<<<<<< HEAD
-func (indexer *S2Indexer) FindNearByPointIDs(center spatialindexer.Location, radius float64, limitCount int) []spatialindexer.PointInfo {
-	if !indexer.isInit() {
-=======
 // FindNearByPointIDs returns nearby points for given center and conditions
 func (indexer *S2Indexer) FindNearByPointIDs(center spatialindexer.Location, radius float64, limitCount int) []*spatialindexer.PointInfo {
 	if !indexer.isInitialized() {
->>>>>>> feature/placeconnectivitymap-impl
 		glog.Warning("S2Indexer is empty, try to Build() with correct input file first.\n")
 		return nil
 	}
