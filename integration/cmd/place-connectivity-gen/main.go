@@ -27,7 +27,7 @@ func main() {
 	indexer.Dump(flags.outputFolder)
 
 	connectivitymap.NewConnectivityMap(flags.maxRange).
-		Build(indexer, indexer, ranker.CreateRanker(ranker.SimpleRanker, nil), 1).
+		Build(indexer, indexer, ranker.CreateRanker(ranker.SimpleRanker, nil), flags.numberOfWorkers).
 		Dump(flags.outputFolder)
 
 	glog.Infof("%s totally takes %f seconds for processing.", os.Args[0], time.Since(startTime).Seconds())
