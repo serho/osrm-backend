@@ -21,7 +21,7 @@ type statistic struct {
 	AverageMaxDistance    float64 `json:"average_value_max_distance"`
 	MaxOfMaxDistance      float64 `json:"max_value_max_distance"`
 	MinOfMaxDistance      float64 `json:"min_value_max_distance"`
-	DistanceLimitation    float64 `json:"distance_limitation_during_preprocessing"`
+	MaxRange              float64 `json:"maxrange_set_by_preprocessing"`
 }
 
 func newStatistic() *statistic {
@@ -34,7 +34,7 @@ func newStatistic() *statistic {
 		AverageMaxDistance:    0.0,
 		MaxOfMaxDistance:      0.0,
 		MinOfMaxDistance:      math.MaxFloat64,
-		DistanceLimitation:    0.0,
+		MaxRange:              0.0,
 	}
 }
 
@@ -47,12 +47,12 @@ func (s *statistic) init() {
 	s.AverageMaxDistance = 0.0
 	s.MaxOfMaxDistance = 0.0
 	s.MinOfMaxDistance = math.MaxFloat64
-	s.DistanceLimitation = 0.0
+	s.MaxRange = 0.0
 }
 
-func (s *statistic) build(m ID2NearByIDsMap, DistanceLimitation float64) *statistic {
+func (s *statistic) build(m ID2NearByIDsMap, MaxRange float64) *statistic {
 	s.init()
-	s.DistanceLimitation = DistanceLimitation
+	s.MaxRange = MaxRange
 
 	totalNearByIDsCount := 0
 	totalMaxDistance := 0.0

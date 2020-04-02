@@ -11,9 +11,9 @@ import (
 func TestDumpGivenObjectThenLoadAndThenCompareWithOriginalObject(t *testing.T) {
 	cases := []ConnectivityMap{
 		ConnectivityMap{
-			id2nearByIDs:       fakeID2NearByIDsMap1,
-			distanceLimitation: fakeDistanceLimit,
-			statistic:          &fakeStatisticResult1,
+			id2nearByIDs: fakeID2NearByIDsMap1,
+			maxRange:     fakeDistanceLimit,
+			statistic:    &fakeStatisticResult1,
 		},
 	}
 
@@ -45,8 +45,8 @@ func TestDumpGivenObjectThenLoadAndThenCompareWithOriginalObject(t *testing.T) {
 			t.Errorf("Expect result \n%+v but got \n%+v\n", c.id2nearByIDs, actual.id2nearByIDs)
 		}
 
-		if !reflect.DeepEqual(actual.distanceLimitation, c.distanceLimitation) {
-			t.Errorf("Expect result \n%+v but got \n%+v\n", c.distanceLimitation, actual.distanceLimitation)
+		if !reflect.DeepEqual(actual.maxRange, c.maxRange) {
+			t.Errorf("Expect result \n%+v but got \n%+v\n", c.maxRange, actual.maxRange)
 		}
 
 		if !reflect.DeepEqual(actual.statistic, c.statistic) {

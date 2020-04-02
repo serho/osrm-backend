@@ -15,7 +15,7 @@ var fakeStatisticResult1 = statistic{
 	AverageMaxDistance:    15,
 	MaxOfMaxDistance:      23,
 	MinOfMaxDistance:      5,
-	DistanceLimitation:    123,
+	MaxRange:              123,
 }
 
 func TestStatisticBuild(t *testing.T) {

@@ -93,7 +93,7 @@ func TestBuilderWithSingleWorker(t *testing.T) {
 
 	actual := builder.build()
 
-	expect := builder.buildViaSingleGoroutine()
+	expect := builder.buildInSerial()
 
 	if !reflect.DeepEqual(actual, expect) {
 		t.Errorf("Failed to pass TestBuilder with mock data, \nexpect \n%+v\n but got \n%v\n", expect, actual)

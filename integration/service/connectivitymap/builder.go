@@ -83,7 +83,7 @@ func (builder *connectivityMapBuilder) dispatch() {
 			close(builder.tasks4WorkerC[i])
 		}
 
-		glog.Infof("builder::dispatch is finished.  Total input is %d.\n", counter)
+		glog.Infof("builder's dispatch is finished.  Total input is %d.\n", counter)
 		builder.dispatchWaitGroup.Done()
 	}()
 }
@@ -94,7 +94,7 @@ func (builder *connectivityMapBuilder) process() {
 		go builder.work(builder.workerWaitGroup, i, builder.tasks4WorkerC[i], builder.aggregatorC)
 	}
 
-	glog.Infof("builder::process is finished, start number of %d workers.\n", builder.numOfWorker)
+	glog.Infof("builder's process is finished, start number of %d workers.\n", builder.numOfWorker)
 }
 
 func (builder *connectivityMapBuilder) work(wg *sync.WaitGroup, workerID int, source <-chan spatialindexer.PointInfo, sink chan<- placeIDWithNearByPlaceIDs) {
@@ -150,8 +150,8 @@ type placeIDWithNearByPlaceIDs struct {
 	ids []IDAndDistance
 }
 
-func (builder *connectivityMapBuilder) buildViaSingleGoroutine() ID2NearByIDsMap {
-	glog.Warning("This function is only used for compare result of worker::build() in unittest.\n")
+func (builder *connectivityMapBuilder) buildInSerial() ID2NearByIDsMap {
+	glog.Warning("This function is only used for compare result of worker's build().\n`")
 	internalResult := make(chan placeIDWithNearByPlaceIDs, 10000)
 	m := make(ID2NearByIDsMap)
 

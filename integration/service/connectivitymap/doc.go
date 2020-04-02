@@ -1,5 +1,5 @@
 /*
-package placeconnectivitymap provides connectivity information for place graphs.
+Package connectivitymap provides connectivity information for place graphs.
 
 For example, given following graph
 

@@ -43,7 +43,7 @@ func deSerializeConnectivityMap(cm *ConnectivityMap, folderPath string) error {
 	if err := cm.statistic.load(folderPath); err != nil {
 		return err
 	}
-	cm.distanceLimitation = cm.statistic.DistanceLimitation
+	cm.maxRange = cm.statistic.MaxRange
 
 	return nil
 }

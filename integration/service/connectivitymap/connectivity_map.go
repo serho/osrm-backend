@@ -16,16 +16,16 @@ type ID2NearByIDsMap map[spatialindexer.PointID][]IDAndDistance
 
 // Connectivity Map used to query connectivity for given placeID
 type ConnectivityMap struct {
-	id2nearByIDs       ID2NearByIDsMap
-	distanceLimitation float64
-	statistic          *statistic
+	id2nearByIDs ID2NearByIDsMap
+	maxRange     float64
+	statistic    *statistic
 }
 
 // NewConnectivityMap creates ConnectivityMap
-func NewConnectivityMap(distanceLimitation float64) *ConnectivityMap {
+func NewConnectivityMap(maxRange float64) *ConnectivityMap {
 	return &ConnectivityMap{
-		distanceLimitation: distanceLimitation,
-		statistic:          newStatistic(),
+		maxRange:  maxRange,
+		statistic: newStatistic(),
 	}
 }
 
@@ -47,7 +47,8 @@ func (cm *ConnectivityMap) QueryConnectivity(placeInfo spatialindexer.PointInfo,
 	// for each everything recorded in data, apply limit option on that
 }
 
-// DistanceLimitation tells the value used to pre-process place data
-func (cm *ConnectivityMap) DistanceLimitation() float64 {
-	return cm.distanceLimitation
+// MaxRange tells the value used to pre-process place data.
+// MaxRange means the maximum distance in meters could be reached from current location.
+func (cm *ConnectivityMap) MaxRange() float64 {
+	return cm.maxRange
 }
