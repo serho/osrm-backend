@@ -111,7 +111,7 @@ func (s *statistic) dump(folderPath string) error {
 		return err
 	}
 
-	glog.Infof("Successfully dump statistic file of %s to %s\n", statisticFileName, folderPath)
+	glog.Infof("Finished dumpping statistic file of %s to %s\n", statisticFileName, folderPath)
 	return nil
 }
 
