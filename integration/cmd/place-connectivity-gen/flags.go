@@ -6,10 +6,11 @@ import (
 )
 
 var flags struct {
-	inputFile       string
-	outputFolder    string
-	numberOfWorkers int
-	maxRange        float64
+	inputFile           string
+	outputFolder        string
+	numberOfWorkers     int
+	maxRange            float64
+	osrmBackendEndpoint string
 }
 
 // defaultRange indicates default max drive range in meters.
@@ -22,4 +23,5 @@ func init() {
 	flag.StringVar(&flags.outputFolder, "o", "", "path for output folder")
 	flag.IntVar(&flags.numberOfWorkers, "num_of_workers", runtime.NumCPU(), "number of workers to build connectivity map")
 	flag.Float64Var(&flags.maxRange, "range", defaultMaxRange, "maximum drive range in meters used for preprocessing.")
+	flag.StringVar(&flags.osrmBackendEndpoint, "osrm", "", "OSRM-backend endpoint")
 }
