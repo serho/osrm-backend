@@ -88,6 +88,11 @@ func (s *statistic) build(m ID2NearByIDsMap, MaxRange float64) *statistic {
 		s.MinOfMaxDistance = math.Min(s.MinOfMaxDistance, maxDistance)
 	}
 
+	if s.ValidCount == 0 {
+		glog.Warningf("connectivity's statistic detect 0 valid result.\n")
+		return s
+	}
+
 	s.AverageNearByIDsCount = totalNearByIDsCount / s.ValidCount
 	s.AverageMaxDistance = totalMaxDistance / (float64)(s.ValidCount)
 
