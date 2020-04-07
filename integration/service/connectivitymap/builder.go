@@ -103,8 +103,9 @@ func (builder *connectivityMapBuilder) work(wg *sync.WaitGroup, workerID int, so
 	counter := 0
 	for p := range source {
 		counter += 1
+
 		nearbyIDs := builder.finder.FindNearByPointIDs(p.Location, builder.distanceLimit, spatialindexer.UnlimitedCount)
-		rankedResults := builder.ranker.RankPointIDsByGreatCircleDistance(p.Location, nearbyIDs)
+		rankedResults := builder.ranker.RankPointIDsByShortestDistance(p.Location, nearbyIDs)
 
 		ids := make([]IDAndDistance, 0, len(rankedResults))
 		for _, r := range rankedResults {
