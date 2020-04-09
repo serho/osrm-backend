@@ -52,7 +52,7 @@ Electricity charge stations, expect input in JSON format follow OSM's tag defini
   + Make sure such function could work: give a cell id(not station id) could retrieve all cells it could reached by.  We also need to distinguish the stations could be reached by charging how much of energy
   + Make sure exact distance between charge stations has been recorded in db
   + For production, circle should be replaced by `reach range`(or `isoline`, consider elevation, red/lights, energy pattern, etc)
-  
+
 
 ### Query
 - Given two points of orig/dest
@@ -77,3 +77,7 @@ Electricity charge stations, expect input in JSON format follow OSM's tag defini
     + May be we don't need bboltdb at running time at all :)
     + The graph is a `dense` graph, may be we could try with `MLD` to speed up
 
+
+## More info
+- https://github.com/Telenav/osrm-backend/issues/196
+- https://github.com/Telenav/osrm-backend/issues/208
