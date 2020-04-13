@@ -31,6 +31,7 @@ func CreateStationsFinder(finderType, searchEndpoint, apiKey, apiSignature strin
 }
 
 // isValidStationFinderType returns false if finderType is unsupported, otherwise returns true
+// test
 func isValidStationFinderType(finderType string) bool {
 	return finderType == TNSearchFinder || finderType == LocalIndexerFinder
 }
