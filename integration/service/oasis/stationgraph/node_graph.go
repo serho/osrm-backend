@@ -8,7 +8,7 @@ import (
 )
 
 type nodeID2AdjacentNodes map[nodeID][]nodeID
-type edgeID2EdgeData map[edgeID]*edge
+type edgeID2EdgeData map[edgeID]*edgeMetric
 
 type nodeGraph struct {
 	nodeContainer *nodeContainer
@@ -57,7 +57,7 @@ func (g *nodeGraph) AdjacentNodes(id nodeID) []nodeID {
 }
 
 // Edge returns edge information between given two nodes
-func (g *nodeGraph) Edge(from, to nodeID) *edge {
+func (g *nodeGraph) Edge(from, to nodeID) *edgeMetric {
 	edgeID := edgeID{
 		fromNodeID: from,
 		toNodeID:   to,
@@ -67,14 +67,14 @@ func (g *nodeGraph) Edge(from, to nodeID) *edge {
 }
 
 // SetStart generates start node for the nodeGraph
-func (g *nodeGraph) SetStart(stationID string, targetState chargingstrategy.State, location locationInfo) Graph {
+func (g *nodeGraph) SetStart(stationID string, targetState chargingstrategy.State, location nav.Location) Graph {
 	n := g.nodeContainer.addNode(stationID, targetState, location)
 	g.startNodeID = n.id
 	return g
 }
 
 // SetEnd generates end node for the nodeGraph
-func (g *nodeGraph) SetEnd(stationID string, targetState chargingstrategy.State, location locationInfo) Graph {
+func (g *nodeGraph) SetEnd(stationID string, targetState chargingstrategy.State, location nav.Location) Graph {
 	n := g.nodeContainer.addNode(stationID, targetState, location)
 	g.endNodeID = n.id
 	return g
@@ -115,17 +115,19 @@ func (g *nodeGraph) createLogicalNodes(from nodeID, toStationID string, toLocati
 	endNodeID := g.EndNodeID()
 	if toStationID == g.StationID(endNodeID) {
 		results = append(results, g.Node(endNodeID))
-		g.edgeData[edgeID{from, endNodeID}] = &edge{
+		g.edgeData[edgeID{from, endNodeID}] = &edgeMetric{
 			distance: distance,
 			duration: duration}
 		return results
 	}
 
 	for _, state := range g.strategy.CreateChargingStates() {
-		n := g.nodeContainer.addNode(toStationID, state, locationInfo{toLocation.Lat, toLocation.Lon})
+		n := g.nodeContainer.addNode(toStationID, state, nav.Location{
+			Lat: toLocation.Lat,
+			Lon: toLocation.Lon})
 		results = append(results, n)
 
-		g.edgeData[edgeID{from, n.id}] = &edge{
+		g.edgeData[edgeID{from, n.id}] = &edgeMetric{
 			distance: distance,
 			duration: duration}
 	}
