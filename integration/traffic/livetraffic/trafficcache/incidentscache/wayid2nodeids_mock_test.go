@@ -3,7 +3,7 @@ package incidentscache
 import (
 	"math"
 
-	"github.com/Telenav/osrm-backend/integration/graph"
+	"github.com/serho/osrm-backend/integration/graph"
 )
 
 type wayID2NodeIDs map[int64][]int64

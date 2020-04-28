@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/historicalspeed/internal/timezone"
+	"github.com/serho/osrm-backend/integration/traffic/historicalspeed/internal/timezone"
 
 	"github.com/golang/glog"
 )

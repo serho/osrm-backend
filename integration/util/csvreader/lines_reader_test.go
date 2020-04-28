@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/Telenav/osrm-backend/integration/util/csvreader"
+	"github.com/serho/osrm-backend/integration/util/csvreader"
 )
 
 func ExampleLinesAsyncReader() {

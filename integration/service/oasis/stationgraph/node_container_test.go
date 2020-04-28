@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+	"github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 )
 
 func TestAddAndGetFunctionsForNodeContainer(t *testing.T) {

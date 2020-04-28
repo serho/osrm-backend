@@ -6,7 +6,7 @@ import (
 )
 
 // GeometryID represents OSRM defined Geometry ID.
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/typedefs.hpp#L155
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/typedefs.hpp#L155
 type GeometryID struct {
 	ID      NodeID // only uses 31 bits in C++ implementation
 	Forward bool   // only uses 1 bit in C++ implementation

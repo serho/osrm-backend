@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route/options"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api/oasis"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
 )
 
 // GenerateTableReq4Points accept two group of points and generate osrm table request

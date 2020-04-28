@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/oasis/options"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api/oasis/options"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/util"
 	"github.com/golang/glog"
 )
 

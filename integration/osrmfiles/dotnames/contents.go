@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/osrmtype"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/osrmtype/nametable"
+	"github.com/serho/osrm-backend/integration/osrmfiles/osrmtype"
+	"github.com/serho/osrm-backend/integration/osrmfiles/osrmtype/nametable"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/fingerprint"
+	"github.com/serho/osrm-backend/integration/osrmfiles/fingerprint"
 	"github.com/golang/glog"
 )
 

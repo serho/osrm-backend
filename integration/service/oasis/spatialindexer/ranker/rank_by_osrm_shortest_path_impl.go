@@ -5,13 +5,13 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/code"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route/options"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/code"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 	"github.com/golang/glog"
 )
 

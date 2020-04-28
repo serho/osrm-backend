@@ -1,6 +1,6 @@
 package ranker
 
-import "github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+import "github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 
 type simpleRanker struct {
 }

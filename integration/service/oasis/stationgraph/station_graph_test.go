@@ -4,12 +4,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/nav"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/connectivitymap"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/solution"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/pkg/api/nav"
+	"github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
+	"github.com/serho/osrm-backend/integration/service/oasis/connectivitymap"
+	"github.com/serho/osrm-backend/integration/service/oasis/solution"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/util"
 	"github.com/golang/glog"
 )
 

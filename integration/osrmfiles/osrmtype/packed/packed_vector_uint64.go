@@ -3,7 +3,7 @@
 //   this implementation is much more simpler: only parse the data when load from file.
 // In another word, it parse the packed data from file but stores in memory as normal slice.
 // Maybe we can implements a real `PackedVector` later which will be more complex but saves memory.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L92
+// C++ implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L92
 package packed
 
 import (
@@ -12,11 +12,11 @@ import (
 
 	"github.com/golang/glog"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/meta"
+	"github.com/serho/osrm-backend/integration/osrmfiles/meta"
 )
 
 // Uint64Vector represents the `PackedOSMIDs`. It stores slice of OSMID(uint64), but raw data comes from packed data.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/packed_osm_ids.hpp#L14
+// C++ implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/packed_osm_ids.hpp#L14
 type Uint64Vector struct {
 	NumOfElements meta.Num
 	PackedMeta    meta.Num
@@ -41,8 +41,8 @@ const (
 	maxBits = 64
 
 	// wordBytes/wordBits represents underlying storage bytes/bits. packed_vector always use uint64 as the storage.
-	// - https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L94
-	// - https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L102
+	// - https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L94
+	// - https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L102
 	wordBytes = 8  // 8 bytes per uint64
 	wordBits  = 64 // 64 bits per uint64
 )
@@ -58,7 +58,7 @@ func NewUint64Vector(bits uint) Uint64Vector {
 	}
 
 	// number of words per block
-	// https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L110
+	// https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/packed_vector.hpp#L110
 	u.blockWords = u.bits
 	u.blockBytes = u.bits * wordBytes
 

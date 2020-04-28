@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
+	"github.com/serho/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
 	"github.com/golang/glog"
 )
 

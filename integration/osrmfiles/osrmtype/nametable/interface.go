@@ -1,20 +1,20 @@
 // Package nametable stores names and provides interface to query names for NameID.
 // In OSRM's C++ implementation, it uses a `IndexedDataImpl` as internal storage to reduce memory usage.
 // This package follows the storage policy too, and implemented same query method.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L116
+// C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L116
 package nametable
 
 import (
 	"bytes"
 	"fmt"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/meta"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/osrmtype"
+	"github.com/serho/osrm-backend/integration/osrmfiles/meta"
+	"github.com/serho/osrm-backend/integration/osrmfiles/osrmtype"
 )
 
 // IndexedData stores indexed(something like compressed) names data.
 // It stores data same with its C++ implementation, but only provides read operation.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L262
+// C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L262
 type IndexedData struct {
 	BlocksMeta   meta.Num
 	ValuesMeta   meta.Num
@@ -28,8 +28,8 @@ type IndexedData struct {
 
 // Names contains name related stuff that OSRM uses.
 // OSRM retrieves them from OSM at
-// 	https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/profiles/lib/way_handlers.lua#L32
-// 	https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/profiles/lib/way_handlers.lua#L112
+// 	https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/profiles/lib/way_handlers.lua#L32
+// 	https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/profiles/lib/way_handlers.lua#L112
 type Names struct {
 	Name         string
 	Destinations string
@@ -42,8 +42,8 @@ type Names struct {
 // nextNameID = currNameID + NameIDOffset
 // previousNameID = currentNameID - NameIDOffset
 // In C++ implementation,
-// https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/src/extractor/extractor_callbacks.cpp#L323,
-// https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L38
+// https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/src/extractor/extractor_callbacks.cpp#L323,
+// https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L38
 // Above 5 Names items store together in memory, and always use the index of Names.Name as NameID.
 // Way string data is stored in blocks based on `id` as follows:
 //

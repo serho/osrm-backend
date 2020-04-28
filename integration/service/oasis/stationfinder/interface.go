@@ -1,10 +1,10 @@
 package stationfinder
 
 import (
-	"github.com/Telenav/osrm-backend/integration/pkg/api/nav"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/pkg/api/nav"
+	"github.com/serho/osrm-backend/integration/pkg/api/oasis"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 // StationFinder creates finders for different purpose, all finders must implement NearbyStationsIterator interface

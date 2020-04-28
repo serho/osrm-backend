@@ -1,6 +1,6 @@
 package oasis
 
-import "github.com/Telenav/osrm-backend/integration/pkg/api/search/nearbychargestation"
+import "github.com/serho/osrm-backend/integration/pkg/api/search/nearbychargestation"
 
 // Response for oasis service
 type Response struct {

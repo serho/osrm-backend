@@ -9,7 +9,7 @@ It's find functionality could be achieved by:
   + Could potentially supports dynamic information
 
 - localfinder, which is implemented by spatial index built on local
-  + Support any kind of data sources as long as following format defined in https://github.com/Telenav/osrm-backend/issues/237#issue-585201041
+  + Support any kind of data sources as long as following format defined in https://github.com/serho/osrm-backend/issues/237#issue-585201041
   + For Telenav usage, uses the same source with Telenav search service
   + Spatial index is build based on google s2
 

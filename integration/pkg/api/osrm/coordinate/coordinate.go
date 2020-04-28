@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api"
 )
 
 // Coordinate represents lat/lon of a GPS point.

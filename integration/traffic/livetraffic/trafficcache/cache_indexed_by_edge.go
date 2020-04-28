@@ -1,11 +1,11 @@
 package trafficcache
 
 import (
-	"github.com/Telenav/osrm-backend/integration/graph"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache/flowscacheindexedbyedge"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache/incidentscache"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
-	"github.com/Telenav/osrm-backend/integration/wayidsmap"
+	"github.com/serho/osrm-backend/integration/graph"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache/flowscacheindexedbyedge"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache/incidentscache"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/wayidsmap"
 	"github.com/golang/glog"
 )
 

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/graph"
+	"github.com/serho/osrm-backend/integration/graph"
 )
 
 func TestMappingLoad(t *testing.T) {

@@ -5,10 +5,10 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/genericoptions"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table/options"
+	"github.com/serho/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/genericoptions"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/table/options"
 	"github.com/golang/glog"
 )
 

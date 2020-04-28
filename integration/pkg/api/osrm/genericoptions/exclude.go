@@ -3,11 +3,11 @@ package genericoptions
 import (
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api"
+	"github.com/serho/osrm-backend/integration/pkg/api"
 )
 
 // Classes represents OSRM exclude classes.
-// https://github.com/Telenav/osrm-backend/blob/master-telenav/docs/http.md#general-options
+// https://github.com/serho/osrm-backend/blob/master-telenav/docs/http.md#general-options
 type Classes []string
 
 // ParseClasses parses OSRM option elements.

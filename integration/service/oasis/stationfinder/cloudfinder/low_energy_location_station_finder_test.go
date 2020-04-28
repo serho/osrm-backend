@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 func TestLowEnergyLocationStationFinderIterator1(t *testing.T) {

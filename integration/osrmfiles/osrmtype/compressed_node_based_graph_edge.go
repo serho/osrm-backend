@@ -5,7 +5,7 @@ import (
 )
 
 // CompressedNodeBasedGraphEdge represent edge in compressed node based graph.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/9e063361797c1905021040d4ed3c452116fedfc6/include/extractor/compressed_node_based_graph_edge.hpp#L12
+// C++ implementation: https://github.com/serho/osrm-backend/blob/9e063361797c1905021040d4ed3c452116fedfc6/include/extractor/compressed_node_based_graph_edge.hpp#L12
 type CompressedNodeBasedGraphEdge struct {
 	Source NodeID // 4 bytes in .osrm.cnbg file
 	Target NodeID // 4 bytes in .osrm.cnbg file

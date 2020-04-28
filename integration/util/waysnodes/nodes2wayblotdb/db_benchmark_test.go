@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
 )
 
 var testFlags struct {

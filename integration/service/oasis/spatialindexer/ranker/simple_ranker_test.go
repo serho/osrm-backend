@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 func TestRankerInterfaceViaSimpleRanker(t *testing.T) {

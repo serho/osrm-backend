@@ -3,9 +3,9 @@ package stationfinder
 import (
 	"fmt"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/searchconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer/s2indexer"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/cloudfinder"
+	"github.com/serho/osrm-backend/integration/service/oasis/searchconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer/s2indexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/cloudfinder"
 	"github.com/golang/glog"
 )
 

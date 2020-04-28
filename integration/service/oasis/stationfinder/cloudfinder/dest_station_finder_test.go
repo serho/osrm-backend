@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 func TestDestStationFinderIterator(t *testing.T) {

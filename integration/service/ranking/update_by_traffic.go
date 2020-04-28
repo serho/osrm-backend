@@ -3,7 +3,7 @@ package ranking
 import (
 	"math"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route"
 	"github.com/golang/glog"
 )
 
@@ -95,7 +95,7 @@ func (h *Handler) updateLegByTraffic(leg *route.Leg) {
 		newLegWeight += leg.Annotation.Weight[i]
 	}
 	// metioned in doc, duration and weight in annotation does not include any on turn, so we calculate turn duration/weight by minus.
-	// https://github.com/Telenav/osrm-backend/blob/master-telenav/docs/http.md#annotation-object
+	// https://github.com/serho/osrm-backend/blob/master-telenav/docs/http.md#annotation-object
 	legTurnDuration := leg.Duration - sumOriginalAnnotationDuration
 	legTurnWeight := leg.Weight - sumOriginalAnnotationWeight
 	newLegDuration += legTurnDuration

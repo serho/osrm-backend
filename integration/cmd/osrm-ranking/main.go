@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/service/ranking"
-	"github.com/Telenav/osrm-backend/integration/traffic/historicalspeed"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxyclient"
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
+	"github.com/serho/osrm-backend/integration/service/ranking"
+	"github.com/serho/osrm-backend/integration/traffic/historicalspeed"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxyclient"
+	"github.com/serho/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
 
 	"github.com/golang/glog"
 )

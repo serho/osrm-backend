@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/code"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/route/options"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/strategy/rankbyduration"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/code"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/service/ranking/strategy/rankbyduration"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic"
 	"github.com/golang/glog"
 )
 

@@ -1,6 +1,6 @@
 package stationgraph
 
-import "github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+import "github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 
 type logicNodeIdentifier2NodePtr map[logicNodeIdentifier]*node
 type nodeID2NodePtr map[nodeID]*node

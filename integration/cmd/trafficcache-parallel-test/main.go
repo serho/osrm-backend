@@ -4,9 +4,9 @@ import (
 	"flag"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxyclient"
-	"github.com/Telenav/osrm-backend/integration/wayid2nodeids"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxyclient"
+	"github.com/serho/osrm-backend/integration/wayid2nodeids"
 
 	"github.com/golang/glog"
 )

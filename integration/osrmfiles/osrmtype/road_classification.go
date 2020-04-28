@@ -5,7 +5,7 @@ import (
 )
 
 // RoadClassification describing the class of the road.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/road_classification.hpp#L56
+// C++ implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/road_classification.hpp#L56
 type RoadClassification struct {
 	MotowayClass      bool  // 1 bit in .osrm file
 	LinkClass         bool  // 1 bit in .osrm file
@@ -16,7 +16,7 @@ type RoadClassification struct {
 
 // Priorities are used to distinguish between how likely a turn is in comparison to a different
 // road.
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/road_classification.hpp#L21
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/road_classification.hpp#L21
 const (
 	// Top priority Road
 	RoadPriorityClassMotoway     uint8 = 0

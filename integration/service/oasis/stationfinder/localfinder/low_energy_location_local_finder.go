@@ -1,8 +1,8 @@
 package localfinder
 
 import (
-	"github.com/Telenav/osrm-backend/integration/pkg/api/nav"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/pkg/api/nav"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 // lowEnergySearchRadius defines search radius for low energy location

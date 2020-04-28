@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes/nodes2wayblotdb"
 	"github.com/golang/glog"
 )
 
@@ -47,7 +47,7 @@ func writeDB(db *nodes2wayblotdb.DB, wayNodesSlice []waysnodes.WayNodes) (int, e
 	}
 
 	// for best performance we possible to have
-	// See more in https://github.com/Telenav/osrm-backend/issues/272#issuecomment-612877931
+	// See more in https://github.com/serho/osrm-backend/issues/272#issuecomment-612877931
 	const batchWriteCount = 100
 
 	var count int

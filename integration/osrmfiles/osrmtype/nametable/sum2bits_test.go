@@ -2,7 +2,7 @@ package nametable
 
 import "testing"
 
-// unittest in C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/unit_tests/util/indexed_data.cpp#L22
+// unittest in C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/unit_tests/util/indexed_data.cpp#L22
 func TestSum2Bits(t *testing.T) {
 	cases := []struct {
 		v   uint32

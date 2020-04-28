@@ -3,7 +3,7 @@ package oasis
 import (
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
 )
 
 func TestOasisRequestURI(t *testing.T) {

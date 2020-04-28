@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/osrmtype"
+	"github.com/serho/osrm-backend/integration/osrmfiles/osrmtype"
 )
 
 func TestIndexedData(t *testing.T) {

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/code"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/table"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/code"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 func TestRankerInterfaceViaOSRMRanker(t *testing.T) {

@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Telenav/osrm-backend/integration/pkg/api/nav"
-	"github.com/Telenav/osrm-backend/integration/pkg/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmhelper"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/pkg/api/nav"
+	"github.com/serho/osrm-backend/integration/pkg/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmhelper"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 	"github.com/golang/glog"
 )
 

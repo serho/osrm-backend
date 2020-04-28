@@ -1,6 +1,6 @@
 package stationgraph
 
-import "github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+import "github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 
 // node_0 -> node_1, duration = 30, distance = 30
 // node_0 -> node_2, duration = 20, distance = 20

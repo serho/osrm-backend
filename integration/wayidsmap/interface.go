@@ -1,6 +1,6 @@
 package wayidsmap
 
-import "github.com/Telenav/osrm-backend/integration/graph"
+import "github.com/serho/osrm-backend/integration/graph"
 
 // Way2Nodes defines interface to get nodeIDs from wayID.
 type Way2Nodes interface {

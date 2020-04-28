@@ -3,7 +3,7 @@ package stationgraph
 import (
 	"math"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+	"github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 	"github.com/golang/glog"
 )
 

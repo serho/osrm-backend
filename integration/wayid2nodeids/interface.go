@@ -4,7 +4,7 @@ import (
 	"math"
 	"sync"
 
-	"github.com/Telenav/osrm-backend/integration/graph"
+	"github.com/serho/osrm-backend/integration/graph"
 )
 
 // Mapping handles 'wayID->NodeID,NodeID,NodeID,...' mapping.

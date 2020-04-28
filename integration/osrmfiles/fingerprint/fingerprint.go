@@ -1,5 +1,5 @@
 // Package fingerprint implements OSRM fingerprint structure of `.osrm` and `.osrm.xxx` files.
-// C++ implementation see https://github.com/Telenav/osrm-backend/blob/master-telenav/include/util/fingerprint.hpp
+// C++ implementation see https://github.com/serho/osrm-backend/blob/master-telenav/include/util/fingerprint.hpp
 package fingerprint
 
 import (

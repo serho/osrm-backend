@@ -3,7 +3,7 @@ package haversine
 import (
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/util"
 )
 
 func TestGreatCircleDistance(t *testing.T) {

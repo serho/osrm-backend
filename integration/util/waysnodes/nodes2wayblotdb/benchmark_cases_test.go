@@ -3,7 +3,7 @@ package nodes2wayblotdb
 import (
 	"math/rand"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
 )
 
 func randNodesCount() int {

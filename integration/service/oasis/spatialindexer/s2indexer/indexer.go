@@ -3,8 +3,8 @@ package s2indexer
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer/poiloader"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer/poiloader"
 	"github.com/golang/geo/s2"
 	"github.com/golang/glog"
 )

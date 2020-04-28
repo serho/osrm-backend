@@ -9,8 +9,7 @@
 
 Oasis API expect user input `orig point`, `destination point` and `vehicle information`, it will select needed charge station to achieve the trip and return them as `waypoints`.
 
-
-## Input 
+## Input
 
 The input contains information related with user's vehicle status, where to go and specific settings.
 
@@ -22,26 +21,25 @@ The input contains information related with user's vehicle status, where to go a
 - Safe charge level
 - Curve
 
-|Option   |Values   | Descriptions   |Comments|
-|:-|:-|:-|:-|
-|max_range   |float(meters)   |Max range if fully charged   | |
-|curr_range   |float(meters)   |Distance represent current electric level   | |
-|prefer_level   |float(meters)   |Preferred charge buffer level   |[more info](https://github.com/Telenav/osrm-backend/issues/128#issuecomment-573171852)   |
-|safe_level   |float(meters)   |Safe charge level   | [more info](https://github.com/Telenav/osrm-backend/issues/128#issuecomment-573171852)  |
-|curve   |string   |TBD   |   |
+| Option       | Values        | Descriptions                              | Comments                                                                             |
+| :----------- | :------------ | :---------------------------------------- | :----------------------------------------------------------------------------------- |
+| max_range    | float(meters) | Max range if fully charged                |                                                                                      |
+| curr_range   | float(meters) | Distance represent current electric level |                                                                                      |
+| prefer_level | float(meters) | Preferred charge buffer level             | [more info](https://github.com/serho/osrm-backend/issues/128#issuecomment-573171852) |
+| safe_level   | float(meters) | Safe charge level                         | [more info](https://github.com/serho/osrm-backend/issues/128#issuecomment-573171852) |
+| curve        | string        | TBD                                       |                                                                                      |
 
-
-### Input Example  
+### Input Example
 
 ```url
 /oasis/v1/earliest/-82.058695,35.036645;-81.89309,34.97914?max_range=500000.0&curr_range=160000.0
 ```
 
-## Response 
+## Response
 
 Response contains information for charge station needed to complete the route.
 
-### Response Example 
+### Response Example
 
 ```JSON
 [
@@ -56,7 +54,7 @@ Response contains information for charge station needed to complete the route.
       "address" : [
                {
                       "geo_coordinates": {
-                                "latitude": 37.78509,  
+                                "latitude": 37.78509,
                                  "longitude": -122.41988
                        },
                       "nav_coordinates": [
@@ -76,7 +74,7 @@ Response contains information for charge station needed to complete the route.
       "address" : [
                {
                       "geo_coordinates": {
-                                "latitude": 13.40677,  
+                                "latitude": 13.40677,
                                  "longitude": 52.53333
                        },
                       "nav_coordinates": [
@@ -98,7 +96,8 @@ Response contains information for charge station needed to complete the route.
 ]
 ```
 
-## Reference 
-- [OSRM HTTP Document](https://github.com/Telenav/osrm-backend/blob/master/docs/http.md)
+## Reference
+
+- [OSRM HTTP Document](https://github.com/serho/osrm-backend/blob/master/docs/http.md)
 - [HERE's energy consumption model](https://developer.here.com/documentation/routing/dev_guide/topics/resource-param-type-custom-consumption-details.html)
-- [Issue 120](https://github.com/Telenav/osrm-backend/issues/128)
+- [Issue 120](https://github.com/serho/osrm-backend/issues/128)

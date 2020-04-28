@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 func TestSingleIterator4BasicLocalFinder(t *testing.T) {

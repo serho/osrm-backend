@@ -1,7 +1,7 @@
 package connectivitymap
 
 import (
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 	"github.com/golang/glog"
 )
 

@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/Telenav/osrm-backend/integration/util/idsflag"
+	"github.com/serho/osrm-backend/integration/util/idsflag"
 )
 
 const (
