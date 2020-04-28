@@ -14,7 +14,7 @@ import (
 var tasksWg sync.WaitGroup
 var dumpFinishedWg sync.WaitGroup
 
-func dumpSpeedTable4Customize(wayid2speed map[int64]int, sources [TASKNUM]chan string,
+func dumpSpeedTable4Customize(wayid2speed map[int64][3]int, sources [TASKNUM]chan string,
 	outputPath string, ds *dumperStatistic) {
 	startTime := time.Now()
 
@@ -31,7 +31,7 @@ func dumpSpeedTable4Customize(wayid2speed map[int64]int, sources [TASKNUM]chan s
 	fmt.Printf("Processing time for dumpSpeedTable4Customize takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
-func startTasks(wayid2speed map[int64]int, sources [TASKNUM]chan string,
+func startTasks(wayid2speed map[int64][3]int, sources [TASKNUM]chan string,
 	sink chan<- string, ds *dumperStatistic) {
 	tasksWg.Add(TASKNUM)
 	for i := 0; i < TASKNUM; i++ {
@@ -51,7 +51,7 @@ func wait4AllTasksFinished(sink chan string, ds *dumperStatistic) {
 	dumpFinishedWg.Wait()
 }
 
-func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, ds *dumperStatistic) {
+func task(wayid2speed map[int64][3]int, source <-chan string, sink chan<- string, ds *dumperStatistic) {
 	var wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched uint64
 	var err error
 	for str := range source {
@@ -68,11 +68,26 @@ func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, d
 			continue
 		}
 
-		speedFwd, okFwd := wayid2speed[(int64)(wayid)]
-		speedBwd, okBwd := wayid2speed[(int64)(-wayid)]
+		paramsFwd, okFwd := wayid2speed[(int64)(wayid)]
+		paramsBwd, okBwd := wayid2speed[(int64)(-wayid)]
+
+		speedFwd := paramsFwd[0]
+		speedBwd := paramsBwd[0]
+
+		offset := 1
+		limit := len(elements)
+
+		if paramsFwd[1] > 0 {
+			offset = paramsFwd[1]
+		}
+
+		if paramsFwd[2] > 0 {
+			limit = offset + paramsFwd[2]
+		}
 
 		if okFwd || okBwd {
-			var nodes []string = elements[1:]
+			var nodes []string = elements[offset:limit]
+
 			wayMatched += 1
 			nodeMatched += (uint64)(len(nodes))
 			if okFwd {

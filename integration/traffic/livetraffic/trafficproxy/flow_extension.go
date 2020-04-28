@@ -12,11 +12,11 @@ func (f *Flow) IsBlocking() bool {
 // CSVString represents Flow as defined CSV format.
 // I.e. 'wayID,Speed,TrafficLevel,Timestamp'
 func (f *Flow) CSVString() string {
-	return fmt.Sprintf("%d,%f,%d,%d", f.WayID, f.Speed, f.TrafficLevel, f.Timestamp)
+	return fmt.Sprintf("%d,%f,%d,%d,%d,%d", f.WayID, f.Speed, f.TrafficLevel, f.Timestamp, f.Offset, f.Limit)
 }
 
 // HumanFriendlyCSVString represents Flow as defined CSV format, but prefer human friendly string instead of integer.
 // I.e. 'wayID,Speed,TrafficLevel,Timestamp'
 func (f *Flow) HumanFriendlyCSVString() string {
-	return fmt.Sprintf("%d,%f,%s,%d", f.WayID, f.Speed, f.TrafficLevel, f.Timestamp)
+	return fmt.Sprintf("%d,%f,%s,%d,%d,%d", f.WayID, f.Speed, f.TrafficLevel, f.Timestamp, f.Offset, f.Limit)
 }

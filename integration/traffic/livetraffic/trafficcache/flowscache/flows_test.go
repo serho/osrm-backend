@@ -10,14 +10,14 @@ import (
 func TestFlowsCache(t *testing.T) {
 
 	presetFlows := []*trafficproxy.Flow{
-		&trafficproxy.Flow{WayID: -1112859596, Speed: 6.110000, TrafficLevel: trafficproxy.TrafficLevel_SLOW_SPEED, Timestamp: 1579419488000},
-		&trafficproxy.Flow{WayID: 119961953, Speed: 10.550000, TrafficLevel: trafficproxy.TrafficLevel_SLOW_SPEED, Timestamp: 1579419488000},
-		&trafficproxy.Flow{WayID: -112614307, Speed: 16.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419488000},
+		&trafficproxy.Flow{WayID: -1112859596, Speed: 6.110000, TrafficLevel: trafficproxy.TrafficLevel_SLOW_SPEED, Timestamp: 1579419488000, Offset: 2, Limit: 3},
+		&trafficproxy.Flow{WayID: 119961953, Speed: 10.550000, TrafficLevel: trafficproxy.TrafficLevel_SLOW_SPEED, Timestamp: 1579419488000, Offset: 2, Limit: 3},
+		&trafficproxy.Flow{WayID: -112614307, Speed: 16.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419488000, Offset: 2, Limit: 3},
 	}
 
 	updateFlows := []*trafficproxy.Flow{
-		&trafficproxy.Flow{WayID: -112614307, Speed: 20.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419500000}, // newer
-		&trafficproxy.Flow{WayID: -112614307, Speed: 13.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419000000}, // older
+		&trafficproxy.Flow{WayID: -112614307, Speed: 20.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419500000, Offset: 2, Limit: 3}, // newer
+		&trafficproxy.Flow{WayID: -112614307, Speed: 13.110001, TrafficLevel: trafficproxy.TrafficLevel_FREE_FLOW, Timestamp: 1579419000000, Offset: 2, Limit: 3}, // older
 	}
 
 	cache := New()
@@ -78,7 +78,7 @@ func newFlowResponses(flows []*trafficproxy.Flow, action trafficproxy.Action) []
 
 	flowResponses := []*trafficproxy.FlowResponse{}
 	for _, f := range flows {
-		flowResponses = append(flowResponses, &trafficproxy.FlowResponse{Flow: f, Action: action, XXX_NoUnkeyedLiteral: struct{}{}, XXX_unrecognized: nil, XXX_sizecache: 0})
+		flowResponses = append(flowResponses, &trafficproxy.FlowResponse{Flow: f, Action: action})
 	}
 	return flowResponses
 }

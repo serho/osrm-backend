@@ -22,7 +22,7 @@ func TestSpeedTableDumper1(t *testing.T) {
 	go loadWay2NodeidsTable("./testdata/id-mapping.csv.snappy", sources)
 
 	// construct mock traffic
-	wayid2speed := make(map[int64]int)
+	wayid2speed := make(map[int64][3]int)
 	loadMockTrafficFlow2Map(wayid2speed)
 
 	var ds dumperStatistic
@@ -54,12 +54,12 @@ func validateStatistic(ds *dumperStatistic, t *testing.T) {
 	}
 }
 
-func loadMockTrafficFlow2Map(wayid2speed map[int64]int) {
-	wayid2speed[24418325] = 81
-	wayid2speed[-24418332] = 87
-	wayid2speed[24418332] = 87
-	wayid2speed[24418343] = 47
-	wayid2speed[-24418344] = 59
+func loadMockTrafficFlow2Map(wayid2speed map[int64][3]int) {
+	wayid2speed[24418325] = [3]int{81, 0, 0}
+	wayid2speed[-24418332] = [3]int{87, 0, 0}
+	wayid2speed[24418332] = [3]int{87, 0, 0}
+	wayid2speed[24418343] = [3]int{47, 0, 0}
+	wayid2speed[-24418344] = [3]int{59, 0, 0}
 }
 
 type tNodePair struct {

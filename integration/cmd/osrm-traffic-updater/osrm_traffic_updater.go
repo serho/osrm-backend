@@ -37,7 +37,7 @@ func main() {
 	}()
 
 	isFlowDoneChan := make(chan bool, 1)
-	wayid2speed := make(map[int64]int)
+	wayid2speed := make(map[int64][3]int)
 	go func() {
 		trafficData, err := trafficproxyclient.GetFlowsIncidents(nil)
 		if err != nil {
@@ -83,7 +83,7 @@ loop:
 	return isFlowDone
 }
 
-func trafficData2map(trafficData trafficproxy.TrafficResponse, m map[int64]int) {
+func trafficData2map(trafficData trafficproxy.TrafficResponse, m map[int64][3]int) {
 	startTime := time.Now()
 	defer func() {
 		log.Printf("Processing time for building traffic map takes %f seconds\n", time.Now().Sub(startTime).Seconds())
@@ -101,7 +101,7 @@ func trafficData2map(trafficData trafficproxy.TrafficResponse, m map[int64]int) 
 		}
 
 		wayid := flow.Flow.WayID
-		m[wayid] = int(flow.Flow.Speed)
+		m[wayid] = [3]int{int(flow.Flow.Speed), int(flow.Flow.Offset), int(flow.Flow.Limit)}
 
 		if wayid > 0 {
 			fwdCnt++
@@ -117,7 +117,7 @@ func trafficData2map(trafficData trafficproxy.TrafficResponse, m map[int64]int) 
 			blockingIncidentAffectedWaysCnt += int64(len(incident.Incident.AffectedWayIDs))
 
 			for _, wayid := range incident.Incident.AffectedWayIDs {
-				m[wayid] = 0
+				m[wayid] = [3]int{0, 0, 0}
 
 				if wayid > 0 {
 					fwdCnt++

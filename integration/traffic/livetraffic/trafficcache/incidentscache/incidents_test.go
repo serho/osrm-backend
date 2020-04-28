@@ -221,7 +221,7 @@ func newIncidentsResponses(incidents []*trafficproxy.Incident, action trafficpro
 
 	incidentsResponses := []*trafficproxy.IncidentResponse{}
 	for _, incident := range incidents {
-		incidentsResponses = append(incidentsResponses, &trafficproxy.IncidentResponse{Incident: incident, Action: action, XXX_NoUnkeyedLiteral: struct{}{}, XXX_unrecognized: nil, XXX_sizecache: 0})
+		incidentsResponses = append(incidentsResponses, &trafficproxy.IncidentResponse{Incident: incident, Action: action})
 	}
 	return incidentsResponses
 }
