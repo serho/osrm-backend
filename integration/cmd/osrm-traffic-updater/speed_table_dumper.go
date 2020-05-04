@@ -4,17 +4,20 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 )
 
 var tasksWg sync.WaitGroup
 var dumpFinishedWg sync.WaitGroup
 
-func dumpSpeedTable4Customize(wayid2speed map[int64]int, sources [TASKNUM]chan string,
+func dumpSpeedTable4Customize(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.SegmentedFlow, sources [TASKNUM]chan string,
 	outputPath string, ds *dumperStatistic) {
 	startTime := time.Now()
 
@@ -23,7 +26,7 @@ func dumpSpeedTable4Customize(wayid2speed map[int64]int, sources [TASKNUM]chan s
 	}
 
 	sink := make(chan string)
-	startTasks(wayid2speed, sources, sink, ds)
+	startTasks(wayid2speed, segmentsOfWay, sources, sink, ds)
 	startDump(outputPath, sink)
 	wait4AllTasksFinished(sink, ds)
 
@@ -31,11 +34,11 @@ func dumpSpeedTable4Customize(wayid2speed map[int64]int, sources [TASKNUM]chan s
 	fmt.Printf("Processing time for dumpSpeedTable4Customize takes %f seconds\n", endTime.Sub(startTime).Seconds())
 }
 
-func startTasks(wayid2speed map[int64]int, sources [TASKNUM]chan string,
+func startTasks(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.SegmentedFlow, sources [TASKNUM]chan string,
 	sink chan<- string, ds *dumperStatistic) {
 	tasksWg.Add(TASKNUM)
 	for i := 0; i < TASKNUM; i++ {
-		go task(wayid2speed, sources[i], sink, ds)
+		go task(wayid2speed, segmentsOfWay, sources[i], sink, ds)
 	}
 }
 
@@ -51,13 +54,15 @@ func wait4AllTasksFinished(sink chan string, ds *dumperStatistic) {
 	dumpFinishedWg.Wait()
 }
 
-func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, ds *dumperStatistic) {
+func task(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.SegmentedFlow, source <-chan string, sink chan<- string, ds *dumperStatistic) {
 	var wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched uint64
 	var err error
 	for str := range source {
 		elements := strings.Split(str, ",")
 		wayCnt += 1
-		nodeCnt += (uint64)(len(elements) - 1)
+		nodesInWayCnt := (uint64)(len(elements) - 1)
+		nodeCnt += nodesInWayCnt
+
 		if len(elements) < 3 {
 			continue
 		}
@@ -70,6 +75,20 @@ func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, d
 
 		speedFwd, okFwd := wayid2speed[(int64)(wayid)]
 		speedBwd, okBwd := wayid2speed[(int64)(-wayid)]
+
+		speedsFwd := make([]int, nodesInWayCnt)
+		speedsBwd := make([]int, nodesInWayCnt)
+
+		for i := range elements[1:] {
+			speedsFwd[i] = speedFwd
+			speedsBwd[i] = speedBwd
+		}
+
+		segmentsFwd := segmentsOfWay[(int64)(wayid)]
+		segmentsBwd := segmentsOfWay[(int64)(-wayid)]
+
+		getSpeedOfSegments(segmentsFwd, speedsFwd, nodesInWayCnt)
+		getSpeedOfSegments(segmentsBwd, speedsBwd, nodesInWayCnt)
 
 		if okFwd || okBwd {
 			var nodes []string = elements[1:]
@@ -94,11 +113,11 @@ func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, d
 				}
 				if okFwd {
 					fwdRecordCnt += 1
-					sink <- generateSingleRecord(n1, n2, speedFwd, true)
+					sink <- generateSingleRecord(n1, n2, speedsFwd[i], true)
 				}
 				if okBwd {
 					bwdRecordCnt += 1
-					sink <- generateSingleRecord(n1, n2, speedBwd, false)
+					sink <- generateSingleRecord(n1, n2, speedsBwd[i], false)
 				}
 
 			}
@@ -107,6 +126,17 @@ func task(wayid2speed map[int64]int, source <-chan string, sink chan<- string, d
 
 	ds.Update(wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched)
 	tasksWg.Done()
+}
+
+func getSpeedOfSegments(segments []*trafficproxy.SegmentedFlow, speeds []int, nodesCnt uint64) {
+	for _, segment := range segments {
+		indexOfBegin := int(math.Floor(float64(nodesCnt) * float64(segment.Begin) / 100))
+		indexOfEnd := int(math.Floor(float64(nodesCnt) * float64(segment.End) / 100))
+
+		for i := indexOfBegin; i < indexOfEnd; i++ {
+			speeds[i] = int(segment.Speed)
+		}
+	}
 }
 
 // format

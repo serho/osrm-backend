@@ -10,14 +10,14 @@ func TestFlowCSVString(t *testing.T) {
 		humanFriendlyCSVString string
 	}{
 		{
-			Flow{WayID: 829733412, Speed: 20.280001, TrafficLevel: TrafficLevel_FREE_FLOW, Timestamp: 1579419488000},
-			"829733412,20.280001,7,1579419488000",
-			"829733412,20.280001,FREE_FLOW,1579419488000",
+			Flow{WayID: 829733412, Speed: 20.280001, TrafficLevel: TrafficLevel_FREE_FLOW, Timestamp: 1579419488000, SegmentedFlow: []*SegmentedFlow{{Speed: 25, Begin: 25, End: 75}}},
+			"829733412,20.280001,7,1579419488000,[speed:25 begin:25 end:75 ]",
+			"829733412,20.280001,FREE_FLOW,1579419488000,[speed:25 begin:25 end:75 ]",
 		},
 		{
-			Flow{WayID: -129639168, Speed: 31.389999, TrafficLevel: TrafficLevel_FREE_FLOW, Timestamp: 1579419488000},
-			"-129639168,31.389999,7,1579419488000",
-			"-129639168,31.389999,FREE_FLOW,1579419488000",
+			Flow{WayID: -129639168, Speed: 31.389999, TrafficLevel: TrafficLevel_FREE_FLOW, Timestamp: 1579419488000, SegmentedFlow: []*SegmentedFlow{}},
+			"-129639168,31.389999,7,1579419488000,[]",
+			"-129639168,31.389999,FREE_FLOW,1579419488000,[]",
 		},
 	}
 
