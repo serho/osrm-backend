@@ -134,7 +134,7 @@ func task(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.Seg
 func getSpeedOfSegments(segments []*trafficproxy.SegmentedFlow, speeds []int, nodesCnt uint64, skippedSegmentsCnt *uint64) {
 	for _, segment := range segments {
 		if 0 > segment.Begin || segment.Begin > segment.End || segment.End > 100 {
-			glog.Warningf("Unexpected segment length begin: %v, end: %v, should be between 1..100 \n", segment.Begin, segment.End)
+			glog.Warningf("Unexpected segment length begin: %v, end: %v, should be between 0..100 \n", segment.Begin, segment.End)
 			continue
 		}
 
