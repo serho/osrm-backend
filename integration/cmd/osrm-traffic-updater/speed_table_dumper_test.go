@@ -90,8 +90,14 @@ func loadMockTrafficFlow2Map(wayid2speed map[int64]int) {
 }
 
 func loadMockTrafficFlowSegment2Map(segmentsOfWay map[int64][]*trafficproxy.SegmentedFlow) {
-	segmentsOfWay[733690162] = []*trafficproxy.SegmentedFlow{{Speed: 25, Begin: 25, End: 75}}
-	segmentsOfWay[-733689924] = []*trafficproxy.SegmentedFlow{{Speed: 25, Begin: 10, End: 50}}
+	segmentsOfWay[733690162] = []*trafficproxy.SegmentedFlow{
+		{Speed: 25, Begin: 25, End: 75},
+		{Speed: 25, Begin: 80, End: 175}, // negative case
+	}
+	segmentsOfWay[-733689924] = []*trafficproxy.SegmentedFlow{
+		{Speed: 25, Begin: 10, End: 50},
+		{Speed: 25, Begin: 50, End: 25}, // negative case
+	}
 }
 
 type tNodePair struct {

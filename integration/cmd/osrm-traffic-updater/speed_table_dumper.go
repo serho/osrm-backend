@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/golang/glog"
 )
 
 var tasksWg sync.WaitGroup
@@ -55,7 +56,7 @@ func wait4AllTasksFinished(sink chan string, ds *dumperStatistic) {
 }
 
 func task(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.SegmentedFlow, source <-chan string, sink chan<- string, ds *dumperStatistic) {
-	var wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched uint64
+	var wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched, skippedSegmentsCnt uint64
 	var err error
 	for str := range source {
 		elements := strings.Split(str, ",")
@@ -84,11 +85,13 @@ func task(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.Seg
 			speedsBwd[i] = speedBwd
 		}
 
-		segmentsFwd := segmentsOfWay[(int64)(wayid)]
-		segmentsBwd := segmentsOfWay[(int64)(-wayid)]
+		segmentsFwd, okSegFwd := segmentsOfWay[(int64)(wayid)]
+		segmentsBwd, okSegBwd := segmentsOfWay[(int64)(-wayid)]
 
-		getSpeedOfSegments(segmentsFwd, speedsFwd, nodesInWayCnt)
-		getSpeedOfSegments(segmentsBwd, speedsBwd, nodesInWayCnt)
+		if okSegFwd || okSegBwd {
+			getSpeedOfSegments(segmentsFwd, speedsFwd, nodesInWayCnt, &skippedSegmentsCnt)
+			getSpeedOfSegments(segmentsBwd, speedsBwd, nodesInWayCnt, &skippedSegmentsCnt)
+		}
 
 		if okFwd || okBwd {
 			var nodes []string = elements[1:]
@@ -124,14 +127,23 @@ func task(wayid2speed map[int64]int, segmentsOfWay map[int64][]*trafficproxy.Seg
 		}
 	}
 
-	ds.Update(wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched)
+	ds.Update(wayCnt, nodeCnt, fwdRecordCnt, bwdRecordCnt, wayMatched, nodeMatched, fwdTrafficMatched, bwdTrafficMatched, skippedSegmentsCnt)
 	tasksWg.Done()
 }
 
-func getSpeedOfSegments(segments []*trafficproxy.SegmentedFlow, speeds []int, nodesCnt uint64) {
+func getSpeedOfSegments(segments []*trafficproxy.SegmentedFlow, speeds []int, nodesCnt uint64, skippedSegmentsCnt *uint64) {
 	for _, segment := range segments {
+		if 0 > segment.Begin || segment.Begin > segment.End || segment.End > 100 {
+			glog.Warningf("Unexpected segment length begin: %v, end: %v, should be between 1..100 \n", segment.Begin, segment.End)
+			continue
+		}
+
 		indexOfBegin := int(math.Floor(float64(nodesCnt) * float64(segment.Begin) / 100))
 		indexOfEnd := int(math.Floor(float64(nodesCnt) * float64(segment.End) / 100))
+
+		if indexOfBegin == indexOfEnd {
+			*skippedSegmentsCnt += 1
+		}
 
 		for i := indexOfBegin; i < indexOfEnd; i++ {
 			speeds[i] = int(segment.Speed)
