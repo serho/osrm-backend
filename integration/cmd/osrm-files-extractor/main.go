@@ -4,13 +4,13 @@ import (
 	"flag"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dotcnbg"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dotnames"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dotnbgnodes"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dotosrm"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dotproperties"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/dottimestamp"
+	"github.com/serho/osrm-backend/integration/osrmfiles"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dotcnbg"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dotnames"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dotnbgnodes"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dotosrm"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dotproperties"
+	"github.com/serho/osrm-backend/integration/osrmfiles/dottimestamp"
 
 	"github.com/golang/glog"
 )

@@ -3,7 +3,7 @@ package ranking
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
 	"github.com/golang/glog"
 )
 

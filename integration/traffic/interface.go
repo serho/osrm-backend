@@ -3,7 +3,7 @@ package traffic
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 )
 
 // HistoricalSpeedQuerier provide interfaces for Querying Historical Speeds

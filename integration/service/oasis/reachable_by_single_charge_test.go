@@ -3,7 +3,7 @@ package oasis
 import (
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/api/osrm/table"
 )
 
 func TestRankingSingleChargeStation(t *testing.T) {

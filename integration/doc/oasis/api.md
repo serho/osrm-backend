@@ -26,8 +26,8 @@ The input contains information related with user's vehicle status, where to go a
 |:-|:-|:-|:-|
 |max_range   |float(meters)   |Max range if fully charged   | |
 |curr_range   |float(meters)   |Distance represent current electric level   | |
-|prefer_level   |float(meters)   |Preferred charge buffer level   |[more info](https://github.com/Telenav/osrm-backend/issues/128#issuecomment-573171852)   |
-|safe_level   |float(meters)   |Safe charge level   | [more info](https://github.com/Telenav/osrm-backend/issues/128#issuecomment-573171852)  |
+|prefer_level   |float(meters)   |Preferred charge buffer level   |[more info](https://github.com/serho/osrm-backend/issues/128#issuecomment-573171852)   |
+|safe_level   |float(meters)   |Safe charge level   | [more info](https://github.com/serho/osrm-backend/issues/128#issuecomment-573171852)  |
 |curve   |string   |TBD   |   |
 
 
@@ -99,6 +99,6 @@ Response contains information for charge station needed to complete the route.
 ```
 
 ## Reference 
-- [OSRM HTTP Document](https://github.com/Telenav/osrm-backend/blob/master/docs/http.md)
+- [OSRM HTTP Document](https://github.com/serho/osrm-backend/blob/master/docs/http.md)
 - [HERE's energy consumption model](https://developer.here.com/documentation/routing/dev_guide/topics/resource-param-type-custom-consumption-details.html)
-- [Issue 120](https://github.com/Telenav/osrm-backend/issues/128)
+- [Issue 120](https://github.com/serho/osrm-backend/issues/128)

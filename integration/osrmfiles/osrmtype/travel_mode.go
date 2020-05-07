@@ -1,10 +1,10 @@
 package osrmtype
 
 // TravelMode defines travel mode.
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/travel_mode.hpp#L41
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/travel_mode.hpp#L41
 type TravelMode uint8
 
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/travel_mode.hpp#L43
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/travel_mode.hpp#L43
 const (
 	TravelModeInaccessible TravelMode = 0
 	TravelModeDriving      TravelMode = 1

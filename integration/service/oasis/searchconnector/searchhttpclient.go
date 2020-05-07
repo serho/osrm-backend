@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/util/backend"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/util/backend"
 	"github.com/golang/glog"
 )
 

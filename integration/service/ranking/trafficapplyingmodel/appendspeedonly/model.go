@@ -6,11 +6,11 @@ package appendspeedonly
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel"
-	"github.com/Telenav/osrm-backend/integration/traffic"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel"
+	"github.com/serho/osrm-backend/integration/traffic"
 )
 
 // Name represents the name of traffic applying model.

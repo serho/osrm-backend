@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 func TestRankAgent(t *testing.T) {

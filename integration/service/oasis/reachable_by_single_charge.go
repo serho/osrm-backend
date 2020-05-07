@@ -6,14 +6,14 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/Telenav/osrm-backend/integration/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/table"
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmhelper"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfinderalg"
+	"github.com/serho/osrm-backend/integration/api/oasis"
+	"github.com/serho/osrm-backend/integration/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmhelper"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfinderalg"
 	"github.com/golang/glog"
 )
 

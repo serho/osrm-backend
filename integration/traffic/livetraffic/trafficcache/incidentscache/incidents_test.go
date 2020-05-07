@@ -3,7 +3,7 @@ package incidentscache
 import (
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 )
 
 func TestIncidentsCache(t *testing.T) {

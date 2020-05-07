@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 )
 
 func TestSpeedTableDumper1(t *testing.T) {

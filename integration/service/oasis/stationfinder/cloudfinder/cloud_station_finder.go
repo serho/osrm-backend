@@ -1,10 +1,10 @@
 package cloudfinder
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/searchconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/api/oasis"
+	"github.com/serho/osrm-backend/integration/service/oasis/searchconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 type cloudStationFinder struct {

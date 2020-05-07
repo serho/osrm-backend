@@ -4,9 +4,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/csvreader"
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes/way2nodescsv"
+	"github.com/serho/osrm-backend/integration/util/csvreader"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes/way2nodescsv"
 	"github.com/golang/glog"
 )
 

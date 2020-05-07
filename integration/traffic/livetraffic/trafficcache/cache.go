@@ -1,9 +1,9 @@
 package trafficcache
 
 import (
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache/flowscache"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficcache/incidentscache"
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache/flowscache"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficcache/incidentscache"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 	"github.com/golang/glog"
 )
 

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/api/search/searchcoordinate"
-	"github.com/Telenav/osrm-backend/integration/util/backend"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/api/search/searchcoordinate"
+	"github.com/serho/osrm-backend/integration/util/backend"
 )
 
 func main() {

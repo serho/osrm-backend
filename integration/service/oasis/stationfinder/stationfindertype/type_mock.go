@@ -3,8 +3,8 @@ package stationfindertype
 import (
 	"strconv"
 
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 // MockChargeStationInfo1 mocks array of *ChargeStationInfo which is compatible with spatialindexer.MockPlaceInfo1

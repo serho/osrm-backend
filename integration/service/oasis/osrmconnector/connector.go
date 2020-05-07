@@ -1,8 +1,8 @@
 package osrmconnector
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/api/osrm/table"
 )
 
 // RouteResponse contains osrm Route response and error

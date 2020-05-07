@@ -12,7 +12,7 @@ func TestPraseGeometryID(t *testing.T) {
 		GeometryID
 	}{
 		// Use MaxUint >> 1 as invalid ID of GeometryID
-		// See https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/typedefs.hpp#L159
+		// See https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/typedefs.hpp#L159
 		{[]byte{0xff, 0xff, 0xff, 0x7f}, GeometryID{NodeID(math.MaxUint32 >> 1), false}},
 	}
 

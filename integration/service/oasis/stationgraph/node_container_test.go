@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 )
 
 func TestAddAndGetFunctionsForNodeContainer(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
 )
 
 func TestRank(t *testing.T) {

@@ -4,10 +4,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/genericoptions"
+	"github.com/serho/osrm-backend/integration/api/osrm/genericoptions"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/api/osrm/route/options"
 )
 
 func TestRouteRequestURI(t *testing.T) {

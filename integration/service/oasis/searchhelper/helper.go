@@ -1,8 +1,8 @@
 package searchhelper
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/api/search/searchcoordinate"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/api/search/searchcoordinate"
 )
 
 // GenerateSearchRequest accepts center point and limitations and generate nearbychargestation.Request

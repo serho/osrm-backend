@@ -1,6 +1,6 @@
 package searchconnector
 
-import "github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
+import "github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
 
 // ChargeStationsResponse contains charge stations response and error
 type ChargeStationsResponse struct {

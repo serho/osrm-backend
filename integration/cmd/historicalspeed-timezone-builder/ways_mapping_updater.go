@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/historicalspeed"
+	"github.com/serho/osrm-backend/integration/traffic/historicalspeed"
 	"github.com/golang/glog"
 )
 

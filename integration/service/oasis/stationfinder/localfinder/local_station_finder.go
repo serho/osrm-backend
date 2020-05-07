@@ -1,10 +1,10 @@
 package localfinder
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/api/oasis"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 )
 
 type localStationFinder struct {

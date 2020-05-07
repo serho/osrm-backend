@@ -8,14 +8,14 @@ import (
 )
 
 // blockReference is designed for reference block in IndexedData.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L51
+// C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L51
 type blockReference struct {
 	offset     uint32
 	descriptor uint32
 }
 
 const (
-	blockSize           = 16 // https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L52
+	blockSize           = 16 // https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/extractor/name_table.hpp#L52
 	blockContainingSize = blockSize + 1
 
 	twoBitsMax = 0x3
@@ -25,7 +25,7 @@ const (
 	blockReferenceBytes           = blockReferenceOffsetBytes + blockReferenceDescriptorBytes
 )
 
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L332
+// C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L332
 func (i *IndexedData) at(id uint32) ([]byte, error) {
 
 	blockIndex := id / blockContainingSize
@@ -61,7 +61,7 @@ func (i *IndexedData) at(id uint32) ([]byte, error) {
 	return i.values[dataStart:dataEnd], nil
 }
 
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L70
+// C++ implementation: https://github.com/serho/osrm-backend/blob/b24b8a085dc10bea279ffb352049330beae23791/include/util/indexed_data.hpp#L70
 func (i *IndexedData) varAdvance(byteLen, dataStart, lengthStart uint32) (uint32, uint32) {
 	if byteLen > twoBitsMax { // byteLen should only in 2-bits
 		glog.Fatalf("invalid byteLen %d", byteLen)

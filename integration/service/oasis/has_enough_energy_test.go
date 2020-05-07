@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/util"
 )
 
 func TestHasEnoughEnergyPositive1(t *testing.T) {

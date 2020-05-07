@@ -1,4 +1,4 @@
-module github.com/Telenav/osrm-backend/integration
+module github.com/serho/osrm-backend/integration
 
 go 1.13
 

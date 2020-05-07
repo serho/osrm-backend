@@ -1,7 +1,7 @@
 package trafficapplyingmodel
 
 import (
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/util"
 )
 
 // Invalid live/historical traffic speeds for applying.

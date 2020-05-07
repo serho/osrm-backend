@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel/appendspeedonly"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel/preferlivetraffic"
-	"github.com/Telenav/osrm-backend/integration/traffic"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel/appendspeedonly"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel/preferlivetraffic"
+	"github.com/serho/osrm-backend/integration/traffic"
 	"github.com/golang/glog"
 )
 

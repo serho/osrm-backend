@@ -3,7 +3,7 @@ package ranker
 import (
 	"sort"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 )
 
 // rankAgent accepts items to be ranked then returns ranking result

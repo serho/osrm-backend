@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/util/backend"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/util/backend"
 	"github.com/golang/glog"
 )
 

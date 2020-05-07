@@ -14,8 +14,8 @@ import (
 )
 
 // Properties represents the LUA profile properties that affect run time queries.
-// C++ implementation: https://github.com/Telenav/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L23
-// Most of contents see Lua code: https://github.com/Telenav/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/profiles/car.lua#L16
+// C++ implementation: https://github.com/serho/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L23
+// Most of contents see Lua code: https://github.com/serho/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/profiles/car.lua#L16
 // Be aware that the parsing should be strictly follow the memory layout of the `struct ProfileProperties` in C++ implementation,
 // which means the parsing code should be changed also if anything changed in the C++ `struct ProfileProperties`,
 // otherwise error will occrred.
@@ -28,7 +28,7 @@ type Properties struct {
 	// 4 bool together takes 4 bytes
 	ContinueStraightAtWaypoint bool
 	UseTurnRestrictions        bool
-	LeftHandDriving            bool // DEPRECATED, see https://github.com/Telenav/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L129
+	LeftHandDriving            bool // DEPRECATED, see https://github.com/serho/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L129
 	FallbackToDuration         bool
 
 	WeightName        string
@@ -44,7 +44,7 @@ type Properties struct {
 const (
 	propertiesBytes = 2344 // the C++ implementation layout actual size
 
-	// https://github.com/Telenav/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L132
+	// https://github.com/serho/osrm-backend/blob/8e094d1b90a31c090cdafa9854985343ea1e15c3/include/extractor/profile_properties.hpp#L132
 	weightNameBytes       = 256
 	classNameBytes        = 256
 	classNamesCount       = 8

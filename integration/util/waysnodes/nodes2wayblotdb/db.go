@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/waysnodes"
+	"github.com/serho/osrm-backend/integration/util/waysnodes"
 	"github.com/golang/glog"
 
 	bolt "go.etcd.io/bbolt"

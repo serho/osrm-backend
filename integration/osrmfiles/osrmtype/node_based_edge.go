@@ -8,7 +8,7 @@ import (
 
 // NodeBasedEdge represents a segment(connect 2 OSM nodes) with direction.
 // Terminology: https://github.com/Telenav/open-source-spec/blob/master/osrm/doc/understanding_osrm_graph_representation.md#terminology
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L92
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L92
 type NodeBasedEdge struct {
 	Source       NodeID                      // 4 bytes in .osrm file
 	Target       NodeID                      // 4 bytes in .osrm file
@@ -24,7 +24,7 @@ type NodeBasedEdge struct {
 type NodeBasedEdges []NodeBasedEdge
 
 // NodeBasedEdgeClassification describing the class of the road.
-// C++ Implementation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L20
+// C++ Implementation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L20
 type NodeBasedEdgeClassification struct {
 	Forward    bool // 1 bit in .osrm file
 	Backward   bool // 1 bit in .osrm file
@@ -43,7 +43,7 @@ type NodeBasedEdgeClassification struct {
 // mostly for annotation of edges. The entry can be shared between multiple edges and usually
 // describes features present on OSM ways. This is the place to put specific data that you want to
 // see as part of the API output but that does not influence navigation.
-// C++ Implemnetation: https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L66
+// C++ Implemnetation: https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/node_based_edge.hpp#L66
 type NodeBasedEdgeAnnotation struct {
 	NameID                 // 4 bytes in .osrm file
 	LaneDescriptionID      // 2 bytes in .osrm file

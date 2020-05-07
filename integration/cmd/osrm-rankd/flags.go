@@ -4,7 +4,7 @@ import (
 	"flag"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel/modelfactory"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel/modelfactory"
 )
 
 var flags struct {

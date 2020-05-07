@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/unidbpatch"
+	"github.com/serho/osrm-backend/integration/util/unidbpatch"
 	"github.com/golang/glog"
 	"github.com/qedus/osmpbf"
 )

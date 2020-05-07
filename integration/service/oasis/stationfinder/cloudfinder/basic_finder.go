@@ -3,10 +3,10 @@ package cloudfinder
 import (
 	"sync"
 
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/searchconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/service/oasis/searchconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
 	"github.com/golang/glog"
 )
 

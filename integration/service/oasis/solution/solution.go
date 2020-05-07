@@ -1,9 +1,9 @@
 package solution
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/api/oasis"
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/api/oasis"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
 )
 
 // Solution contains summary and selected charge stations

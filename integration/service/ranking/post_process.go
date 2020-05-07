@@ -1,8 +1,8 @@
 package ranking
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/api/osrm/route/options"
 )
 
 func pickupRoutes(routes []*route.Route, num int) []*route.Route {

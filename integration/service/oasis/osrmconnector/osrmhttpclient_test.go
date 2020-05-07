@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/api/osrm/table"
 )
 
 var fakeOSRMRouteResponse = route.Response{

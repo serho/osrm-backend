@@ -1,7 +1,7 @@
 package searchconnector
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
 )
 
 // TNSearchConnector wraps the communication with TN search server

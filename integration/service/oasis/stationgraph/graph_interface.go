@@ -1,8 +1,8 @@
 package stationgraph
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/chargingstrategy"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/service/oasis/chargingstrategy"
 )
 
 // Graph defines interface used for Graph

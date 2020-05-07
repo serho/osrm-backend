@@ -1,5 +1,5 @@
 // Package route implements OSRM route api v1 in Go code.
-// doc: https://github.com/Telenav/osrm-backend/blob/master-telenav/docs/http.md
+// doc: https://github.com/serho/osrm-backend/blob/master-telenav/docs/http.md
 package route
 
 import (
@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/genericoptions"
+	"github.com/serho/osrm-backend/integration/api/osrm/genericoptions"
 
 	"github.com/golang/glog"
 
-	"github.com/Telenav/osrm-backend/integration/api"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route/options"
+	"github.com/serho/osrm-backend/integration/api"
+	"github.com/serho/osrm-backend/integration/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/api/osrm/route/options"
 )
 
 // Request represent OSRM api v1 route request parameters.

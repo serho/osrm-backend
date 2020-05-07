@@ -1,7 +1,7 @@
 package table
 
 import (
-	"github.com/Telenav/osrm-backend/integration/api/osrm/osrmtype"
+	"github.com/serho/osrm-backend/integration/api/osrm/osrmtype"
 )
 
 // 1 * 4

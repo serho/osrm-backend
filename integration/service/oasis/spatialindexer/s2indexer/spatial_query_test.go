@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 	"github.com/golang/geo/s2"
 	"github.com/golang/glog"
 )
@@ -98,7 +98,7 @@ func TestSpatialIndexQuery1(t *testing.T) {
 	}
 }
 
-//More information could go to here: https://github.com/Telenav/osrm-backend/issues/236#issuecomment-603533484
+//More information could go to here: https://github.com/serho/osrm-backend/issues/236#issuecomment-603533484
 func TestQueryNearByS2Cells1(t *testing.T) {
 	// center in 4655 great america pkwy
 	center := spatialindexer.Location{

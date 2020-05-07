@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/util/mapsource"
+	"github.com/serho/osrm-backend/integration/util/mapsource"
 
-	"github.com/Telenav/osrm-backend/integration/util/unidbpatch"
+	"github.com/serho/osrm-backend/integration/util/unidbpatch"
 
 	"github.com/qedus/osmpbf"
 )

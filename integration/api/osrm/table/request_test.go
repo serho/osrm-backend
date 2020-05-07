@@ -3,8 +3,8 @@ package table
 import (
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/coordinate"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/genericoptions"
+	"github.com/serho/osrm-backend/integration/api/osrm/coordinate"
+	"github.com/serho/osrm-backend/integration/api/osrm/genericoptions"
 )
 
 func TestTableRequestURI(t *testing.T) {

@@ -1,5 +1,5 @@
 // Package querynode implements QueryNode structure in .osrm file.
-// C++ implementation https://github.com/Telenav/osrm-backend/blob/master-telenav/include/extractor/query_node.hpp
+// C++ implementation https://github.com/serho/osrm-backend/blob/master-telenav/include/extractor/query_node.hpp
 package querynode
 
 import (
@@ -7,10 +7,10 @@ import (
 )
 
 // Node represents QueryNode structure.
-// C++ implementation https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/query_node.hpp#L16
+// C++ implementation https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/query_node.hpp#L16
 type Node struct {
 	// COORDINATE_PRECISION = 1e6
-	// C++ implementation toFixed()/toFloat() see https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/coordinate.hpp#L88
+	// C++ implementation toFixed()/toFloat() see https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/util/coordinate.hpp#L88
 	FixedLon int32
 	FixedLat int32
 

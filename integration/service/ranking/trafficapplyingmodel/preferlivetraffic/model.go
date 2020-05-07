@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 
-	"github.com/Telenav/osrm-backend/integration/api/osrm/route"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel"
-	"github.com/Telenav/osrm-backend/integration/service/ranking/trafficapplyingmodel/appendspeedonly"
-	"github.com/Telenav/osrm-backend/integration/traffic"
+	"github.com/serho/osrm-backend/integration/api/osrm/route"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel"
+	"github.com/serho/osrm-backend/integration/service/ranking/trafficapplyingmodel/appendspeedonly"
+	"github.com/serho/osrm-backend/integration/traffic"
 	"github.com/golang/glog"
 )
 
@@ -178,7 +178,7 @@ func (m Model) recalcOnLeg(l *route.Leg, enableLiveTraffic bool, enableHistorica
 		}
 	}
 	// metioned in doc, duration and weight in annotation does not include any on turn, so we calculate turn duration/weight by minus.
-	// https://github.com/Telenav/osrm-backend/blob/master-telenav/docs/http.md#annotation-object
+	// https://github.com/serho/osrm-backend/blob/master-telenav/docs/http.md#annotation-object
 	legTurnDuration := l.Duration - sumOriginalAnnotationDuration
 	legTurnWeight := l.Weight - sumOriginalAnnotationWeight
 	newLegDuration += legTurnDuration

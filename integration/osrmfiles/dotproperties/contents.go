@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/fingerprint"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/meta"
-	"github.com/Telenav/osrm-backend/integration/osrmfiles/osrmtype/profile"
+	"github.com/serho/osrm-backend/integration/osrmfiles/fingerprint"
+	"github.com/serho/osrm-backend/integration/osrmfiles/meta"
+	"github.com/serho/osrm-backend/integration/osrmfiles/osrmtype/profile"
 	"github.com/golang/glog"
 )
 

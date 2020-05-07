@@ -1,7 +1,7 @@
 package chargingstrategy
 
 import (
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/util"
 	"github.com/golang/glog"
 )
 

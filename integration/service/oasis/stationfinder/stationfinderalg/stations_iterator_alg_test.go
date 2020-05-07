@@ -9,14 +9,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/api/nav"
-	"github.com/Telenav/osrm-backend/integration/api/osrm/table"
-	"github.com/Telenav/osrm-backend/integration/api/search/nearbychargestation"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/osrmconnector"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/cloudfinder"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
-	"github.com/Telenav/osrm-backend/integration/util"
+	"github.com/serho/osrm-backend/integration/api/nav"
+	"github.com/serho/osrm-backend/integration/api/osrm/table"
+	"github.com/serho/osrm-backend/integration/api/search/nearbychargestation"
+	"github.com/serho/osrm-backend/integration/service/oasis/osrmconnector"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/cloudfinder"
+	"github.com/serho/osrm-backend/integration/service/oasis/stationfinder/stationfindertype"
+	"github.com/serho/osrm-backend/integration/util"
 )
 
 var mockDict1 map[string]bool = map[string]bool{

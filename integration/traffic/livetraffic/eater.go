@@ -1,6 +1,6 @@
 package livetraffic
 
-import "github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
+import "github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 
 // Eater is the interface that wraps the basic Eat method.
 type Eater interface {

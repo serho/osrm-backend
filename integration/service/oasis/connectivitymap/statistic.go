@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/Telenav/osrm-backend/integration/api"
+	"github.com/serho/osrm-backend/integration/api"
 	"github.com/golang/glog"
 )
 

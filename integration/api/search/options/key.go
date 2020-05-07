@@ -1,7 +1,7 @@
 package options
 
 // Query parameter for Telenav search service
-// https://github.com/Telenav/osrm-backend/issues/132
+// https://github.com/serho/osrm-backend/issues/132
 const (
 	KeyAPIKey       = "api_key"
 	KeyAPISignature = "api_signature"

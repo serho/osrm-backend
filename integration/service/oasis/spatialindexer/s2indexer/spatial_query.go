@@ -1,7 +1,7 @@
 package s2indexer
 
 import (
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
 	"github.com/golang/geo/s1"
 	"github.com/golang/geo/s2"
 	"github.com/golang/glog"

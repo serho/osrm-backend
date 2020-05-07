@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Telenav/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 	"github.com/golang/glog"
+	"github.com/serho/osrm-backend/integration/traffic/livetraffic/trafficproxy"
 )
 
 var tasksWg sync.WaitGroup

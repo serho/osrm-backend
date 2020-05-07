@@ -5,8 +5,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer"
-	"github.com/Telenav/osrm-backend/integration/service/oasis/spatialindexer/ranker"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer"
+	"github.com/serho/osrm-backend/integration/service/oasis/spatialindexer/ranker"
 )
 
 // Mock env:

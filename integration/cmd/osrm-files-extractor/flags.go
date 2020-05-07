@@ -8,7 +8,7 @@ var flags struct {
 	filePath     string
 	singleFile   bool
 	printSummary int
-	packBits     uint // https://github.com/Telenav/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/packed_osm_ids.hpp#L14
+	packBits     uint // https://github.com/serho/osrm-backend/blob/6283c6074066f98e6d4a9f774f21ea45407c0d52/include/extractor/packed_osm_ids.hpp#L14
 }
 
 func init() {
